@@ -18,16 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     gameview.cpp \
     main.cpp \
-    mainwindow.cpp \
     startmenu.cpp
 
 HEADERS += \
     gameview.h \
-    mainwindow.h \
     startmenu.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,11 +1,12 @@
 #ifndef STARTMENU_H
 #define STARTMENU_H
+#include <QWidget>
 
-
-class StartMenu
+class StartMenu : public QWidget
 {
+    Q_OBJECT
 public:
-    StartMenu();
+    StartMenu(QWidget *parent = 0);
 };
 
 #endif // STARTMENU_H

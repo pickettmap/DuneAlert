@@ -2,10 +2,10 @@
 #define GAMEVIEW_H
 
 
-class gameview
+class GameView
 {
 public:
-    gameview();
+    GameView();
 };
 
 #endif // GAMEVIEW_H

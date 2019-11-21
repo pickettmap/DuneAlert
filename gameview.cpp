@@ -1,6 +1,6 @@
 #include "gameview.h"
 
-gameview::gameview()
+GameView::GameView()
 {
 
 }
