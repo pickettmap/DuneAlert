@@ -32,7 +32,8 @@ StartMenu::StartMenu(QWidget *parent)
 void StartMenu::play() {
 
     GameView& game = GameView::GetInstance();
-    game.showFullScreen();
+    //game.showFullScreen();
+    game.show();
     close();
 
 }

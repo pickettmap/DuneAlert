@@ -18,10 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     gameview.cpp \
     main.cpp \
+    player.cpp \
     startmenu.cpp
 
 HEADERS += \
     gameview.h \
+    player.h \
     startmenu.h
 
 FORMS +=
@@ -30,3 +32,6 @@ FORMS +=
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resource.qrc
