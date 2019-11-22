@@ -9,6 +9,8 @@
 GameView::GameView()
 {
     scene = new QGraphicsScene(this);
+    
+    QPushButton * play_btn = new QPushButton("Exit",this);
 
     scene->setSceneRect(0, 0, width(), height());
 
@@ -17,6 +19,8 @@ GameView::GameView()
 
     setScene(scene);
     setSceneRect(scene->sceneRect());
+    
+    scene->addWidget(play_btn);
 
     setMinimumSize(1000,800);
     setWindowTitle("Village Defense");
