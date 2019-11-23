@@ -8,8 +8,6 @@
 
 StartMenu::StartMenu(QWidget *parent)
 {
-    GameView& game = GameView::GetInstance();
-    QGraphicsScene *scene = game.scene;
     QLabel *title = new QLabel("DUNEALERT",this);
     title->setAlignment(Qt::AlignHCenter);
     QLabel *title2 = new QLabel("DUNEALERT",this);
@@ -30,10 +28,9 @@ StartMenu::StartMenu(QWidget *parent)
 
 
 void StartMenu::play() {
-
+    close();
     GameView& game = GameView::GetInstance();
     //game.showFullScreen();
     game.show();
-    close();
 
 }

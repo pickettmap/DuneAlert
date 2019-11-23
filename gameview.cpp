@@ -28,12 +28,12 @@ GameView::GameView()
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     player *boy = new player(sprite);
     boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
+    scene->addItem(boy);
     boy->setFocus();
 
 //    QPushButton *play_btn = new QPushButton("Switch To Underworld", this);
 //    scene->addWidget(play_btn);
 //    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
-    scene->addItem(boy);
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
     timer_->start(10000);

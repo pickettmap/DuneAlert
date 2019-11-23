@@ -8,7 +8,6 @@ player::player(QPixmap &pixmap): QObject(), QGraphicsPixmapItem(pixmap)
 }
 
 void player::keyPressEvent(QKeyEvent *event){
-    //qDebug() << "here";
     if(
         event->key() == Qt::Key_W ||
         event->key() == Qt::Key_A ||
