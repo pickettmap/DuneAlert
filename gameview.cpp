@@ -1,5 +1,6 @@
 #include "gameview.h"
 #include "player.h"
+#include "underworld.h"
 #include <QString>
 #include <QLabel>
 #include <QPushButton>
@@ -30,8 +31,19 @@ GameView::GameView()
 
     scene->addItem(boy);
 
+    QPushButton *play_btn = new QPushButton("Switch To Underworld", this);
+    scene->addWidget(play_btn);
+
+    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
+
     setScene(scene);
     setSceneRect(scene->sceneRect());
 
     setMinimumSize(1000,800);
+}
+
+void GameView::SwitchToUnderWorld() {
+    scene->clear();
+    //This is a placeholder for future code as a proof of concept
+    Underworld * u = new Underworld(scene);
 }

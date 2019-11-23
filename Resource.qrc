@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file>grass.png</file>
         <file>player.png</file>
+        <file>battlebackground.jpg</file>
+        <file>bullet_temp.jpg</file>
     </qresource>
 </RCC>

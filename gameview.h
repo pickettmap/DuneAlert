@@ -19,6 +19,9 @@ public:
 
     QGraphicsScene * scene;
 
+public slots:
+    void SwitchToUnderWorld();
+
 private:
     GameView();
 };
