@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QTimer>
 
 
 class GameView : public QGraphicsView
@@ -24,6 +25,7 @@ public slots:
 
 private:
     GameView();
+    QTimer *timer_ = new QTimer(this);
 };
 
 #endif // GAMEVIEW_H

@@ -1,4 +1,5 @@
 #include "player.h"
+#include <QDebug>
 
 player::player(QPixmap &pixmap): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -7,7 +8,8 @@ player::player(QPixmap &pixmap): QObject(), QGraphicsPixmapItem(pixmap)
 }
 
 void player::keyPressEvent(QKeyEvent *event){
-    if (
+    //qDebug() << "here";
+    if(
         event->key() == Qt::Key_W ||
         event->key() == Qt::Key_A ||
         event->key() == Qt::Key_S ||

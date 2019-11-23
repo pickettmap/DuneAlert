@@ -9,6 +9,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QDebug>
+#include <QTimer>
 
 GameView::GameView()
 {
@@ -29,20 +30,22 @@ GameView::GameView()
     boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
     boy->setFocus();
 
+//    QPushButton *play_btn = new QPushButton("Switch To Underworld", this);
+//    scene->addWidget(play_btn);
+//    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
     scene->addItem(boy);
 
-    QPushButton *play_btn = new QPushButton("Switch To Underworld", this);
-    scene->addWidget(play_btn);
+    connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
+    timer_->start(10000);
 
-    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
 
     setScene(scene);
     setSceneRect(scene->sceneRect());
-
     setMinimumSize(1000,800);
 }
 
 void GameView::SwitchToUnderWorld() {
+    timer_->stop();
     scene->clear();
     //This is a placeholder for future code as a proof of concept
     Underworld * u = new Underworld(scene);
