@@ -9,8 +9,6 @@ Underworld::Underworld(QGraphicsScene * scene)
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
 
-    for (int i =0; i < 50; i ++) {
-        Bullet *b = new Bullet();
-        scene->addItem(b);
-    }
+    Bullet *b = new Bullet();
+    scene->addItem(b);
 }

@@ -5,7 +5,9 @@
 
 Bullet::Bullet()
 {
-    setPixmap(QPixmap(":/images/bullet_temp.jpg"));
+    QPixmap qp(":/images/bullet.png");
+    qp = qp.scaled(50, 50);
+    setPixmap(qp);
     QTimer * timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(travel()));
     timer->start(30);
@@ -14,5 +16,5 @@ Bullet::Bullet()
 
 void Bullet::travel() {
     //Proof of concept
-    setX(x() + 0.5);
+    setX(x() + 20);
 }
