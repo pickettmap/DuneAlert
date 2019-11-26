@@ -4,5 +4,6 @@
         <file>player.png</file>
         <file>battlebackground.jpg</file>
         <file>bullet.png</file>
+        <file>heart.png</file>
     </qresource>
 </RCC>

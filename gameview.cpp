@@ -36,7 +36,7 @@ GameView::GameView()
 //    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    timer_->start(10000);
+    timer_->start(100);
 
 
     setScene(scene);
