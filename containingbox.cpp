@@ -1,7 +1,7 @@
-#include "box.h"
+#include "containingbox.h"
 #include <QPainter>
 
-Box::Box(int x, int y, int width, int height)
+ContainingBox::ContainingBox(int x, int y, int width, int height)
 {
     x_ = x;
     y_ = y;
@@ -10,7 +10,7 @@ Box::Box(int x, int y, int width, int height)
 
 }
 
-QRectF Box::boundingRect() const
+QRectF ContainingBox::boundingRect() const
 {
     return QRectF(x_,y_, width_, width_);
 }
@@ -22,7 +22,7 @@ Params: none
 Desc: sets graph as square
 Returns: QPainterPath
 */
-QPainterPath Box::shape() const
+QPainterPath ContainingBox::shape() const
 {
     QPainterPath path;
     path.addRect(x_,y_,width_,width_);
@@ -36,7 +36,7 @@ Params: QPainter, QStyleOptionGraphicsItem, QWidget
 Desc: allows cell to be drawn
 Returns: void
 */
-void Box::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QBrush b = painter->brush();
     QColor c = QColor(Qt::GlobalColor::white);

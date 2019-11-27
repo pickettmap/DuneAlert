@@ -16,23 +16,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    box.cpp \
     bullet.cpp \
+    containingbox.cpp \
+    enemy.cpp \
     gameview.cpp \
     main.cpp \
     player.cpp \
     startmenu.cpp \
-    underworld.cpp \
-    underworldplayer.cpp
+    underworld.cpp
 
 HEADERS += \
-    box.h \
     bullet.h \
+    containingbox.h \
+    enemy.h \
     gameview.h \
     player.h \
     startmenu.h \
-    underworld.h \
-    underworldplayer.h
+    underworld.h
 
 FORMS +=
 

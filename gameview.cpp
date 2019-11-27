@@ -26,7 +26,7 @@ GameView::GameView()
     //add player
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    player *boy = new player(sprite);
+    player *boy = new player(sprite, 5, 10);
     boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
     scene->addItem(boy);
     boy->setFocus();
@@ -41,7 +41,7 @@ GameView::GameView()
 
     setScene(scene);
     setSceneRect(scene->sceneRect());
-    setMinimumSize(1000,800);
+    setMinimumSize(1800, 1200);
 }
 
 void GameView::SwitchToUnderWorld() {

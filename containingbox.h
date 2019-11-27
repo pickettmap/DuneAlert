@@ -4,10 +4,10 @@
 #include <QGraphicsItem>
 
 
-class Box : public QObject, public QGraphicsItem
+class ContainingBox : public QObject, public QGraphicsItem
 {
 public:
-    Box(int x, int y, int width, int height);
+    ContainingBox(int x, int y, int width, int height);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

@@ -1,10 +1,12 @@
 #include "player.h"
 #include <QDebug>
 
-player::player(QPixmap &pixmap): QObject(), QGraphicsPixmapItem(pixmap)
+player::player(QPixmap &pixmap, int health, int damage): QObject(), QGraphicsPixmapItem(pixmap)
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
+    this->health = health;
+    this->damage = damage;
 }
 
 void player::keyPressEvent(QKeyEvent *event){

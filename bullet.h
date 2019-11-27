@@ -6,13 +6,17 @@
 #include <QObject>
 #include <QGraphicsItem>
 
+enum Direction { N, NE, E, SE, S, SW, W, NW};
 
 class Bullet: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    Bullet();
+    Bullet(int x, int y, Direction dir);
 public slots:
     void travel();
+
+private:
+    Direction dir_;
 };
 
 #endif // BULLET_H

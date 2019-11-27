@@ -10,9 +10,12 @@
 class player : public QObject, public QGraphicsPixmapItem
 {
 public:
-    player(QPixmap &pixmap);
+    player(QPixmap &pixmap, int health, int damage);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
+int health;
+int damage;
 
 private:
     double xprev_;
