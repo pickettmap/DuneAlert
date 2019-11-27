@@ -8,11 +8,16 @@
 
 class Underworld : public QGraphicsView
 {
+   Q_OBJECT
 public:
     Underworld(QGraphicsScene * scene);
     void ExampleAttackPattern();
 public slots:
-    void FireBullet();
+    void FireBullet(int x, int y);
+
+public:
+signals:
+    void OnBulletFired(int x, int y);
 
 private:
     QGraphicsScene * scene;

@@ -23,18 +23,20 @@ Underworld::Underworld(QGraphicsScene * main_scene)
 
     ContainingBox *b = new ContainingBox(20, 200, 800, 400);
     scene->addItem(b);
+    connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     ExampleAttackPattern();
-    FireBullet();
 }
 
 void Underworld::ExampleAttackPattern() {
-    QTimer * timer = new QTimer(this);
-    connect(timer,&QTimer::timeout, this, &Underworld::FireBullet);
-    timer->start(200);
+    for (int i = 0; i < 50; i ++) {
+        QTimer::singleShot(200 + (i * 200), [=](){
+            FireBullet(20 + i * 20, 200);
+        });
+    }
 }
 
-void Underworld::FireBullet() {
-    Bullet *b = new Bullet(20, 200, Direction::S);
-    scene->addItem(b);
+void Underworld::FireBullet(int x, int y) {
+        Bullet *b = new Bullet(x, y, Direction::S);
+        scene->addItem(b);
 }

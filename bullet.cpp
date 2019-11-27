@@ -17,6 +17,10 @@ Bullet::Bullet(int x, int y, Direction dir)
 
 
 void Bullet::travel() {
+    if (delay_timer > 0) {
+        delay_timer --;
+        return;
+    }
     if (dir_ == Direction::S) {
         setY(y() + 10);
     }

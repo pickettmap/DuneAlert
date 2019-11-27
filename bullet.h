@@ -17,6 +17,7 @@ public slots:
 
 private:
     Direction dir_;
+    int delay_timer = 20;
 };
 
 #endif // BULLET_H
