@@ -20,6 +20,7 @@ SOURCES += \
     containingbox.cpp \
     enemy.cpp \
     gameview.cpp \
+    healthbar.cpp \
     main.cpp \
     player.cpp \
     startmenu.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     containingbox.h \
     enemy.h \
     gameview.h \
+    healthbar.h \
     player.h \
     startmenu.h \
     underworld.h

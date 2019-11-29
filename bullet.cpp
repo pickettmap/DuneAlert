@@ -21,7 +21,35 @@ void Bullet::travel() {
         delay_timer --;
         return;
     }
-    if (dir_ == Direction::S) {
-        setY(y() + 10);
+
+    switch (dir_) {
+        case(Direction::S):
+            setY(y() + 10);
+            break;
+        case(Direction::N):
+            setY(y() - 10);
+            break;
+        case(Direction::W):
+            setX(x() - 10);
+            break;
+        case(Direction::E):
+            setX(x() + 10);
+            break;
+        case(Direction::NE):
+            setY(y() - 10);
+            setX(x() + 10);
+            break;
+        case(Direction::NW):
+            setY(y() - 10);
+            setX(x() - 10);
+            break;
+        case(Direction::SE):
+            setY(y() + 10);
+            setX(x() + 10);
+
+            break;
+        case(Direction::SW):
+            setY(y() + 10);
+            setX(x() - 10);
     }
 }

@@ -1,12 +1,13 @@
 #include "containingbox.h"
 #include <QPainter>
 
-ContainingBox::ContainingBox(int x, int y, int width, int height)
+ContainingBox::ContainingBox(int x, int y, int width, int height, QColor color)
 {
     x_ = x;
     y_ = y;
     width_ = width;
     height_ = height;
+    color_ = color;
 
 }
 
@@ -40,7 +41,12 @@ void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 {
     QBrush b = painter->brush();
     QColor c = QColor(Qt::GlobalColor::white);
-    painter->setBrush(Qt::NoBrush);
+    if (color_ == nullptr) {
+        painter->setBrush(Qt::NoBrush);
+    } else {
+        painter->setBrush(QBrush(color_));
+    }
+
     painter->setPen(c);
     //painter->setBrush(Qt::NoBrush);
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, this-> height_));
