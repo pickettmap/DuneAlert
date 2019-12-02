@@ -26,7 +26,8 @@ GameView::GameView()
     //add player
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    player *boy = new player(sprite, 5, 10);
+    Bounds bound = {-20000, -20000, 20000, 20000};
+    player *boy = new player(sprite, 5, 10, bound);
     boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
     scene->addItem(boy);
     boy->setFocus();

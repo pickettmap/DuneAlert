@@ -23,8 +23,10 @@ Underworld::Underworld(QGraphicsScene * main_scene)
 
     QPixmap sprite = QPixmap(":/images/heart.png");
     sprite = sprite.scaled(50,50,Qt::KeepAspectRatio);
-    player *heart = new player(sprite, 5, 10);
+    Bounds bound = {20, 200, 570, 450};
+    player *heart = new player(sprite, 5, 10, bound);
     heart->setFlag(QGraphicsItem::ItemIsFocusable,true);
+    heart->setPos(200, 300);
     scene->addItem(heart);
     heart->setFocus();
 
@@ -34,7 +36,7 @@ Underworld::Underworld(QGraphicsScene * main_scene)
 
     QPixmap enemy_sprite = QPixmap(":/images/Gr8.png");
     enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
-    Enemy *e = new Enemy(enemy_sprite, 5, 10);
+    Enemy *e = new Enemy(enemy_sprite, 5, 10, bound);
     e->setPos(150, -150);
     scene->addItem(e);
 

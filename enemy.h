@@ -14,8 +14,8 @@ struct AttackPattern {
 class Enemy : public player
 {
 public:
-    Enemy(QPixmap &pixmap, int h, int d)
-        : player(pixmap, h, d) {
+    Enemy(QPixmap &pixmap, int h, int d, Bounds b)
+        : player(pixmap, h, d, b) {
 
     }
     void TakeTurn();
