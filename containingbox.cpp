@@ -1,5 +1,6 @@
 #include "containingbox.h"
 #include <QPainter>
+#include <QDebug>
 
 ContainingBox::ContainingBox(int x, int y, int width, int height, QColor color)
 {
@@ -40,15 +41,14 @@ Returns: void
 void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QBrush b = painter->brush();
-    QColor c = QColor(Qt::GlobalColor::white);
-    if (color_ == nullptr) {
-        painter->setBrush(Qt::NoBrush);
-    } else {
-        painter->setBrush(QBrush(color_));
-    }
-
-    painter->setPen(c);
+    //TODO ZL Add something here to allow customization of inside if mikalya wants
+    painter->setPen(color_);
     //painter->setBrush(Qt::NoBrush);
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, this-> height_));
     painter->setBrush(b);
+}
+
+void ContainingBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    emit onBoxClicked();
 }

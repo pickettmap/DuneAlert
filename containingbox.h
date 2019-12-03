@@ -6,11 +6,18 @@
 
 class ContainingBox : public QObject, public QGraphicsItem
 {
+    Q_OBJECT
 public:
     ContainingBox(int x, int y, int width, int height, QColor c);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+
+signals:
+    void onBoxClicked();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     int x_;

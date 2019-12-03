@@ -6,7 +6,6 @@
 #include "bullet.h"
 #include "enemy.h"
 
-
 class Underworld : public QGraphicsView
 {
    Q_OBJECT
@@ -15,10 +14,12 @@ public:
     void ProcessAttackPattern(std::vector<AttackPattern> a);
 public slots:
     void FireBullet(int x, int y);
+    void onFightClicked();
 
 public:
 signals:
     void OnBulletFired(int x, int y);
+    void OnEnemyHit(int amount);
 
 private:
     QGraphicsScene * scene;

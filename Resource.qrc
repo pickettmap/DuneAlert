@@ -7,4 +7,7 @@
         <file>heart.png</file>
         <file>Gr8.png</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>DTM-Mono.otf</file>
+    </qresource>
 </RCC>

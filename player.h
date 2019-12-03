@@ -21,8 +21,10 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     bool checkBounds(int, int);
+    void changeHealth(int);
 
 int health;
+int current_health;
 int damage;
 Bounds bound;
 

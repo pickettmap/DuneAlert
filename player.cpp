@@ -92,17 +92,12 @@ void player::keyPressEvent(QKeyEvent *event){
     yprev_ = pos().y();
 }
 
+void player::changeHealth(int change) {
+    current_health += change;
+    //TODO ZL Add function that checks if this outright kills them.
+}
+
 void player::keyReleaseEvent(QKeyEvent *event)
 {
     keysPressed.remove(event->key());
-}
-/*
- * Function: checkBounds
- * Desc: Checks if a move would put the player out of its allowed movement space
- * Params: Bound to check against and position to be moved
- * Returns: Boolean on whether or not move is valid
-*/
-
-bool player::checkBounds(int bound, int position) {
-    return true;
 }
