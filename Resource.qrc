@@ -6,6 +6,7 @@
         <file>bullet.png</file>
         <file>heart.png</file>
         <file>Gr8.png</file>
+        <file>gun.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>

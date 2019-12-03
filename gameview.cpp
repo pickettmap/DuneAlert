@@ -1,5 +1,4 @@
 #include "gameview.h"
-#include "player.h"
 #include "underworld.h"
 #include <QString>
 #include <QLabel>
@@ -10,7 +9,7 @@
 #include <QPixmap>
 #include <QDebug>
 #include <QTimer>
-
+#include "gun.h"
 GameView::GameView()
 {
     //add scene
@@ -29,15 +28,18 @@ GameView::GameView()
     Bounds bound = {-20000, -20000, 20000, 20000};
     player *boy = new player(sprite, 5, 10, bound);
     boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
+
+    player_=boy;
+
+    Gun *trash = new Gun();
+    trash->setPos(100,100);
+    scene->addItem(trash);
+
     scene->addItem(boy);
     boy->setFocus();
 
-//    QPushButton *play_btn = new QPushButton("Switch To Underworld", this);
-//    scene->addWidget(play_btn);
-//    connect(play_btn,SIGNAL(clicked()),this,SLOT(SwitchToUnderWorld()));
-
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    timer_->start(100);
+    //timer_->start(100);
 
 
     setScene(scene);

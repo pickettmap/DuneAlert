@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QSet>
 #include <QPointF>
+#include "item.h"
 
 struct Bounds {
     int x1;
@@ -22,6 +23,7 @@ public:
     void keyReleaseEvent(QKeyEvent *event);
     bool checkBounds(int, int);
     void changeHealth(int);
+    void addItem(Item);
 
 int health;
 int current_health;
@@ -34,6 +36,8 @@ private:
     double yprev_;
 
     QSet<int> keysPressed;
+
+    std::vector<Item *> inventory_;
 };
 
 #endif // PLAYER_H

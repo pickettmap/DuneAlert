@@ -1,4 +1,5 @@
 #include "player.h"
+#include "gameview.h"
 #include <QDebug>
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QGraphicsPixmapItem(pixmap)
@@ -87,6 +88,18 @@ void player::keyPressEvent(QKeyEvent *event){
         }
     }
 
+    GameView& game = GameView::GetInstance();
+
+    QList <QGraphicsItem *> colliding_items = collidingItems();
+    for (int i = 0, n = colliding_items.size(); i < n; i++)
+    {
+        Item* item = dynamic_cast<Item *>(colliding_items[i]);
+        if(item != nullptr)
+        {
+            inventory_.push_back(item);
+            game.scene->removeItem(item);
+        }
+    }
 
     xprev_ = pos().x();
     yprev_ = pos().y();
