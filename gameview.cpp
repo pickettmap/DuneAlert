@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QTimer>
 #include "gun.h"
+#include "monsterfactory.h"
 GameView::GameView()
 {
     //add scene
@@ -50,9 +51,6 @@ GameView::GameView()
 void GameView::SwitchToUnderWorld() {
     timer_->stop();
     scene->clear();
-    Bounds bound = {-20000, -20000, 20000, 20000};
-    QPixmap enemy_sprite = QPixmap(":/images/Gr8.png");
-    enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
-    Enemy *e = new Enemy(enemy_sprite, 5, 10, bound);
+    Enemy * e = MonsterFactory::GetEnemy(EnemyType::LesserDog);
     Underworld * u = new Underworld(scene, e, player_);
 }

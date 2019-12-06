@@ -24,6 +24,7 @@ SOURCES += \
     healthbar.cpp \
     item.cpp \
     main.cpp \
+    monsterfactory.cpp \
     player.cpp \
     startmenu.cpp \
     underworld.cpp
@@ -36,6 +37,7 @@ HEADERS += \
     gun.h \
     healthbar.h \
     item.h \
+    monsterfactory.h \
     player.h \
     startmenu.h \
     underworld.h

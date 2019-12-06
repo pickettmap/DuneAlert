@@ -118,7 +118,7 @@ void Underworld::onFightClicked() {
     }
 
     QTimer::singleShot(1000, [=]() {
-        ProcessAttackPattern(e->GetFightPattern(1));
+        ProcessAttackPattern(e->GetFightPattern());
     });
 
 }
