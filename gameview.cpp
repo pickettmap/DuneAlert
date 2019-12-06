@@ -39,7 +39,7 @@ GameView::GameView()
     boy->setFocus();
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    //timer_->start(100);
+    timer_->start(100);
 
 
     setScene(scene);
@@ -50,6 +50,9 @@ GameView::GameView()
 void GameView::SwitchToUnderWorld() {
     timer_->stop();
     scene->clear();
-    //This is a placeholder for future code as a proof of concept
-    Underworld * u = new Underworld(scene);
+    Bounds bound = {-20000, -20000, 20000, 20000};
+    QPixmap enemy_sprite = QPixmap(":/images/Gr8.png");
+    enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
+    Enemy *e = new Enemy(enemy_sprite, 5, 10, bound);
+    Underworld * u = new Underworld(scene, e, player_);
 }

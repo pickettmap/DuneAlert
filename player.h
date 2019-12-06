@@ -24,11 +24,13 @@ public:
     bool checkBounds(int, int);
     void changeHealth(int);
     void addItem(Item);
+    void TakeDamage(int damage);
+    bool isDead();
 
-int health;
-int current_health;
-int damage;
-Bounds bound;
+int health_;
+int current_health_;
+int damage_;
+Bounds bound_;
 
 
 private:

@@ -6,9 +6,10 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QG
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
-    this->health = health;
-    this->damage = damage;
-    bound = b;
+    this->health_ = health;
+    this->damage_ = damage;
+    current_health_ = health;
+    bound_ = b;
 }
 
 void player::keyPressEvent(QKeyEvent *event){
@@ -29,25 +30,25 @@ void player::keyPressEvent(QKeyEvent *event){
     if (keysPressed.size() == 1){
         switch (event->key()){
         case Qt::Key_D:
-            if (x() + STEP_SIZE > bound.x2) {
+            if (x() + STEP_SIZE > bound_.x2) {
                 return;
             }
             setPos(x()+STEP_SIZE,y());
             break;
         case Qt::Key_A:
-            if (x() - STEP_SIZE < bound.x1) {
+            if (x() - STEP_SIZE < bound_.x1) {
                 return;
             }
             setPos(x()-STEP_SIZE,y());
             break;
         case Qt::Key_W:
-            if (y() - STEP_SIZE < bound.y1) {
+            if (y() - STEP_SIZE < bound_.y1) {
                 return;
             }
             setPos(x(),y()-STEP_SIZE);
             break;
         case Qt::Key_S:
-            if (y() + STEP_SIZE > bound.y2) {
+            if (y() + STEP_SIZE > bound_.y2) {
                 return;
             }
             setPos(x(),y()+STEP_SIZE);
@@ -60,28 +61,28 @@ void player::keyPressEvent(QKeyEvent *event){
 
         // up right
         if (keysPressed.contains(Qt::Key_W) && keysPressed.contains(Qt::Key_D)){
-            if (y() - STEP_SIZE < bound.y1 || x() + STEP_SIZE > bound.x2){
+            if (y() - STEP_SIZE < bound_.y1 || x() + STEP_SIZE > bound_.x2){
                 return;
             }
             setPos(x()+STEP_SIZE,y()-STEP_SIZE);
         }
         // up left
         if (keysPressed.contains(Qt::Key_W) && keysPressed.contains(Qt::Key_A)){
-            if (y() - STEP_SIZE < bound.y1 || x() - STEP_SIZE < bound.x1){
+            if (y() - STEP_SIZE < bound_.y1 || x() - STEP_SIZE < bound_.x1){
                 return;
             }
             setPos(x()-STEP_SIZE,y()-STEP_SIZE);
         }
         // down right
         if (keysPressed.contains(Qt::Key_S) && keysPressed.contains(Qt::Key_D)){
-            if (y() + STEP_SIZE > bound.y2 || x() + STEP_SIZE > bound.x2){
+            if (y() + STEP_SIZE > bound_.y2 || x() + STEP_SIZE > bound_.x2){
                 return;
             }
             setPos(x()+STEP_SIZE,y()+STEP_SIZE);
         }
         // down left
         if (keysPressed.contains(Qt::Key_S) && keysPressed.contains(Qt::Key_A)){
-            if (y() + STEP_SIZE > bound.y2 || x() - STEP_SIZE < bound.x1){
+            if (y() + STEP_SIZE > bound_.y2 || x() - STEP_SIZE < bound_.x1){
                 return;
             }
             setPos(x()-STEP_SIZE,y()+STEP_SIZE);
@@ -106,8 +107,15 @@ void player::keyPressEvent(QKeyEvent *event){
 }
 
 void player::changeHealth(int change) {
-    current_health += change;
+    current_health_ += change;
     //TODO ZL Add function that checks if this outright kills them.
+}
+
+bool player::isDead() {
+    if (current_health_ <= 0) {
+        return true;
+    }
+    return false;
 }
 
 void player::keyReleaseEvent(QKeyEvent *event)

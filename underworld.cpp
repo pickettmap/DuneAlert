@@ -10,11 +10,14 @@
 #include "healthbar.h"
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include "gameview.h"
 
 //TODO constructor needs to be able to instantiate enemy
-Underworld::Underworld(QGraphicsScene * main_scene)
+Underworld::Underworld(QGraphicsScene * main_scene, Enemy * e, player * p)
 {
     //Containing box coordinates (temp)
+    this->e = e;
+
     int cwidth = 300;
     int cheight = 275;
     int cx1 = 140;
@@ -30,18 +33,16 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
 
-    qDebug() << scene->width();
-    qDebug() << scene->height();
-
     //DRAW AND POSITION THE PLAYER
     QPixmap sprite = QPixmap(":/images/heart.png");
     sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
     Bounds bound = {cx1, cy1 , cx2 - player_sprite_size, cy2 - player_sprite_size};
-    player *heart = new player(sprite, 5, 10, bound);
+    player *heart = new player(sprite, p->health_, p->damage_, bound);
     heart->setFlag(QGraphicsItem::ItemIsFocusable,true);
     heart->setPos(200, 300);
     scene->addItem(heart);
     heart->setFocus();
+    this->p = heart;
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
     ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white);
@@ -49,9 +50,6 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     //DRAW THE ENEMY
-    QPixmap enemy_sprite = QPixmap(":/images/Gr8.png");
-    enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
-    Enemy *e = new Enemy(enemy_sprite, 5, 10, bound);
     e->setPos(150, -170);
     scene->addItem(e);
 
@@ -66,7 +64,7 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     scene->addItem(text);
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(100, -300, 400, 50, 3);
+    HealthBar *eh = new HealthBar(100, -300, 400, 50, e->health_);
     scene->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
@@ -75,6 +73,16 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green);
     scene->addItem(fight);
     connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
+
+    ContainingBox *item = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green);
+    scene->addItem(item);
+//    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
+
+    ContainingBox *run = new ContainingBox(cx1 + 250, cy2 + 50, 100, 50, Qt::GlobalColor::green);
+    scene->addItem(run);
+//    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
+
+
 
     QGraphicsTextItem *fight_text = new QGraphicsTextItem("FIGHT");
     fight_text->setDefaultTextColor(Qt::GlobalColor::green);
@@ -86,33 +94,56 @@ Underworld::Underworld(QGraphicsScene * main_scene)
 void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
     for (size_t i = 0; i < s.size(); i ++) {
         QTimer::singleShot(s[i].delay, [=](){
-            FireBullet(s[i].x, s[i].y);
+            FireBullet(s[i].x, s[i].y, s[i].dir);
         });
     }
 }
 
-void Underworld::FireBullet(int x, int y) {
+void Underworld::FireBullet(int x, int y, Direction d) {
         Bounds bound = {100, 100, 600, 400};
-        Bullet *b = new Bullet(x, y, Direction::S, scene, bound);
+        Bullet *b = new Bullet(x, y, d, scene, bound);
         scene->addItem(b);
 }
 
 void Underworld::onFightClicked() {
-    //TODO ZL Set Focus to player
-    std::vector<AttackPattern> a;
-
-    int current_delay = 200;
-    for (int i = 0; i < 50; i ++) {
-        current_delay += 100;
-        AttackPattern p = {current_delay, 80 + i * 5, 200, Direction::S};
-        a.push_back(p);
-    }
 
     //TODO change this to the amount of damage the player has
+
     emit OnEnemyHit(-1);
+    e->changeHealth(-1);
+
+    if (e->isDead()) {
+        EndBattle();
+        return;
+    }
 
     QTimer::singleShot(1000, [=]() {
-        ProcessAttackPattern(a);
+        ProcessAttackPattern(e->GetFightPattern(1));
     });
 
 }
+
+
+void Underworld::SwitchToOverWorld() {
+    scene->clear();
+    //todo add code to switch back to overworld.
+}
+
+void Underworld::EndBattle() {
+    scene->clear();
+
+    ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white);
+
+    QGraphicsTextItem *text = new QGraphicsTextItem("You Defeated Lesser Dog and Got Stuff!");
+    text->setDefaultTextColor(Qt::GlobalColor::white);
+    text->setPos(55, 210);
+    //Switches back to overworld in 5 seconds
+    QTimer::singleShot(5000, [=]() {
+        SwitchToOverWorld();
+    });
+    scene->addItem(text);
+    scene->addItem(end);
+
+}
+
+

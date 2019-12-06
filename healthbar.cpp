@@ -16,7 +16,6 @@ void HealthBar::ChangeHealth(int change) {
     current_health_points += change;
     double percent = double(current_health_points) / double(max_health_points);
     setRect(rect().x(),rect().y(),percent * width_, height_);
-    qDebug() << percent;
 }
 
 
