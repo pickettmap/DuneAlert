@@ -2,13 +2,14 @@
 #include <QPainter>
 #include <QDebug>
 
-ContainingBox::ContainingBox(int x, int y, int width, int height, QColor color)
+ContainingBox::ContainingBox(int x, int y, int width, int height, QColor color, std::string text)
 {
     x_ = x;
     y_ = y;
     width_ = width;
     height_ = height;
     color_ = color;
+    text_ = text;
 
 }
 
@@ -40,11 +41,15 @@ Returns: void
 */
 void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    QRect rec = QRect(this->x_, this->y_, this-> width_, this-> height_);
     QBrush b = painter->brush();
-    //TODO ZL Add something here to allow customization of inside if mikalya wants
+    QFont q = painter->font();
+    q.setPointSize(q.pointSize() * 2);
+    painter->setFont(q);
+    QString s = QString::fromStdString(text_);
     painter->setPen(color_);
-    //painter->setBrush(Qt::NoBrush);
-    painter->drawRect(QRect(this->x_, this->y_, this-> width_, this-> height_));
+    painter->drawText(rec, Qt::AlignCenter, s);
+    painter->drawRect(rec);
     painter->setBrush(b);
 }
 

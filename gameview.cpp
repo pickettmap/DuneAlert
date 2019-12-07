@@ -52,5 +52,11 @@ void GameView::SwitchToUnderWorld() {
     timer_->stop();
     scene->clear();
     Enemy * e = MonsterFactory::GetEnemy(EnemyType::LesserDog);
-    Underworld * u = new Underworld(scene, e, player_);
+    Underworld * u = new Underworld(scene);
+    u->DrawUnderworld(e, player_);
+}
+
+void GameView::keyPressEvent(QKeyEvent * event) {
+    qDebug() << event->key();
+    QGraphicsView::keyPressEvent(event);
 }

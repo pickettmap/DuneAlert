@@ -11,10 +11,17 @@
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 #include "gameview.h"
+#include "inventory.h"
 
-//TODO constructor needs to be able to instantiate enemy
-Underworld::Underworld(QGraphicsScene * main_scene, Enemy * e, player * p)
+
+Underworld::Underworld(QGraphicsScene * main_scene)
 {
+    scene = main_scene;
+}
+
+void Underworld::DrawUnderworld(Enemy *e, player *p) {
+    //EventHandler
+
     //Containing box coordinates (temp)
     this->e = e;
 
@@ -27,7 +34,7 @@ Underworld::Underworld(QGraphicsScene * main_scene, Enemy * e, player * p)
 
     int player_sprite_size = 25;
 
-    this->scene = main_scene;
+
     QImage *img = new QImage(":/images/battlebackground.jpg");
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
@@ -45,7 +52,7 @@ Underworld::Underworld(QGraphicsScene * main_scene, Enemy * e, player * p)
     this->p = heart;
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
-    ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white);
+    ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white, "");
     scene->addItem(b);
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
@@ -70,24 +77,25 @@ Underworld::Underworld(QGraphicsScene * main_scene, Enemy * e, player * p)
 
 
     //Draw boxes for options
-    ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green);
+    ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Fight");
     scene->addItem(fight);
     connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
-    ContainingBox *item = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green);
+    ContainingBox *item = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
     scene->addItem(item);
 //    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
-    ContainingBox *run = new ContainingBox(cx1 + 250, cy2 + 50, 100, 50, Qt::GlobalColor::green);
-    scene->addItem(run);
-//    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
-
-
-    QGraphicsTextItem *fight_text = new QGraphicsTextItem("FIGHT");
-    fight_text->setDefaultTextColor(Qt::GlobalColor::green);
-    fight_text->setPos(cx1 - 35, cy2 + 75);
-    scene->addItem(fight_text);
+    /*  ITEMS
+     * 1) Each player has an inventory attached to it
+     * 2) Inventory will be displayed to the side with corresponding keystrokes.
+     * 3) Player can hit a keystroke and the item will be used
+     *
+     * 4) Inventory Updates
+     *
+     */
+    Inventory * inv = new Inventory(-20, 150);
+    scene->addItem(inv);
 }
 
 //Function:
@@ -132,7 +140,7 @@ void Underworld::SwitchToOverWorld() {
 void Underworld::EndBattle() {
     scene->clear();
 
-    ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white);
+    ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white, "");
 
     QGraphicsTextItem *text = new QGraphicsTextItem("You Defeated Lesser Dog and Got Stuff!");
     text->setDefaultTextColor(Qt::GlobalColor::white);
@@ -146,4 +154,6 @@ void Underworld::EndBattle() {
 
 }
 
-
+void Underworld::onKeyPress(QKeyEvent *event) {
+    qDebug() << event->key();
+}

@@ -8,7 +8,7 @@ class ContainingBox : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    ContainingBox(int x, int y, int width, int height, QColor c);
+    ContainingBox(int x, int y, int width, int height, QColor c, std::string text);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -24,6 +24,7 @@ private:
     int y_;
     int width_;
     int height_;
+    std::string text_;
     QColor color_;
 };
 

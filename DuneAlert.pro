@@ -22,6 +22,7 @@ SOURCES += \
     gameview.cpp \
     gun.cpp \
     healthbar.cpp \
+    inventory.cpp \
     item.cpp \
     main.cpp \
     monsterfactory.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     gameview.h \
     gun.h \
     healthbar.h \
+    inventory.h \
     item.h \
     monsterfactory.h \
     player.h \
