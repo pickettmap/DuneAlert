@@ -155,5 +155,10 @@ void Underworld::EndBattle() {
 }
 
 void Underworld::onKeyPress(QKeyEvent *event) {
-    qDebug() << event->key();
+    if (event->key() == Qt::Key::Key_F) {
+        onFightClicked();
+    }
+    if (event->key() == Qt::Key::Key_B) {
+        //TODO Add bribe logic here.
+    }
 }

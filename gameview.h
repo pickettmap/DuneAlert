@@ -28,6 +28,9 @@ public:
 public slots:
     void SwitchToUnderWorld();
 
+signals:
+    void onKeyPressed(QKeyEvent * event);
+
 private:
     GameView();
     QTimer *timer_ = new QTimer(this);
