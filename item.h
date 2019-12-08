@@ -11,6 +11,7 @@ class Item : public QGraphicsPixmapItem
 public:
     Item();
     virtual void use();
+    int getID(){return item_id_;}
 
 private:
     int item_id_;

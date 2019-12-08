@@ -7,6 +7,7 @@
 #include <QSet>
 #include <QPointF>
 #include "item.h"
+#include "inventory.h"
 
 struct Bounds {
     int x1;
@@ -25,6 +26,8 @@ public:
     void changeHealth(int);
     void addItem(Item);
     void TakeDamage(int damage);
+
+    //std::vector<Item*> getInventory(){return inventory_;}
     bool isDead();
 
 int health_;
@@ -38,7 +41,6 @@ private:
     double yprev_;
 
     QSet<int> keysPressed;
-
     std::vector<Item *> inventory_;
 };
 

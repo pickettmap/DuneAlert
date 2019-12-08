@@ -1,6 +1,9 @@
 #include "inventory.h"
+#include "player.h"
+#include "gameview.h"
 #include <QPainter>
 #include <item.h>
+#include <QDebug>
 
 Inventory::Inventory(int x, int y)
 {
@@ -51,4 +54,15 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
     painter->setBrush(b);
+}
+
+void Inventory::UpdateInventory()
+{
+    //idk what you want here
+}
+
+void Inventory::AddItem(Item *item)
+{
+    qDebug() << "here";
+    items.push_back(item);
 }

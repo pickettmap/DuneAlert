@@ -23,6 +23,19 @@ GameView::GameView()
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
 
+    CreateOverworld();
+
+    connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
+    //stimer_->start(100);
+
+
+    setScene(scene);
+    setSceneRect(scene->sceneRect());
+    setMinimumSize(1800, 1200);
+}
+
+void GameView::CreateOverworld()
+{
     //add player
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
@@ -38,14 +51,6 @@ GameView::GameView()
 
     scene->addItem(boy);
     boy->setFocus();
-
-    connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    timer_->start(100);
-
-
-    setScene(scene);
-    setSceneRect(scene->sceneRect());
-    setMinimumSize(1800, 1200);
 }
 
 void GameView::SwitchToUnderWorld() {

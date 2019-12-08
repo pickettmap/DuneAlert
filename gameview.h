@@ -20,6 +20,7 @@ public:
     void operator=(GameView const&) = delete;
 
     player* get_player(){return player_;}
+    void CreateOverworld();
 
     QGraphicsScene * scene;
 

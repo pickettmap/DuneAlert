@@ -16,11 +16,12 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     void UpdateInventory();
+    void AddItem(Item *item);
 
     void UseItem();
 
+    std::vector<Item*> items;
 
-    std::vector<Item *> items;
 private:
     int width_ = 150;
     int x_;

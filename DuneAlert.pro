@@ -17,8 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bullet.cpp \
+    consumable.cpp \
     containingbox.cpp \
     enemy.cpp \
+    equipable.cpp \
     gameview.cpp \
     gun.cpp \
     healthbar.cpp \
@@ -27,13 +29,16 @@ SOURCES += \
     main.cpp \
     monsterfactory.cpp \
     player.cpp \
+    scenery.cpp \
     startmenu.cpp \
     underworld.cpp
 
 HEADERS += \
     bullet.h \
+    consumable.h \
     containingbox.h \
     enemy.h \
+    equipable.h \
     gameview.h \
     gun.h \
     healthbar.h \
@@ -41,6 +46,7 @@ HEADERS += \
     item.h \
     monsterfactory.h \
     player.h \
+    scenery.h \
     startmenu.h \
     underworld.h
 
