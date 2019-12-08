@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <inventory.h>
 
-player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QGraphicsPixmapItem(pixmap)
+player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
@@ -12,6 +12,7 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QG
     current_health_ = health;
     bound_ = b;
     inventory_ = new Inventory();
+    gold_ = gold;
 }
 
 void player::keyPressEvent(QKeyEvent *event){
@@ -110,6 +111,7 @@ void player::keyPressEvent(QKeyEvent *event){
 
 void player::changeHealth(int change) {
     current_health_ += change;
+    emit HealthChanged(change);
     //TODO ZL Add function that checks if this outright kills them.
 }
 

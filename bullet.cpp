@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QBrush>
 #include "player.h"
+#include "enemy.h"
 #include <QGraphicsScene>
 
 Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound)
@@ -65,10 +66,11 @@ void Bullet::travel() {
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for (size_t i = 0,n = colliding_items.size(); i < n; ++i){
         // if the arrow collides with a wall, delete it
-        if (dynamic_cast<player *>(colliding_items[i])){
+        if (dynamic_cast<player *>(colliding_items[i]) && !dynamic_cast<Enemy *>(colliding_items[i])){
             this->scene->removeItem(this);
             player * p = static_cast<player *>(colliding_items[i]);
             p->changeHealth(-1);
+            this->scene->update();
             delete this;
             return;
         }

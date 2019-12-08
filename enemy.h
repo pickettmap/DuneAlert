@@ -15,14 +15,25 @@ struct AttackPattern {
 class Enemy : public player
 {
 public:
-    Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<AttackPattern> a)
-        : player(pixmap, h, d, b) {
+    Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<AttackPattern> a, std::string name, int gold, Item *item)
+        : player(pixmap, h, d, b, gold) {
         a_ = a;
+        name_ = name;
+        gold_ = gold;
+        item_  = item;
     }
+    int getFightDuration();
+    Item * getItem() { return item_; }
+    std::string getName() { return name_; }
+
     std::vector<AttackPattern> GetFightPattern();
+
 
 private:
     std::vector<AttackPattern> a_;
+    std::string name_;
+    Item * item_;
+
 };
 
 #endif // ENEMY_H

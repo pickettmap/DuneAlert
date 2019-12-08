@@ -8,6 +8,7 @@
 #include <QPointF>
 #include "item.h"
 #include "inventory.h"
+#include <QObject>
 
 struct Bounds {
     int x1;
@@ -18,8 +19,10 @@ struct Bounds {
 
 class player : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
+
 public:
-    player(QPixmap &pixmap, int health, int damage, Bounds b);
+    player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     bool checkBounds(int, int);
@@ -31,6 +34,8 @@ public:
     bool isDead();
 
     void changeGold(int change);
+    int getGold() { return gold_; }
+    void setBound(Bounds b) {bound_ = b; }
 
 int health_;
 int current_health_;
@@ -39,6 +44,8 @@ Bounds bound_;
 Inventory * inventory_;
 int gold_;
 
+signals:
+    void HealthChanged(int amount);
 
 private:
     double xprev_;

@@ -67,4 +67,5 @@ void Inventory::UpdateInventory()
 void Inventory::AddItem(Item *item)
 {
     items.push_back(item);
+    scene()->update();
 }

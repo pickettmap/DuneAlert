@@ -14,7 +14,9 @@ public:
     Underworld(QGraphicsScene * scene);
     void DrawUnderworld(Enemy * e, player *p);
     void ProcessAttackPattern(std::vector<AttackPattern> a);
-    void EndBattle();
+    void EndBattle(QString s);
+    void Bribe();
+    void EnemyDeath();
 
 //    void DrawInventory();
 public slots:
@@ -29,10 +31,11 @@ signals:
     void OnEnemyHit(int amount);
 
 private:
-    QGraphicsScene * scene;
-    Enemy * e;
-    player * p;
+    QGraphicsScene * scene_;
+    Enemy * e_;
+    player * p_;
     ContainingBox *continue_;
+    bool fighting_ = false;
 };
 
 #endif // UNDERWORLD_H

@@ -19,6 +19,13 @@ GameView::GameView()
     //add background
     scene->setSceneRect(0, 0, width(), height());
 
+    QPixmap sprite = QPixmap(":/images/player.png");
+    sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
+    Bounds bound = {-20000, -20000, 20000, 20000};
+    player *boy = new player(sprite, 20, 10, bound, 0);
+    player_ = boy;
+    player_->setFlag(QGraphicsItem::ItemIsFocusable,true);
+
 
     CreateOverworld();
 
@@ -38,22 +45,23 @@ void GameView::CreateOverworld()
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
-    //add player
+
+
+    //add player  
+    Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    Bounds bound = {-20000, -20000, 20000, 20000};
-    player *boy = new player(sprite, 5, 10, bound);
-    boy->setFlag(QGraphicsItem::ItemIsFocusable,true);
+    player_->setBound(bound);
+    player_->setPixmap(sprite);
 
-    player_=boy;
 
     Gun *trash = new Gun();
     trash->setPos(100,100);
     scene->addItem(trash);
 
-    scene->addItem(boy);
-    scene->addItem(boy->inventory_);
-    boy->setFocus();
+    scene->addItem(player_);
+    scene->addItem(player_->inventory_);
+    player_->setFocus();
 }
 
 void GameView::SwitchToUnderWorld() {
