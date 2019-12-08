@@ -27,13 +27,17 @@ public:
     void addItem(Item);
     void TakeDamage(int damage);
 
-    //std::vector<Item*> getInventory(){return inventory_;}
+    Inventory * getInventory(){return inventory_;}
     bool isDead();
+
+    void changeGold(int change);
 
 int health_;
 int current_health_;
 int damage_;
 Bounds bound_;
+Inventory * inventory_;
+int gold_;
 
 
 private:
@@ -41,7 +45,6 @@ private:
     double yprev_;
 
     QSet<int> keysPressed;
-    std::vector<Item *> inventory_;
 };
 
 #endif // PLAYER_H

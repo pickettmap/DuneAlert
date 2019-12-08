@@ -2,8 +2,10 @@
 #include "gameview.h"
 #include "player.h"
 
-Item::Item()
+Item::Item(std::string name, std::string description)
 {
+    name_ = name;
+    description_ = description;
 }
 
 void Item::use()

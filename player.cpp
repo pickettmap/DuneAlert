@@ -1,6 +1,7 @@
 #include "player.h"
 #include "gameview.h"
 #include <QDebug>
+#include <inventory.h>
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -10,6 +11,7 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b): QObject(), QG
     this->damage_ = damage;
     current_health_ = health;
     bound_ = b;
+    inventory_ = new Inventory();
 }
 
 void player::keyPressEvent(QKeyEvent *event){
@@ -97,7 +99,7 @@ void player::keyPressEvent(QKeyEvent *event){
         Item* item = dynamic_cast<Item *>(colliding_items[i]);
         if(item != nullptr)
         {
-            inventory_.push_back(item);
+            inventory_->AddItem(item);
             game.scene->removeItem(item);
         }
     }
@@ -116,6 +118,10 @@ bool player::isDead() {
         return true;
     }
     return false;
+}
+
+void player::changeGold(int amount) {
+    gold_ -= amount;
 }
 
 void player::keyReleaseEvent(QKeyEvent *event)

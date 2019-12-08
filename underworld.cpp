@@ -19,11 +19,13 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     scene = main_scene;
 }
 
-void Underworld::DrawUnderworld(Enemy *e, player *p) {
+void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
+    this->e = enemy;
+    this->p = player;
+
     //EventHandler
 
     //Containing box coordinates (temp)
-    this->e = e;
 
     int cwidth = 300;
     int cheight = 275;
@@ -44,12 +46,12 @@ void Underworld::DrawUnderworld(Enemy *e, player *p) {
     QPixmap sprite = QPixmap(":/images/heart.png");
     sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
     Bounds bound = {cx1, cy1 , cx2 - player_sprite_size, cy2 - player_sprite_size};
-    player *heart = new player(sprite, p->health_, p->damage_, bound);
-    heart->setFlag(QGraphicsItem::ItemIsFocusable,true);
-    heart->setPos(200, 300);
-    scene->addItem(heart);
-    heart->setFocus();
-    this->p = heart;
+//    player *heart = new player(sprite, p->health_, p->damage_, bound);
+//    heart->setFlag(QGraphicsItem::ItemIsFocusable,true);
+//    heart->setPos(200, 300);
+//    scene->addItem(heart);
+//    heart->setFocus();
+//    this->p = heart;
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
     ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white, "");
@@ -81,8 +83,8 @@ void Underworld::DrawUnderworld(Enemy *e, player *p) {
     scene->addItem(fight);
     connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
-    ContainingBox *item = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
-    scene->addItem(item);
+    ContainingBox *bribe = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
+    scene->addItem(bribe);
 //    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
 
@@ -94,8 +96,9 @@ void Underworld::DrawUnderworld(Enemy *e, player *p) {
      * 4) Inventory Updates
      *
      */
-    Inventory * inv = new Inventory(-20, 150);
-    scene->addItem(inv);
+
+    p->inventory_->setPos(-20, 150);
+    scene->addItem(p->getInventory());
 }
 
 //Function:
@@ -134,7 +137,8 @@ void Underworld::onFightClicked() {
 
 void Underworld::SwitchToOverWorld() {
     scene->clear();
-    //todo add code to switch back to overworld.
+    GameView &game =  GameView::GetInstance();
+    game.CreateOverworld();
 }
 
 void Underworld::EndBattle() {

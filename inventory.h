@@ -9,7 +9,7 @@
 class Inventory : public QObject, public QGraphicsItem
 {
 public:
-    Inventory(int x, int y);
+    Inventory();
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
@@ -20,12 +20,14 @@ public:
 
     void UseItem();
 
+    void setPos(int x, int y);
+
     std::vector<Item*> items;
 
 private:
     int width_ = 150;
-    int x_;
-    int y_;
+    int x_ = 20;
+    int y_ = 20;
 
 };
 

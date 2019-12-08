@@ -5,14 +5,8 @@
 #include <item.h>
 #include <QDebug>
 
-Inventory::Inventory(int x, int y)
+Inventory::Inventory()
 {
-    x_ = x;
-    y_ = y;
-    Item *it;
-    Item *pt;
-    items.push_back(it);
-    items.push_back(pt);
 }
 
 QRectF Inventory::boundingRect() const
@@ -49,11 +43,20 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QBrush b = painter->brush();
     painter->setPen(Qt::GlobalColor::white);
     painter->drawText(QPoint(this->x_, this->y_), "Inventory");
+    //Write the necessary text for the inventory
     for(size_t i = 0; i < items.size(); i ++) {
-        painter->drawText(QPoint(this->x_ + 10, this->y_ + (i + 1) * 30 - 15), "Item - 20 Damage");
+        QString desc = QString::fromStdString(items[i]->getDescription());
+        QString name = QString::fromStdString(items[i]->getName()) + " - " + desc;
+        painter->drawText(QPoint(this->x_ + 10, this->y_ + (i + 1) * 30 - 15), name);
+
     }
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
     painter->setBrush(b);
+}
+
+void Inventory::setPos(int x, int y) {
+    x_ = x;
+    y_ = y;
 }
 
 void Inventory::UpdateInventory()
@@ -63,6 +66,5 @@ void Inventory::UpdateInventory()
 
 void Inventory::AddItem(Item *item)
 {
-    qDebug() << "here";
     items.push_back(item);
 }
