@@ -17,6 +17,8 @@ public:
     void EndBattle(QString s);
     void Bribe();
     void EnemyDeath();
+    void InitiateFightSequence();
+    void onItemUsed();
 
 //    void DrawInventory();
 public slots:
@@ -39,6 +41,7 @@ private:
     player * p_;
     ContainingBox *continue_;
     bool fighting_ = false;
+    bool fight_over_ = false;
 };
 
 #endif // UNDERWORLD_H

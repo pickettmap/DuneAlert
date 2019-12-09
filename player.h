@@ -29,6 +29,8 @@ public:
     void changeHealth(int);
     void addItem(Item);
     void TakeDamage(int damage);
+    void useItem(int index);
+    int getDamage() {return damage_;}
 
     Inventory * getInventory(){return inventory_;}
     bool isDead();

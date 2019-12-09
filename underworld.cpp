@@ -90,7 +90,9 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
     for (size_t i = 0; i < s.size(); i ++) {
         QTimer::singleShot(s[i].delay, [=](){
-            FireBullet(s[i].x, s[i].y, s[i].dir);
+            if (!fight_over_) {
+                FireBullet(s[i].x, s[i].y, s[i].dir);
+            }
         });
     }
 }
@@ -103,17 +105,32 @@ void Underworld::FireBullet(int x, int y, Direction d) {
 
 void Underworld::onFightClicked() {
     //Send damage to the enemy
-    scene_->removeItem(fight_box_);
-    scene_->removeItem(bribe_box_);
-    fighting_ = true;
-    emit OnEnemyHit(-1);
-    e_->changeHealth(-1);
+    emit OnEnemyHit(-1 * p_->getDamage());
+    e_->changeHealth(-1 * p_->getDamage());
     scene_->update();
-    //If the enemy is dead, don't initiate a fight sequence
+
     if (e_->isDead()) {
         EnemyDeath();
         return;
     }
+
+    InitiateFightSequence();
+}
+
+void Underworld::onItemUsed() {
+    if (e_->isDead()) {
+        EnemyDeath();
+        return;
+    }
+    scene_->update();
+    InitiateFightSequence();
+}
+
+void Underworld::InitiateFightSequence() {
+    //If the enemy is dead, don't initiate a fight sequence
+    scene_->removeItem(fight_box_);
+    scene_->removeItem(bribe_box_);
+    fighting_ = true;
 
     //Add the player to the scene, do health calculations
     scene_->addItem(p_);
@@ -128,12 +145,13 @@ void Underworld::onFightClicked() {
 
     //After all bullets have been fired plus a few seconds, remove the player from the battle.
     QTimer::singleShot(e_->getFightDuration() + 2500, [=] () {
-        scene_->addItem(fight_box_);
-        scene_->addItem(bribe_box_);
-        scene_->removeItem(p_);
-        fighting_ = false;
+        if(!fight_over_) {
+            scene_->addItem(fight_box_);
+            scene_->addItem(bribe_box_);
+            scene_->removeItem(p_);
+            fighting_ = false;
+        }
     });
-
 }
 
 
@@ -141,6 +159,8 @@ void Underworld::SwitchToOverWorld() {
     scene_->clear();
     GameView &game =  GameView::GetInstance();
     game.CreateOverworld();
+    //If you delete the underwold object some memory is gonna leak
+    delete this;
 }
 
 void Underworld::EndBattle(QString s) {
@@ -169,6 +189,7 @@ void Underworld::Bribe() {
 }
 
 void Underworld::EnemyDeath() {
+    fight_over_ = true;
     p_->changeGold(e_->getGold());
     std::string message = "You killed " + e_->getName() + " and received " + std::to_string(e_->getGold()) + " gold. ";
 
@@ -194,14 +215,19 @@ void Underworld::onKeyPress(QKeyEvent *event) {
         Bribe();
     }
     if (event->key() == Qt::Key::Key_1) {
-        //Use the first item slot, if available
+        p_->useItem(0);
     }
     if (event->key() == Qt::Key::Key_2) {
-        //Use second item slot, and so on
+        p_->useItem(1);
     }
+    if (event->key() == Qt::Key::Key_2) {
+        p_->useItem(2);
+    }
+    scene_->update();
 }
 
 void Underworld::onPlayerDeath() {
+    fight_over_ = true;
     int lose_amount = -20;
     if(p_->isDead()) {
         p_->changeGold(lose_amount);

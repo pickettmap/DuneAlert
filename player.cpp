@@ -17,6 +17,15 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     gold_ = gold;
 }
 
+void player::useItem(int id) {
+    Item * i = inventory_->GetItem(id);
+    if (i) {
+        i->Use(this);
+        inventory_->RemoveItem(id);
+    }
+
+}
+
 void player::keyPressEvent(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     int STEP_SIZE = 10;
@@ -108,23 +117,29 @@ void player::keyPressEvent(QKeyEvent *event){
     QList <QGraphicsItem *> colliding_items = collidingItems();
     for (int i = 0, n = colliding_items.size(); i < n; i++)
     {
-        Item* item = dynamic_cast<Item *>(colliding_items[i]);
-        if(item->getItemType()==itemtype::Scenery)
-        {
-            inventory_->AddItem(item);
-            game.scene->removeItem(item);
+        if (dynamic_cast<Item*>(colliding_items[i])){
+            Item* item = dynamic_cast<Item *>(colliding_items[i]);
+            if(item->getItemType()==itemtype::Scenery)
+            {
+                game.scene->removeItem(item);
+            }
+            else if (item->getItemType()==itemtype::Consumable)
+            {
+                inventory_->AddItem(item);
+                game.scene->removeItem(item);
+            }
         }
     }
 
     xprev_ = pos().x();
     yprev_ = pos().y();
+    game.scene->update();
 }
 
 void player::changeHealth(int change) {
     current_health_ += change;
     emit HealthChanged(change);
     if (isDead()) {
-
         emit PlayerDied();
     }
 }

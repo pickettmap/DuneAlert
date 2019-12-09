@@ -25,7 +25,7 @@ GameView::GameView()
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     Bounds bound = {-20000, -20000, 20000, 20000};
-    player *boy = new player(sprite, 20, 10, bound, 0);
+    player *boy = new player(sprite, 20, 1, bound, 0);
     player_ = boy;
     player_->setFlag(QGraphicsItem::ItemIsFocusable,true);
 
@@ -49,6 +49,12 @@ void GameView::CreateOverworld()
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
     //add player  
+    //Consumable for testing
+    Burger *b = new Burger();
+    b->setPos(100, 100);
+    scene->addItem(b);
+
+
     Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
@@ -62,9 +68,15 @@ void GameView::CreateOverworld()
         scene->addItem(tmp);
     }
 
+
     scene->addItem(player_);
     scene->addItem(player_->inventory_);
+
     player_->setFocus();
+
+    QTimer::singleShot(5000, [=]() {
+        SwitchToUnderWorld();
+    });
 }
 
 void GameView::SwitchToUnderWorld() {

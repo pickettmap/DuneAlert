@@ -2,6 +2,7 @@
 #include <QImage>
 #include <QBrush>
 #include "item.h"
+#include "player.h"
 
 Burger::Burger()
 {
@@ -15,7 +16,8 @@ Burger::Burger()
     itemtype_ = itemtype::Consumable;
 }
 
-int Burger::Use()
+int Burger::Use(player * p)
 {
-    return 10;
+    p->changeHealth(5);
+    return 0;
 }

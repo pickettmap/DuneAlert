@@ -8,6 +8,8 @@
 
 enum class itemtype {Equipable, Consumable, Scenery};
 
+class player;
+
 class Item : public QGraphicsPixmapItem
 {
 public:
@@ -15,7 +17,7 @@ public:
     Item(std::string name, std::string description, itemtype type);
 
     //returns amount to change stat by (health, atk, or def)
-    virtual int Use();
+    virtual int Use(player * p);
 
     void SetDescription(std::string desc) {description_= desc;}
 

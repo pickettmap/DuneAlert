@@ -11,7 +11,7 @@ Item::Item(std::string name, std::string description, itemtype type)
     itemtype_ = type;
 }
 
-int Item::Use()
+int Item::Use(player * p)
 {
     //handled in derived classes
     return -1;

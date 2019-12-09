@@ -18,11 +18,15 @@ public:
     void UpdateInventory();
     void AddItem(Item *item);
 
+    Item* GetItem(int index);
+    void RemoveItem(int index);
+
     void UseItem();
 
     void setPos(int x, int y);
 
-    std::vector<Item*> items;
+    std::vector<Item*> consumable_items_;
+    std::vector<Item*> equipable_items_;
 
 private:
     int width_ = 150;

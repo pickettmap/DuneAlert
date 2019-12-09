@@ -11,7 +11,7 @@ Inventory::Inventory()
 
 QRectF Inventory::boundingRect() const
 {
-    int height = int(items.size()) * 30;
+    int height = int((consumable_items_.size()) + equipable_items_.size()) * 30;
     return QRectF(x_,y_, width_, height);
 }
 
@@ -24,7 +24,7 @@ Returns: QPainterPath
 */
 QPainterPath Inventory::shape() const
 {
-    int height = int(items.size()) * 30;
+    int height = int((consumable_items_.size()) + equipable_items_.size()) * 30;
     QPainterPath path;
     path.addRect(x_,y_,width_,height);
     return path;
@@ -39,14 +39,14 @@ Returns: void
 */
 void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    int height = int(items.size()) * 30;
+    int height = int((consumable_items_.size()) + equipable_items_.size()) * 30;
     QBrush b = painter->brush();
     painter->setPen(Qt::GlobalColor::white);
     painter->drawText(QPoint(this->x_, this->y_), "Inventory");
-    //Write the necessary text for the inventory
-    for(size_t i = 0; i < items.size(); i ++) {
-        QString desc = QString::fromStdString(items[i]->getDescription());
-        QString name = QString::fromStdString(items[i]->getName()) + " - " + desc;
+//    Write the necessary text for the inventory
+    for(size_t i = 0; i < consumable_items_.size(); i ++) {
+        QString desc = QString::fromStdString(consumable_items_[i]->getDescription());
+        QString name = QString::fromStdString(std::to_string(i) + ": " + consumable_items_[i]->getName()) + " - " + desc;
         painter->drawText(QPoint(this->x_ + 10, this->y_ + (i + 1) * 30 - 15), name);
 
     }
@@ -64,8 +64,25 @@ void Inventory::UpdateInventory()
     //idk what you want here
 }
 
+Item * Inventory::GetItem(int id) {
+    if (id < consumable_items_.size() && id >=0) {
+    return consumable_items_[id];
+    }
+    return nullptr;
+}
+
+void Inventory::RemoveItem(int id) {
+    consumable_items_.erase(consumable_items_.begin() + id);
+}
+
 void Inventory::AddItem(Item *item)
 {
-    items.push_back(item);
+    if (item->getItemType() == itemtype::Consumable) {
+        consumable_items_.push_back(item);
+        QString q = QString::fromStdString(item->getName());
+        qDebug() << q;
+    } else {
+        equipable_items_.push_back(item);
+    }
     scene()->update();
 }
