@@ -12,6 +12,7 @@
         <file>Glamburger.png</file>
         <file>Old_Tutu.png</file>
         <file>toiletchan.png</file>
+        <file>Canary.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>
