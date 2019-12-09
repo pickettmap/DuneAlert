@@ -11,7 +11,7 @@ Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound
     this->scene = scene;
     dir_ = dir;
     QPixmap qp(":/images/bullet.png");
-    qp = qp.scaled(50, 50);
+    qp = qp.scaled(30, 30);
     setPixmap(qp);
     QTimer * timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(travel()));

@@ -10,6 +10,7 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     this->health_ = health;
     this->damage_ = damage;
     current_health_ = health;
+    health_ = health;
     bound_ = b;
     inventory_ = new Inventory();
     gold_ = gold;
@@ -119,7 +120,6 @@ void player::changeHealth(int change) {
 }
 
 bool player::isDead() {
-    qDebug() << current_health_;
     if (current_health_ <= 0) {
         return true;
     }

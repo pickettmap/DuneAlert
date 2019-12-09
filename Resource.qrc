@@ -7,6 +7,8 @@
         <file>heart.png</file>
         <file>Gr8.png</file>
         <file>gun.png</file>
+        <file>flower.png</file>
+        <file>Dweebfish.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>

@@ -67,7 +67,7 @@ void GameView::CreateOverworld()
 void GameView::SwitchToUnderWorld() {
     timer_->stop();
 
-    Enemy * e = MonsterFactory::GetEnemy(EnemyType::LesserDog);
+    Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
     Underworld * u = new Underworld(scene);
     //PLAYER MUST BE REMOVED FROM SCENE BEFORE CLEARED OR IT WILL BE DELETED.
     scene->removeItem(player_);

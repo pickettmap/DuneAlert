@@ -3,7 +3,7 @@
 
 #include "enemy.h"
 
-enum EnemyType { LesserDog };
+enum EnemyType { LesserDog, DweebFish };
 
 class MonsterFactory
 {

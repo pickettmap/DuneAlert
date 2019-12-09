@@ -8,6 +8,7 @@ HealthBar::HealthBar(int x, int y, int width, int height, int max_health)
     current_health_points = max_health;
     max_health_points = max_health;
     width_ = width;
+    original_width = width;
     height_ = height;
     x_ = x;
     y_ = y;
@@ -16,7 +17,8 @@ HealthBar::HealthBar(int x, int y, int width, int height, int max_health)
 void HealthBar::ChangeHealth(int change) {
     current_health_points += change;
     double percent = double(current_health_points) / double(max_health_points);
-    width_ = width_ * percent;
+    width_ = original_width * percent;
+
 }
 
 QRectF HealthBar::boundingRect() const

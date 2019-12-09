@@ -62,7 +62,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     scene_->addItem(e_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1 - 40, cy2 + 10, 200 , 20, p_->health_);
+    HealthBar *ph = new HealthBar(cx1 - 40, cy2 + 10, 200, 20, p_->health_);
     scene_->addItem(ph);
     connect(p_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
     connect(p_, &player::PlayerDied, this, &Underworld::onPlayerDeath);
@@ -77,11 +77,9 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     //Draw boxes for options
     ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Fight");
     scene_->addItem(fight);
-    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
     ContainingBox *bribe = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
     scene_->addItem(bribe);
-//    connect(fight, &ContainingBox::onBoxClicked, this, &Underworld::onFightClicked);
 
 
     p_->inventory_->setPos(-20, 150);
@@ -98,7 +96,7 @@ void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
 }
 
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {100, 100, 600, 400};
+        Bounds bound = {90, 90, 410, 410};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
@@ -145,6 +143,7 @@ void Underworld::EndBattle(QString s) {
     scene_->removeItem(p_);
     scene_->removeItem(p_->inventory_);
     scene_->clear();
+    scene_->update();
 
     ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white, "");
     QGraphicsTextItem *text = new QGraphicsTextItem(s);
@@ -167,7 +166,7 @@ void Underworld::Bribe() {
 
 void Underworld::EnemyDeath() {
     p_->changeGold(e_->getGold());
-    std::string message = "You killed " + e_->getName() + " and received " + std::to_string(e_->getGold()) + ". ";
+    std::string message = "You killed " + e_->getName() + " and received " + std::to_string(e_->getGold()) + " gold. ";
 
     if (e_->getItem()){
         p_->getInventory()->AddItem(e_->getItem());

@@ -19,6 +19,7 @@ public slots:
 private:
     int max_health_points;
     int current_health_points;
+    int original_width;
     int width_;
     int height_;
     int x_;
