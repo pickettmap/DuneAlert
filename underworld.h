@@ -24,6 +24,7 @@ public slots:
     void onFightClicked();
     void SwitchToOverWorld();
     void onKeyPress(QKeyEvent *event);
+    void onPlayerDeath();
 
 public:
 signals:

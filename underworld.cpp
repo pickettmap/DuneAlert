@@ -62,9 +62,10 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     scene_->addItem(e_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1 - 40, cy2 + 10, 200 , 20, 5);
+    HealthBar *ph = new HealthBar(cx1 - 40, cy2 + 10, 200 , 20, p_->health_);
     scene_->addItem(ph);
     connect(p_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
+    connect(p_, &player::PlayerDied, this, &Underworld::onPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
@@ -141,6 +142,7 @@ void Underworld::SwitchToOverWorld() {
 }
 
 void Underworld::EndBattle(QString s) {
+    scene_->removeItem(p_);
     scene_->removeItem(p_->inventory_);
     scene_->clear();
 
@@ -188,4 +190,13 @@ void Underworld::onKeyPress(QKeyEvent *event) {
     if (event->key() == Qt::Key::Key_B) {
         Bribe();
     }
+}
+
+void Underworld::onPlayerDeath() {
+    int lose_amount = -20;
+    if(p_->isDead()) {
+        p_->changeGold(lose_amount);
+    }
+    std::string message = "You lost to " + e_->getName() + " and lost " + std::to_string(lose_amount) + " gold!";
+    EndBattle(QString::fromStdString(message));
 }

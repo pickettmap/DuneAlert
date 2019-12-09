@@ -46,6 +46,7 @@ int gold_;
 
 signals:
     void HealthChanged(int amount);
+    void PlayerDied();
 
 private:
     double xprev_;

@@ -112,10 +112,14 @@ void player::keyPressEvent(QKeyEvent *event){
 void player::changeHealth(int change) {
     current_health_ += change;
     emit HealthChanged(change);
-    //TODO ZL Add function that checks if this outright kills them.
+    if (isDead()) {
+
+        emit PlayerDied();
+    }
 }
 
 bool player::isDead() {
+    qDebug() << current_health_;
     if (current_health_ <= 0) {
         return true;
     }
