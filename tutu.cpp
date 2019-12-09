@@ -1,4 +1,5 @@
 #include "tutu.h"
+#include "player.h"
 
 Tutu::Tutu()
 {
@@ -7,12 +8,13 @@ Tutu::Tutu()
     setPixmap(pm);
 
     pm_ = pm;
-    description_ = "An old tutu. Kind of ratty, but charming.";
+    description_ = "+3 Max HP";
     name_ = "Old Tutu";
     itemtype_ = itemtype::Equipable;
 }
 
-int Tutu::Use()
+int Tutu::Use(player * p)
 {
-    return -2;
+    p->setMaxHealth(3);
+    return 0;
 }

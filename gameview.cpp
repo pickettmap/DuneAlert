@@ -13,6 +13,8 @@
 #include "toilet.h"
 #include "burger.h"
 #include "monsterfactory.h"
+#include "tutu.h"
+
 GameView::GameView()
 {
     //add scene
@@ -53,6 +55,10 @@ void GameView::CreateOverworld()
     Burger *b = new Burger();
     b->setPos(100, 100);
     scene->addItem(b);
+
+    Tutu *t = new Tutu();
+    t->setPos(200, 200);
+    scene->addItem(t);
 
 
     Bounds bound = {-20000, -20000, 20000, 20000};

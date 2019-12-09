@@ -31,6 +31,9 @@ public:
     void TakeDamage(int damage);
     void useItem(int index);
     int getDamage() {return damage_;}
+    void setDamage(int change) {damage_ += change; }
+    //should this also increase current health?
+    void setMaxHealth(int change) { health_ += change;}
 
     Inventory * getInventory(){return inventory_;}
     bool isDead();

@@ -7,7 +7,7 @@ class Tutu : public Item
 {
 public:
     Tutu();
-    int Use();
+    int Use(player * p);
 };
 
 #endif // TUTU_H

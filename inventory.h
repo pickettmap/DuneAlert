@@ -20,6 +20,7 @@ public:
 
     Item* GetItem(int index);
     void RemoveItem(int index);
+    int GetConsumableItemsCount() { return int(consumable_items_.size());}
 
     void UseItem();
 

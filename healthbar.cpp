@@ -3,11 +3,12 @@
 #include <QDebug>
 #include <QPainter>
 
-HealthBar::HealthBar(int x, int y, int width, int height, int max_health)
+HealthBar::HealthBar(int x, int y, int width, int height, int max_health, int current_health)
 {
-    current_health_points = max_health;
+    current_health_points = current_health;
     max_health_points = max_health;
-    width_ = width;
+    double percent = double(current_health_points) / double(max_health_points);
+    width_ = width * percent;
     original_width = width;
     height_ = height;
     x_ = x;

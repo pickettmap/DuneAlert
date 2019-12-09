@@ -8,7 +8,7 @@ class HealthBar :  public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    HealthBar(int x, int y, int width, int height, int max_health);
+    HealthBar(int x, int y, int width, int height, int max_health, int current_health);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

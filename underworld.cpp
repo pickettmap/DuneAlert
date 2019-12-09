@@ -62,14 +62,14 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     scene_->addItem(e_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1 - 40, cy2 + 10, 200, 20, p_->health_);
+    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, p_->health_, p_->current_health_);
     scene_->addItem(ph);
     connect(p_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
     connect(p_, &player::PlayerDied, this, &Underworld::onPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(100, -300, 400, 50, e_->health_);
+    HealthBar *eh = new HealthBar(100, -300, 400, 50, e_->health_, e_->health_);
     scene_->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
@@ -211,17 +211,31 @@ void Underworld::onKeyPress(QKeyEvent *event) {
     if (event->key() == Qt::Key::Key_F) {
         onFightClicked();
     }
-    if (event->key() == Qt::Key::Key_B) {
+    else if (event->key() == Qt::Key::Key_B) {
         Bribe();
     }
-    if (event->key() == Qt::Key::Key_1) {
+    else if (event->key() == Qt::Key::Key_1) {
+        //I'm not sure if this can be simplified to reduce repeated code
+        if (p_->inventory_->GetConsumableItemsCount() < 1) {
+            return;
+        }
         p_->useItem(0);
+        InitiateFightSequence();
     }
-    if (event->key() == Qt::Key::Key_2) {
+    else if (event->key() == Qt::Key::Key_2) {
+        if (p_->inventory_->GetConsumableItemsCount() < 2) {
+            return;
+        }
         p_->useItem(1);
+        InitiateFightSequence();
+
     }
-    if (event->key() == Qt::Key::Key_2) {
+    else if (event->key() == Qt::Key::Key_3) {
+        if (p_->inventory_->GetConsumableItemsCount() < 3) {
+            return;
+        }
         p_->useItem(2);
+        InitiateFightSequence();
     }
     scene_->update();
 }

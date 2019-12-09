@@ -128,6 +128,12 @@ void player::keyPressEvent(QKeyEvent *event){
                 inventory_->AddItem(item);
                 game.scene->removeItem(item);
             }
+            else if (item->getItemType()==itemtype::Equipable) {
+                inventory_->AddItem(item);
+                //Equipable items are used immedietely
+                item->Use(this);
+                game.scene->removeItem(item);
+            }
         }
     }
 

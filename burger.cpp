@@ -11,7 +11,7 @@ Burger::Burger()
     setPixmap(pm);
 
     pm_ = pm;
-    description_ = "A Glamburger. You feel sparkly and poor.";
+    description_ = "+5 HP";
     name_ = "Glamburger";
     itemtype_ = itemtype::Consumable;
 }
