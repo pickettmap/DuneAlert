@@ -75,12 +75,12 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 
 
     //Draw boxes for options
-    ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Fight");
-    scene_->addItem(fight);
+    fight_box_ = new ContainingBox(cx1, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Fight [F]");
+    scene_->addItem(fight_box_);
 
-    ContainingBox *bribe = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
-    scene_->addItem(bribe);
 
+    bribe_box_ = new ContainingBox(cx1 + 150, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
+    scene_->addItem(bribe_box_);
 
     p_->inventory_->setPos(-20, 150);
     scene_->addItem(p_->getInventory());
@@ -103,6 +103,8 @@ void Underworld::FireBullet(int x, int y, Direction d) {
 
 void Underworld::onFightClicked() {
     //Send damage to the enemy
+    scene_->removeItem(fight_box_);
+    scene_->removeItem(bribe_box_);
     fighting_ = true;
     emit OnEnemyHit(-1);
     e_->changeHealth(-1);
@@ -125,7 +127,9 @@ void Underworld::onFightClicked() {
     });
 
     //After all bullets have been fired plus a few seconds, remove the player from the battle.
-    QTimer::singleShot(e_->getFightDuration() + 3000, [=] () {
+    QTimer::singleShot(e_->getFightDuration() + 2500, [=] () {
+        scene_->addItem(fight_box_);
+        scene_->addItem(bribe_box_);
         scene_->removeItem(p_);
         fighting_ = false;
     });
@@ -188,6 +192,12 @@ void Underworld::onKeyPress(QKeyEvent *event) {
     }
     if (event->key() == Qt::Key::Key_B) {
         Bribe();
+    }
+    if (event->key() == Qt::Key::Key_1) {
+        //Use the first item slot, if available
+    }
+    if (event->key() == Qt::Key::Key_2) {
+        //Use second item slot, and so on
     }
 }
 

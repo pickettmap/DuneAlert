@@ -48,7 +48,6 @@ void GameView::CreateOverworld()
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
-
     //add player  
     Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
