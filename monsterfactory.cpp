@@ -35,7 +35,7 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
         return new Enemy(enemy_sprite, 5, 1, bound, a, "Lesser Dog", 10, g);
     }
 
-    if (e == DweebFish) {
+    else if (e == DweebFish) {
         QPixmap enemy_sprite = QPixmap(":/images/Dweebfish.png");
         enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
         Bounds bound = {0, 0, 10000, 10000};
@@ -85,5 +85,35 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
         return new Enemy(enemy_sprite, 2, 1, bound, a, "Dweeb Fish", 10, nullptr);
     }
+
+    else if (e == Canary) {
+            QPixmap enemy_sprite = QPixmap(":/images/Canary.png");
+            enemy_sprite = enemy_sprite.scaled(300, 300, Qt::KeepAspectRatio);
+            int current_delay = 0;
+            Bounds bound = {0, 0, 10000, 10000};
+            std::vector<AttackPattern> a;
+            for (int i = 0; i < 24; i ++) {
+                current_delay += 200;
+                AttackPattern p = {current_delay, 120+ i * 10, 420, Direction::N};
+                AttackPattern p2 = {current_delay, 420, 120 + i * 10, Direction::W};
+                a.push_back(p);
+                a.push_back(p2);
+            }
+
+            for (int i = 0; i < 24; i ++) {
+                current_delay += 200;
+                AttackPattern p = {current_delay, 400 - i * 10, 420, Direction::N};
+                AttackPattern p2 = {current_delay, 420, 400 - i * 10, Direction::W};
+                a.push_back(p);
+                a.push_back(p2);
+            }
+
+
+
+            Gun * g = new Gun();
+            return new Enemy(enemy_sprite, 10, 1, bound, a, "Can-ary", 10, g);
+    }
+
+
 
 }

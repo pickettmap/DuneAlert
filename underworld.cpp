@@ -96,7 +96,7 @@ void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
 }
 
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {90, 90, 410, 410};
+        Bounds bound = {90, 90, 430, 430};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
