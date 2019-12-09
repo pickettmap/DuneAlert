@@ -4,3 +4,12 @@ consumable::consumable()
 {
 
 }
+
+
+PointyRock::PointyRock() {
+
+}
+
+void PointyRock::use() {
+
+}

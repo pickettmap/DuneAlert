@@ -37,6 +37,8 @@ private:
     player * p_;
     ContainingBox *continue_;
     bool fighting_ = false;
+    ContainingBox * fight_box_;
+    ContainingBox * bribe_box_;
 };
 
 #endif // UNDERWORLD_H

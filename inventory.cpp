@@ -59,9 +59,9 @@ void Inventory::setPos(int x, int y) {
     y_ = y;
 }
 
-void Inventory::UpdateInventory()
+void Inventory::RemoveItem(Item * i)
 {
-    //idk what you want here
+    //idk how to implement this correctly, I think we probably need to remove by Id
 }
 
 void Inventory::AddItem(Item *item)

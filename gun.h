@@ -3,7 +3,7 @@
 
 #include "item.h"
 
-class Gun : public Item{
+class Gun : public Item {
 public:
     Gun();
 };

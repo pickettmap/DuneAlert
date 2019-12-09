@@ -8,4 +8,9 @@ public:
     consumable();
 };
 
+class PointyRock : public consumable {
+    PointyRock();
+    void use();
+};
+
 #endif // CONSUMABLE_H

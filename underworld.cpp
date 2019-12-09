@@ -75,11 +75,11 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 
 
     //Draw boxes for options
-    ContainingBox *fight = new ContainingBox(cx1 - 50, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Fight");
-    scene_->addItem(fight);
+    fight_box_ = new ContainingBox(cx1, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Fight [F]");
+    scene_->addItem(fight_box_);
 
-    ContainingBox *bribe = new ContainingBox(cx1 + 100, cy2 + 50, 100, 50, Qt::GlobalColor::green, "Bribe");
-    scene_->addItem(bribe);
+    bribe_box_ = new ContainingBox(cx1 + 150, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
+    scene_->addItem(bribe_box_);
 
 
     p_->inventory_->setPos(-20, 150);
@@ -102,8 +102,15 @@ void Underworld::FireBullet(int x, int y, Direction d) {
 }
 
 void Underworld::onFightClicked() {
-    //Send damage to the enemy
+
+    //Remove boxes to avoid player confusion
+    scene_->removeItem(fight_box_);
+    scene_->removeItem(bribe_box_);
+
+    //Set bool to true so user can no longer send fight commands
     fighting_ = true;
+
+    //Send damage to the enemy
     emit OnEnemyHit(-1);
     e_->changeHealth(-1);
     scene_->update();
@@ -124,10 +131,12 @@ void Underworld::onFightClicked() {
         ProcessAttackPattern(e_->GetFightPattern());
     });
 
-    //After all bullets have been fired plus a few seconds, remove the player from the battle.
-    QTimer::singleShot(e_->getFightDuration() + 3000, [=] () {
+    //After all bullets have been fired plus a few seconds, remove the player from the battle. Add the text boxes back.
+    QTimer::singleShot(e_->getFightDuration() + 2500, [=] () {
         scene_->removeItem(p_);
         fighting_ = false;
+        scene_->addItem(fight_box_);
+        scene_->addItem(bribe_box_);
     });
 
 }
@@ -140,25 +149,32 @@ void Underworld::SwitchToOverWorld() {
 }
 
 void Underworld::EndBattle(QString s) {
+    //Remove player and inventory so they aren't deleted on scene clear
     scene_->removeItem(p_);
     scene_->removeItem(p_->inventory_);
+
     scene_->clear();
+
     scene_->update();
 
+    //Draw summary end box
     ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white, "");
     QGraphicsTextItem *text = new QGraphicsTextItem(s);
     text->setDefaultTextColor(Qt::GlobalColor::white);
     text->setPos(55, 210);
+    scene_->addItem(text);
+    scene_->addItem(end);
+
     //Switches back to overworld in 5 seconds
     QTimer::singleShot(5000, [=]() {
         SwitchToOverWorld();
     });
-    scene_->addItem(text);
-    scene_->addItem(end);
+
 
 }
 
 void Underworld::Bribe() {
+    //TODO This bribe amount will change depending on the enemy, for now it's capped at 10.
     p_->changeGold(-10);
     EndBattle("You ran like a coward and lost 10 gold!");
 
@@ -188,6 +204,12 @@ void Underworld::onKeyPress(QKeyEvent *event) {
     }
     if (event->key() == Qt::Key::Key_B) {
         Bribe();
+    }
+    if (event->key() == Qt::Key::Key_1) {
+        //Use the first item slot, if available
+    }
+    if (event->key() == Qt::Key::Key_2) {
+        //Use second item slot, and so on
     }
 }
 
