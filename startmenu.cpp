@@ -10,10 +10,10 @@ StartMenu::StartMenu(QWidget *parent)
 {
     QLabel *title = new QLabel("DUNEALERT",this);
     title->setAlignment(Qt::AlignHCenter);
-    QLabel *title2 = new QLabel("DUNEALERT",this);
+    QLabel *title2 = new QLabel("Use WASD to move around",this);
     title2->setAlignment(Qt::AlignHCenter);
 
-    QPushButton *play_btn = new QPushButton("Play", this);
+    QPushButton *play_btn = new QPushButton("One Player", this);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(title);

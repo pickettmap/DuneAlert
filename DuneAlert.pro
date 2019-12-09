@@ -17,10 +17,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bullet.cpp \
-    consumable.cpp \
+    burger.cpp \
     containingbox.cpp \
     enemy.cpp \
-    equipable.cpp \
     gameview.cpp \
     gun.cpp \
     healthbar.cpp \
@@ -31,14 +30,15 @@ SOURCES += \
     player.cpp \
     scenery.cpp \
     startmenu.cpp \
+    toilet.cpp \
+    tutu.cpp \
     underworld.cpp
 
 HEADERS += \
     bullet.h \
-    consumable.h \
+    burger.h \
     containingbox.h \
     enemy.h \
-    equipable.h \
     gameview.h \
     gun.h \
     healthbar.h \
@@ -48,6 +48,8 @@ HEADERS += \
     player.h \
     scenery.h \
     startmenu.h \
+    toilet.h \
+    tutu.h \
     underworld.h
 
 FORMS +=

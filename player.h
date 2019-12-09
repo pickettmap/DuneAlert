@@ -40,6 +40,7 @@ public:
 int health_;
 int current_health_;
 int damage_;
+int def_;
 Bounds bound_;
 Inventory * inventory_;
 int gold_;

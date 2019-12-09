@@ -9,6 +9,9 @@
         <file>gun.png</file>
         <file>flower.png</file>
         <file>Dweebfish.png</file>
+        <file>Glamburger.png</file>
+        <file>Old_Tutu.png</file>
+        <file>toiletchan.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>

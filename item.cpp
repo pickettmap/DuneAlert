@@ -2,22 +2,17 @@
 #include "gameview.h"
 #include "player.h"
 
-Item::Item(std::string name, std::string description)
+Item::Item(){}
+
+Item::Item(std::string name, std::string description, itemtype type)
 {
     name_ = name;
     description_ = description;
+    itemtype_ = type;
 }
 
-void Item::use()
+int Item::Use()
 {
     //handled in derived classes
-}
-
-void mousePressEvent (QGraphicsSceneMouseEvent *event)
-{
-//    if(event->button() == Qt::LeftButton)
-//    {
-//        GameView& game = GameView::GetInstance();
-//        game.get_player()
-//    }
+    return -1;
 }

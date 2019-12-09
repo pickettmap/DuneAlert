@@ -13,13 +13,23 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     health_ = health;
     bound_ = b;
     inventory_ = new Inventory();
+    inventory_->setVisible(false);
     gold_ = gold;
 }
 
 void player::keyPressEvent(QKeyEvent *event){
-
+    GameView& game = GameView::GetInstance();
     int STEP_SIZE = 10;
 
+    if(event->key() == Qt::Key_Escape)
+    {
+
+        inventory_->setPos(100,100);
+        inventory_->setVisible(true);
+        game.scene->update();
+    }
+
+    //handling player movement
     if(
         event->key() == Qt::Key_W ||
         event->key() == Qt::Key_A ||
@@ -93,13 +103,13 @@ void player::keyPressEvent(QKeyEvent *event){
         }
     }
 
-    GameView& game = GameView::GetInstance();
 
+    //handling interacting with items in overworld
     QList <QGraphicsItem *> colliding_items = collidingItems();
     for (int i = 0, n = colliding_items.size(); i < n; i++)
     {
         Item* item = dynamic_cast<Item *>(colliding_items[i]);
-        if(item != nullptr)
+        if(item->getItemType()==itemtype::Scenery)
         {
             inventory_->AddItem(item);
             game.scene->removeItem(item);

@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QTimer>
 #include "gun.h"
+#include "toilet.h"
+#include "burger.h"
 #include "monsterfactory.h"
 GameView::GameView()
 {
@@ -19,6 +21,7 @@ GameView::GameView()
     //add background
     scene->setSceneRect(0, 0, width(), height());
 
+    //initialize player
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     Bounds bound = {-20000, -20000, 20000, 20000};
@@ -30,7 +33,7 @@ GameView::GameView()
     CreateOverworld();
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    timer_->start(2000);
+    //timer_->start(2000);
 
 
     setScene(scene);
@@ -46,7 +49,6 @@ void GameView::CreateOverworld()
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
 
-
     //add player  
     Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
@@ -54,10 +56,12 @@ void GameView::CreateOverworld()
     player_->setBound(bound);
     player_->setPixmap(sprite);
 
-
-    Gun *trash = new Gun();
-    trash->setPos(100,100);
-    scene->addItem(trash);
+    for(int i = 0; i < 50; i++)
+    {
+        Toilet *tmp = new Toilet();
+        tmp->setPos(rand()%-2000, rand()%2000);
+        scene->addItem(tmp);
+    }
 
     scene->addItem(player_);
     scene->addItem(player_->inventory_);
@@ -69,6 +73,7 @@ void GameView::SwitchToUnderWorld() {
 
     Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
     Underworld * u = new Underworld(scene);
+
     //PLAYER MUST BE REMOVED FROM SCENE BEFORE CLEARED OR IT WILL BE DELETED.
     scene->removeItem(player_);
     scene->removeItem(player_->inventory_);
