@@ -20,8 +20,8 @@ Underworld::Underworld(QGraphicsScene * main_scene)
 }
 
 void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
-    this->e_ = enemy;
-    this->p_= player;
+    this->enemy_ = enemy;
+    this->player_= player;
 
     //EventHandler
 
@@ -48,9 +48,9 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     Bounds bound = {cx1, cy1 , cx2 - player_sprite_size, cy2 - player_sprite_size};
 
 
-    p_->setPixmap(sprite);
-    p_->setPos(200, 300);
-    p_->setBound(bound);
+    player_->setPixmap(sprite);
+    player_->setPos(200, 300);
+    player_->setBound(bound);
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
     ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white, "");
@@ -58,18 +58,18 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     //DRAW THE ENEMY
-    e_->setPos(150, -170);
-    scene_->addItem(e_);
+    enemy_->setPos(150, -170);
+    scene_->addItem(enemy_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, p_->health_, p_->current_health_);
+    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, player_->health_, player_->current_health_);
     scene_->addItem(ph);
-    connect(p_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
-    connect(p_, &player::PlayerDied, this, &Underworld::onPlayerDeath);
+    connect(player_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
+    connect(player_, &player::PlayerDied, this, &Underworld::OnPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(100, -300, 400, 50, e_->health_, e_->health_);
+    HealthBar *eh = new HealthBar(100, -300, 400, 50, enemy_->health_, enemy_->health_);
     scene_->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
@@ -82,8 +82,8 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     bribe_box_ = new ContainingBox(cx1 + 150, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    p_->inventory_->setPos(-20, 150);
-    scene_->addItem(p_->getInventory());
+    player_->inventory_->setPos(-20, 150);
+    scene_->addItem(player_->getInventory());
 }
 
 //Function:
@@ -103,13 +103,13 @@ void Underworld::FireBullet(int x, int y, Direction d) {
         scene_->addItem(b);
 }
 
-void Underworld::onFightClicked() {
+void Underworld::OnFightClicked() {
     //Send damage to the enemy
-    emit OnEnemyHit(-1 * p_->getDamage());
-    e_->changeHealth(-1 * p_->getDamage());
+    emit OnEnemyHit(-1 * player_->getDamage());
+    enemy_->changeHealth(-1 * player_->getDamage());
     scene_->update();
 
-    if (e_->isDead()) {
+    if (enemy_->isDead()) {
         EnemyDeath();
         return;
     }
@@ -117,8 +117,8 @@ void Underworld::onFightClicked() {
     InitiateFightSequence();
 }
 
-void Underworld::onItemUsed() {
-    if (e_->isDead()) {
+void Underworld::OnItemUsed() {
+    if (enemy_->isDead()) {
         EnemyDeath();
         return;
     }
@@ -133,22 +133,22 @@ void Underworld::InitiateFightSequence() {
     fighting_ = true;
 
     //Add the player to the scene, do health calculations
-    scene_->addItem(p_);
-    p_->setFocus();
+    scene_->addItem(player_);
+    player_->setFocus();
 
 
 
     //After a 1 second delay, initiate the bullets
     QTimer::singleShot(1000, [=]() {
-        ProcessAttackPattern(e_->GetFightPattern());
+        ProcessAttackPattern(enemy_->GetFightPattern());
     });
 
     //After all bullets have been fired plus a few seconds, remove the player from the battle.
-    QTimer::singleShot(e_->getFightDuration() + 2500, [=] () {
+    QTimer::singleShot(enemy_->getFightDuration() + 2500, [=] () {
         if(!fight_over_) {
             scene_->addItem(fight_box_);
             scene_->addItem(bribe_box_);
-            scene_->removeItem(p_);
+            scene_->removeItem(player_);
             fighting_ = false;
         }
     });
@@ -164,8 +164,8 @@ void Underworld::SwitchToOverWorld() {
 }
 
 void Underworld::EndBattle(QString s) {
-    scene_->removeItem(p_);
-    scene_->removeItem(p_->inventory_);
+    scene_->removeItem(player_);
+    scene_->removeItem(player_->inventory_);
     scene_->clear();
     scene_->update();
 
@@ -183,19 +183,19 @@ void Underworld::EndBattle(QString s) {
 }
 
 void Underworld::Bribe() {
-    p_->changeGold(-10);
+    player_->changeGold(-10);
     EndBattle("You ran like a coward and lost 10 gold!");
 
 }
 
 void Underworld::EnemyDeath() {
     fight_over_ = true;
-    p_->changeGold(e_->getGold());
-    std::string message = "You killed " + e_->getName() + " and received " + std::to_string(e_->getGold()) + " gold. ";
+    player_->changeGold(enemy_->getGold());
+    std::string message = "You killed " + enemy_->getName() + " and received " + std::to_string(enemy_->getGold()) + " gold. ";
 
-    if (e_->getItem()){
-        p_->getInventory()->AddItem(e_->getItem());
-        message += "They were also carrying a " + e_->getItem()->getName() + "!";
+    if (enemy_->getItem()){
+        player_->getInventory()->AddItem(enemy_->getItem());
+        message += "They were also carrying a " + enemy_->getItem()->getName() + "!";
     }
 
     QString q = QString::fromStdString(message);
@@ -204,48 +204,47 @@ void Underworld::EnemyDeath() {
     EndBattle(q);
 }
 
-void Underworld::onKeyPress(QKeyEvent *event) {
-    //Remove this line for quick underworld testing
+void Underworld::OnKeyPress(QKeyEvent *event) {
     if (fighting_)
         return;
     if (event->key() == Qt::Key::Key_F) {
-        onFightClicked();
+        OnFightClicked();
     }
     else if (event->key() == Qt::Key::Key_B) {
         Bribe();
     }
     else if (event->key() == Qt::Key::Key_1) {
         //I'm not sure if this can be simplified to reduce repeated code
-        if (p_->inventory_->GetConsumableItemsCount() < 1) {
+        if (player_->inventory_->GetConsumableItemsCount() < 1) {
             return;
         }
-        p_->useItem(0);
+        player_->useItem(0);
         InitiateFightSequence();
     }
     else if (event->key() == Qt::Key::Key_2) {
-        if (p_->inventory_->GetConsumableItemsCount() < 2) {
+        if (player_->inventory_->GetConsumableItemsCount() < 2) {
             return;
         }
-        p_->useItem(1);
+        player_->useItem(1);
         InitiateFightSequence();
 
     }
     else if (event->key() == Qt::Key::Key_3) {
-        if (p_->inventory_->GetConsumableItemsCount() < 3) {
+        if (player_->inventory_->GetConsumableItemsCount() < 3) {
             return;
         }
-        p_->useItem(2);
+        player_->useItem(2);
         InitiateFightSequence();
     }
     scene_->update();
 }
 
-void Underworld::onPlayerDeath() {
+void Underworld::OnPlayerDeath() {
     fight_over_ = true;
     int lose_amount = -20;
-    if(p_->isDead()) {
-        p_->changeGold(lose_amount);
+    if(player_->isDead()) {
+        player_->changeGold(lose_amount);
     }
-    std::string message = "You lost to " + e_->getName() + " and lost " + std::to_string(lose_amount) + " gold!";
+    std::string message = "You lost to " + enemy_->getName() + " and lost " + std::to_string(lose_amount) + " gold!";
     EndBattle(QString::fromStdString(message));
 }

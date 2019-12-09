@@ -143,7 +143,12 @@ void player::keyPressEvent(QKeyEvent *event){
 }
 
 void player::changeHealth(int change) {
-    current_health_ += change;
+    //If the addition of health goes above threshhold, set health to threshhold
+    if (current_health_ + change > health_) {
+        current_health_ = health_;
+    } else {
+        current_health_ += change;
+    }
     emit HealthChanged(change);
     if (isDead()) {
         emit PlayerDied();

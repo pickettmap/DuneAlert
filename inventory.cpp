@@ -40,30 +40,33 @@ Returns: void
 void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     int distance_between = 20;
-    int height = int((consumable_items_.size()) + equipable_items_.size()) * distance_between * 4;
+    int height = int((consumable_items_.size()) + equipable_items_.size()) * distance_between + 60;
     QBrush b = painter->brush();
     painter->setPen(Qt::GlobalColor::white);
     painter->drawText(QPoint(this->x_, this->y_), "Inventory");
     int current_y = this->y_;
     int shifted_x = this->x_ + 10;
-    for(size_t i = 0; i < consumable_items_.size(); i ++) {
+    if (consumable_items_.size() > 0){
         current_y += distance_between;
-        QString desc = QString::fromStdString(consumable_items_[i]->getDescription());
-        QString name = QString::fromStdString(std::to_string(i) + ": " + consumable_items_[i]->getName()) + " - " + desc;
-        painter->drawText(QPoint(shifted_x, current_y), name);
+        painter->drawText(QPoint(shifted_x, current_y), "Consumables:");
+        for(size_t i = 0; i < consumable_items_.size(); i ++) {
+            current_y += distance_between;
+            QString desc = QString::fromStdString(consumable_items_[i]->getDescription());
+            QString name = QString::fromStdString("[" + std::to_string(i + 1) + "] " + consumable_items_[i]->getName()) + " - " + desc;
+            painter->drawText(QPoint(shifted_x, current_y), name);
+        }
     }
 
     if (equipable_items_.size() > 0) {
     current_y += distance_between;
-    painter->drawText(QPoint(shifted_x, current_y), "Equipped Items:");
+    painter->drawText(QPoint(shifted_x, current_y), "Equipped:");
+        for(size_t i = 0; i < equipable_items_.size(); i ++) {
+            current_y += distance_between;
+            QString desc = QString::fromStdString(equipable_items_[i]->getDescription());
+            QString name = QString::fromStdString(equipable_items_[i]->getName()) + " - " + desc;
+            painter->drawText(QPoint(shifted_x, current_y), name);
 
-    for(size_t i = 0; i < equipable_items_.size(); i ++) {
-        current_y += distance_between;
-        QString desc = QString::fromStdString(equipable_items_[i]->getDescription());
-        QString name = QString::fromStdString(equipable_items_[i]->getName()) + " - " + desc;
-        painter->drawText(QPoint(shifted_x, current_y), name);
-
-    }
+        }
     }
 
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
@@ -73,11 +76,6 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Inventory::setPos(int x, int y) {
     x_ = x;
     y_ = y;
-}
-
-void Inventory::UpdateInventory()
-{
-    //idk what you want here
 }
 
 Item * Inventory::GetItem(int id) {

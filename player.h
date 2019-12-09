@@ -49,6 +49,7 @@ int def_;
 Bounds bound_;
 Inventory * inventory_;
 int gold_;
+int speed_ = 10;
 
 signals:
     void HealthChanged(int amount);

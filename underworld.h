@@ -18,15 +18,15 @@ public:
     void Bribe();
     void EnemyDeath();
     void InitiateFightSequence();
-    void onItemUsed();
+    void OnItemUsed();
 
 //    void DrawInventory();
 public slots:
     void FireBullet(int x, int y, Direction d);
-    void onFightClicked();
+    void OnFightClicked();
     void SwitchToOverWorld();
-    void onKeyPress(QKeyEvent *event);
-    void onPlayerDeath();
+    void OnKeyPress(QKeyEvent *event);
+    void OnPlayerDeath();
 
 public:
 signals:
@@ -37,8 +37,8 @@ private:
     ContainingBox * fight_box_;
     ContainingBox * bribe_box_;
     QGraphicsScene * scene_;
-    Enemy * e_;
-    player * p_;
+    Enemy * enemy_;
+    player * player_;
     ContainingBox *continue_;
     bool fighting_ = false;
     bool fight_over_ = false;

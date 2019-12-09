@@ -51,7 +51,8 @@ void GameView::CreateOverworld()
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
     //add player  
-    //Consumable for testing
+
+    //Items for testing to be removed
     Burger *b = new Burger();
     b->setPos(100, 100);
     scene->addItem(b);
@@ -97,7 +98,7 @@ void GameView::SwitchToUnderWorld() {
     scene->clear();
     u->DrawUnderworld(e, player_);
 
-    connect(this, &GameView::onKeyPressed, u, &Underworld::onKeyPress);
+    connect(this, &GameView::onKeyPressed, u, &Underworld::OnKeyPress);
 }
 
 void GameView::keyPressEvent(QKeyEvent * event) {

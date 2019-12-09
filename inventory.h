@@ -15,7 +15,6 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    void UpdateInventory();
     void AddItem(Item *item);
 
     Item* GetItem(int index);
@@ -26,13 +25,12 @@ public:
 
     void setPos(int x, int y);
 
-    std::vector<Item*> consumable_items_;
-    std::vector<Item*> equipable_items_;
-
 private:
     int width_ = 150;
     int x_ = 20;
     int y_ = 20;
+    std::vector<Item*> consumable_items_;
+    std::vector<Item*> equipable_items_;
 
 };
 
