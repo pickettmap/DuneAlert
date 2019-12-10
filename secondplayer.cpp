@@ -5,18 +5,25 @@
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
     : player(pixmap, health, damage, b, gold)
 {
-    xprev_ = pos().x();
-    yprev_ = pos().y();
-    inventory_ = new Inventory();
-    inventory_->setVisible(false);
+    display_ = new StatsDisplay(200,200,"Player 2", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
+    display_->setVisible(false);
 }
 
 void SecondPlayer::onKeyPressed(QKeyEvent *event){
     GameView &game = GameView::GetInstance();
-    if(event->key() == Qt::Key_Control)
-    {
-        inventory_->setVisible(true);
+    if(event->key() == Qt::Key_Control) {
+        if(inventory_->getDisplay())
+        {
+            inventory_->setVisible(true);
+            display_->setVisible(true);
+        }
+        else
+        {
+            inventory_->setVisible(false);
+            display_->setVisible(false);
+        }
         game.scene->update();
+        inventory_->setDisplay();
     }
 
     //handling player movement

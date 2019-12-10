@@ -8,6 +8,7 @@
 #include <QPointF>
 #include "item.h"
 #include "inventory.h"
+#include "statsdisplay.h"
 #include <QObject>
 
 struct Bounds {
@@ -40,6 +41,7 @@ public:
     void setBound(Bounds b) {bound_ = b; }
 
     Inventory * getInventory(){return inventory_;}
+    StatsDisplay * getStats(){return display_;}
     bool isDead();
     void CheckCollision();
 
@@ -50,27 +52,26 @@ public slots:
     void onKeyRelease(QKeyEvent * event);
     virtual void moveCharacter();
 
-
-
 protected:
     QSet<int> keysPressed;
     double xprev_;
     double yprev_;
     Bounds bound_;
     Inventory * inventory_;
+    StatsDisplay *display_;
 
-signals:
-    void HealthChanged(int amount);
-    void StatsUpdated(int max_health, int current_health, int gold, int damage);
-    void PlayerDied();
-
-private:
     int health_;
     int current_health_;
     int damage_;
     int def_;
     int gold_;
     int speed_ = 10;
+
+signals:
+    void HealthChanged(int amount);
+    void StatsUpdated(int max_health, int current_health, int gold, int damage);
+    void PlayerDied();
+
 
 };
 

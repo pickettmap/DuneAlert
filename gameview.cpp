@@ -80,7 +80,7 @@ void GameView::CreateSinglePlayerOverWorld()
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
 
     //Draw Score Display
-    StatsDisplay * d = new StatsDisplay(200, 200, "Player 1", player_->getMaxHealth(), player_->getHealth(), player_->getGold(), player_->getDamage(), Qt::GlobalColor::blue);
+    StatsDisplay * d = player_->getStats();
     scene->addItem(d);
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
@@ -131,9 +131,9 @@ void GameView::CreateTwoPlayerOverWorld() {
     connect(this, &GameView::onKeyRelease, player2_, &SecondPlayer::onKeyRelease);
 
     //Change to be second player stats ty
-    StatsDisplay * d = new StatsDisplay(200, 200, "Player 1", player_->getMaxHealth(), player_->getHealth(), player_->getGold(), player_->getDamage(), Qt::GlobalColor::blue);
+    StatsDisplay * d = player2_->getStats();
     scene->addItem(d);
-    connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
+    connect(player2_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 }
 
 void GameView::CreateAIOverworld()

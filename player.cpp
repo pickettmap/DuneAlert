@@ -18,6 +18,10 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     bound_ = b;
     inventory_ = new Inventory();
     inventory_->setVisible(false);
+
+    display_ = new StatsDisplay(200,200,"Player 1", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
+    display_->setVisible(false);
+
     gold_ = gold;
     QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(moveCharacter()));
@@ -40,10 +44,12 @@ void player::onKeyPressed(QKeyEvent *event){
         if(inventory_->getDisplay())
         {
             inventory_->setVisible(true);
+            display_->setVisible(true);
         }
         else
         {
             inventory_->setVisible(false);
+            display_->setVisible(false);
         }
         game.scene->update();
         inventory_->setDisplay();
