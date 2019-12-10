@@ -90,7 +90,6 @@ void GameView::CreateSinglePlayerOverWorld()
         scene->addItem(tmp);
     }
 
-
 }
 
 void GameView::CreateTwoPlayerOverWorld() {
@@ -122,6 +121,13 @@ void GameView::CreateTwoPlayerOverWorld() {
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 }
 
+void GameView::CreateAIOverworld()
+
+{
+    CreateSinglePlayerOverWorld();
+    player_->autoPlay();
+
+}
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     Underworld * u = new Underworld(scene);
     //Remove player and inventory from scene so memory doesn't break

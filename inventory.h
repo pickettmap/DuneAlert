@@ -33,7 +33,6 @@ public:
 public slots:
     void clearPopup(ContainingBox *box);
 
-
 private:
     int width_ = 150;
     int x_ = 20;

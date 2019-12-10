@@ -28,6 +28,7 @@ StartMenu::StartMenu(QWidget *parent)
 
     connect(two_play_btn, SIGNAL(clicked()), this, SLOT(play_two_player()));
     connect(play_btn,SIGNAL(clicked()),this,SLOT(play_single_player()));
+    connect(ai,SIGNAL(clicked()),this,SLOT(play_simulation()));
 
     setLayout(layout);
 
@@ -52,5 +53,9 @@ void StartMenu::play_two_player() {
 }
 
 void StartMenu::play_simulation() {
-
+    close();
+    GameView& game = GameView::GetInstance();
+    game.SetMode(Mode::TwoPlayer);
+    game.CreateAIOverworld();
+    game.show();
 }
