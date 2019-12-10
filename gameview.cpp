@@ -93,8 +93,8 @@ void GameView::CreateOverworld()
 //        SwitchToUnderWorld();
 //    });
 
-    connect(this, &GameView::onKeyPressed, boy2, &SecondPlayer::onKeyPressed);
-    connect(this, &GameView::onKeyPressed, player_, &player::onKeyPressed);
+    connect(this, &GameView::onPTwoKeyPressed, boy2, &SecondPlayer::onKeyPressed);
+    connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
     connect(this, &GameView::onKeyRelease, boy2, &SecondPlayer::onKeyRelease);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
 }
@@ -116,7 +116,18 @@ void GameView::SwitchToUnderWorld() {
 }
 
 void GameView::keyPressEvent(QKeyEvent * event) {
-    emit onKeyPressed(event);
+
+    std::vector<int> first_person_keys = { Qt::Key_W, Qt::Key_S, Qt::Key_D, Qt::Key_A };
+    std::vector<int> second_person_keys = { Qt::Key_Up, Qt::Key_Down, Qt::Key_Left, Qt::Key_Right};
+
+    if (std::find(first_person_keys.begin(), first_person_keys.end(), event->key()) != first_person_keys.end()) {
+        emit onPOneKeyPressed(event);
+    }
+
+    else if (std::find(second_person_keys.begin(), second_person_keys.end(), event->key()) != second_person_keys.end()) {
+        emit onPTwoKeyPressed(event);
+    }
+
 }
 
 void GameView::keyReleaseEvent(QKeyEvent * event) {

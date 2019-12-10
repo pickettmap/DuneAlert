@@ -32,6 +32,8 @@ public slots:
     void SwitchToUnderWorld();
 
 signals:
+    void onPOneKeyPressed(QKeyEvent * event);
+    void onPTwoKeyPressed(QKeyEvent * event);
     void onKeyPressed(QKeyEvent * event);
     void onKeyRelease(QKeyEvent * event);
 
