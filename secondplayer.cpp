@@ -95,8 +95,6 @@ void SecondPlayer::moveCharacter() {
             setPos(x()-STEP_SIZE,y()+STEP_SIZE);
         }
     }
-    CheckCollision();
 
-    xprev_=pos().x();
-    yprev_=pos().y();
+    CheckCollision();
 }

@@ -126,8 +126,6 @@ void player::moveCharacter() {
         }
     }
     CheckCollision();
-    xprev_=pos().x();
-    yprev_=pos().y();
 }
 
 void player::CheckCollision() {
@@ -155,6 +153,7 @@ void player::CheckCollision() {
                     tmp->Flush();
                 }
                 setPos(xprev_,yprev_);
+                return;
             }
             else if (item->getItemType()==itemtype::Consumable)
             {
@@ -170,6 +169,9 @@ void player::CheckCollision() {
             game.scene->update();
         }
     }
+
+    xprev_=pos().x();
+    yprev_=pos().y();
 }
 
 void player::changeHealth(int change) {
