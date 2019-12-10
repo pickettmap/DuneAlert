@@ -49,7 +49,6 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 
 
     player_->setPixmap(sprite);
-    player_->setPos(200, 300);
     player_->setBound(bound);
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
@@ -133,6 +132,7 @@ void Underworld::InitiateFightSequence() {
     fighting_ = true;
 
     //Add the player to the scene, do health calculations
+    player_->setPos(220, 250);
     scene_->addItem(player_);
     player_->setFocus();
 
@@ -169,7 +169,6 @@ void Underworld::SwitchToOverWorld() {
 }
 
 void Underworld::EndBattle(QString s) {
-    scene_->removeItem(player_);
     scene_->removeItem(player_->getInventory());
     scene_->clear();
     scene_->update();
@@ -248,6 +247,7 @@ void Underworld::OnPlayerDeath() {
     fight_over_ = true;
     int lose_amount = -20;
     if(player_->isDead()) {
+        scene_->removeItem(player_);
         player_->changeGold(lose_amount);
     }
     std::string message = "You lost to " + enemy_->getName() + " and lost " + std::to_string(lose_amount) + " gold!";
