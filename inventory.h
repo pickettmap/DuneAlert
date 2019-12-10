@@ -35,7 +35,6 @@ public slots:
 
 
 private:
-    QTimer *timer_ = new QTimer(this);
     int width_ = 150;
     int x_ = 20;
     int y_ = 20;
