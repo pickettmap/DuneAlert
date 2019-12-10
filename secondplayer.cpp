@@ -58,6 +58,8 @@ void SecondPlayer::moveCharacter() {
             setPos(x(),y()+STEP_SIZE);
             break;
         }
+        xprev_=pos().x();
+        yprev_=pos().y();
     }
 
 //    if two keys are being pressed, move diagonally
