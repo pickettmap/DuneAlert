@@ -126,10 +126,8 @@ void player::moveCharacter() {
         }
     }
     CheckCollision();
-
     xprev_=pos().x();
     yprev_=pos().y();
-
 }
 
 void player::CheckCollision() {
@@ -142,7 +140,6 @@ void player::CheckCollision() {
             if(item->getItemType()==itemtype::Scenery)
             {
                 Toilet *tmp = (Toilet*)(item);
-                //qDebug() << tmp->getFlush();
                 if(!tmp->getFlush())
                 {
                     if(rand()%100<30)
@@ -152,13 +149,12 @@ void player::CheckCollision() {
                     }
                     if(rand()%100<30)
                     {
-                        Burger *tmp = new Burger();
-                        inventory_->AddItem(tmp);
+                        Burger *tmp1 = new Burger();
+                        inventory_->AddItem(tmp1);
                     }
                     tmp->Flush();
                 }
                 setPos(xprev_,yprev_);
-
             }
             else if (item->getItemType()==itemtype::Consumable)
             {
