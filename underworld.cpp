@@ -158,7 +158,7 @@ void Underworld::InitiateFightSequence() {
 void Underworld::SwitchToOverWorld() {
     scene_->clear();
     GameView &game =  GameView::GetInstance();
-    game.CreateOverworld();
+//    game.CreateOverworld();
     //If you delete the underwold object some memory is gonna leak
     delete this;
 }

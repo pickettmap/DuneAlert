@@ -22,20 +22,18 @@ GameView::GameView()
     //add scene
     scene = new QGraphicsScene(this);
 
+
     //add background
+    scene->clear();
+    QImage *img = new QImage(":/images/grass.png");
+    *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
+    QBrush bg_brush(*img);
+    scene ->setBackgroundBrush(bg_brush);
+
     scene->setSceneRect(0, 0, width(), height());
     //initialize player
-    QPixmap sprite = QPixmap(":/images/player.png");
-    sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
 
-    Bounds bound = {0, 0, width(), height()};
-    //Bounds bound = {-20000, -20000, 20000, 20000};
-    player *boy = new player(sprite, 20, 1, bound, 0);
-    player_ = boy;
-    player_->setFlag(QGraphicsItem::ItemIsFocusable,true);
-
-
-    CreateOverworld();
+//    CreateOverworld();
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
 
@@ -44,13 +42,31 @@ GameView::GameView()
     setMinimumSize(1800, 1200);
 }
 
-void GameView::CreateOverworld()
+void GameView::CreateSinglePlayerOverWorld()
 {
-    scene->clear();
-    QImage *img = new QImage(":/images/grass.png");
-    *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
-    QBrush bg_brush(*img);
-    scene ->setBackgroundBrush(bg_brush);
+    QPixmap sprite = QPixmap(":/images/player.png");
+    sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
+    Bounds bound = {0, 0, width(), height()};
+
+    //Add one player
+    if (!player_) {
+        player *boy = new player(sprite, 20, 1, bound, 0);
+        player_ = boy;
+    }
+
+    player_->setBound(bound);
+    player_->setPixmap(sprite);
+    player_->getInventory()->setPos(-200, -200);
+    scene->addItem(player_);
+    scene->addItem(player_->getInventory());
+    connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
+    connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
+
+    //Draw Score Display
+    StatsDisplay * d = new StatsDisplay(200, 200, "Player 1", player_->getMaxHealth(), player_->getHealth(), player_->getGold(), player_->getDamage(), Qt::GlobalColor::blue);
+    scene->addItem(d);
+    connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
+
 
     //Items for testing to be removed
     Burger *b = new Burger();
@@ -61,16 +77,7 @@ void GameView::CreateOverworld()
     t->setPos(200, 200);
     scene->addItem(t);
 
-
-
-    //Bounds bound = {-20000, -20000, 20000, 20000};
-    Bounds bound = {0, 0, width(), height()};
-    QPixmap sprite = QPixmap(":/images/player.png");
-    sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    player_->setBound(bound);
-    player_->setPixmap(sprite);
-    player_->getInventory()->setPos(-200, -200);
-
+    //Randomly drawing the scene
     for(int i = 0; i < 50; i++)
     {
         Toilet *tmp = new Toilet();
@@ -79,49 +86,56 @@ void GameView::CreateOverworld()
     }
 
 
-    scene->addItem(player_);
-    scene->addItem(player_->getInventory());
-
-    player_->setFocus();
-
 //    QTimer::singleShot(5000, [=]() {
 //        SwitchToUnderWorld();
 //    });
-    connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
-    connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
-    //Testing for Stats display
+
+
+}
+
+void GameView::CreateTwoPlayerOverWorld() {
+    CreateSinglePlayerOverWorld();
+
+    Bounds bound2 = {-20000, -20000, 20000, 20000};
+    if (!player2_) {
+    QPixmap sprite2 = QPixmap(":/images/player.png");
+    sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
+    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
+    player2_ = boy2;
+    }
+
+    player2_->setPos(100, 100);
+
+    scene->addItem(player2_);
+    scene->addItem(player2_->getInventory());
+
+    connect(this, &GameView::onPTwoKeyPressed, player2_, &SecondPlayer::onKeyPressed);
+    connect(this, &GameView::onKeyRelease, player2_, &SecondPlayer::onKeyRelease);
+
+    //Change to be second player stats ty
     StatsDisplay * d = new StatsDisplay(200, 200, "Player 1", player_->getMaxHealth(), player_->getHealth(), player_->getGold(), player_->getDamage(), Qt::GlobalColor::blue);
     scene->addItem(d);
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
-    //TODO Let the user have a choice on 2p or 1p
-    //Testing for 2p
-    QPixmap sprite2 = QPixmap(":/images/player.png");
-    sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
-    Bounds bound2 = {-20000, -20000, 20000, 20000};
-    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
-    boy2->setPos(100, 100);
-    scene->addItem(boy2);
-    scene->addItem(boy2->getInventory());
-    connect(this, &GameView::onPTwoKeyPressed, boy2, &SecondPlayer::onKeyPressed);
-    connect(this, &GameView::onKeyRelease, boy2, &SecondPlayer::onKeyRelease);
 }
 
-void GameView::SwitchToUnderWorld() {
-    timer_->stop();
-
-    Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
+void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     Underworld * u = new Underworld(scene);
+    //Remove player and inventory from scene so memory doesn't break
+    if (player_) {
+        scene->removeItem(player_);
+        scene->removeItem(player_->getInventory());
+    }
+    if (player2_) {
+        scene->removeItem(player2_);
+        scene->removeItem(player2_->getInventory());
+    }
 
-    //PLAYER MUST BE REMOVED FROM SCENE BEFORE CLEARED OR IT WILL BE DELETED.
-    scene->removeItem(player_);
-    scene->removeItem(player_->getInventory());
-    //Second player needs to be removed here too
     scene->clear();
-    u->DrawUnderworld(e, player_);
+    u->DrawUnderworld(e, p);
 
     connect(this, &GameView::onKeyPressed, u, &Underworld::OnKeyPress);
-
 }
+
 
 void GameView::keyPressEvent(QKeyEvent * event) {
 

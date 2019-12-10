@@ -6,7 +6,10 @@
 #include <QTimer>
 #include "player.h"
 #include "item.h"
+#include "secondplayer.h"
+#include "enemy.h"
 
+enum Mode {SinglePlayer, TwoPlayer, Simulation};
 
 class GameView : public QGraphicsView
 {
@@ -21,16 +24,21 @@ public:
     void operator=(GameView const&) = delete;
 
     player* get_player(){return player_;}
-    void CreateOverworld();
+
+    void CreateSinglePlayerOverWorld();
+    void CreateTwoPlayerOverWorld();
+//    void CreateOverworld();
 
     QGraphicsScene * scene;
 
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);
 
+    void SetMode(Mode mode) { mode_ = mode; }
+
 
 public slots:
-    void SwitchToUnderWorld();
+    void SwitchToUnderWorld(player *p, Enemy *e);
 
 signals:
     void onPOneKeyPressed(QKeyEvent * event);
@@ -41,7 +49,9 @@ signals:
 private:
     GameView();
     QTimer *timer_ = new QTimer(this);
-    player *player_;
+    player * player_;
+    SecondPlayer * player2_;
+    Mode mode_;
 };
 
 #endif // GAMEVIEW_H

@@ -4,6 +4,7 @@
 #include <inventory.h>
 #include "burger.h"
 #include "toilet.h"
+#include "monsterfactory.h"
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -146,7 +147,8 @@ void player::CheckCollision() {
                 {
                     if(rand()%100<30)
                     {
-                        game.SwitchToUnderWorld();
+                        Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
+                        game.SwitchToUnderWorld(this, e);
                     }
                     if(rand()%100<30)
                     {
