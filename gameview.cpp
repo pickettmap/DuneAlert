@@ -15,6 +15,7 @@
 #include "monsterfactory.h"
 #include "tutu.h"
 #include "secondplayer.h"
+#include "statsdisplay.h"
 
 GameView::GameView()
 {
@@ -86,7 +87,10 @@ void GameView::CreateOverworld()
 //    });
     connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
-
+    //Testing for Stats display
+    StatsDisplay * d = new StatsDisplay(200, 200, "Player 1", player_->getMaxHealth(), player_->getHealth(), player_->getGold(), player_->getDamage(), Qt::GlobalColor::blue);
+    scene->addItem(d);
+    connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
     //TODO Let the user have a choice on 2p or 1p
     //Testing for 2p
     QPixmap sprite2 = QPixmap(":/images/player.png");

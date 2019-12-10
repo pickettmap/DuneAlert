@@ -69,7 +69,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         }
     }
-
+    painter->setPen(Qt::GlobalColor::blue);
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
     painter->setBrush(b);
 }
