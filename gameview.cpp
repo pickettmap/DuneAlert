@@ -83,18 +83,12 @@ void GameView::CreateSinglePlayerOverWorld()
     t->setPos(200, 200);
     scene->addItem(t);
 
-    //Randomly drawing the scene
     for(int i = 0; i < 50; i++)
     {
         Toilet *tmp = new Toilet();
-        tmp->setPos(rand()%-2000, rand()%2000);
+        tmp->setPos(600,rand()%2000);
         scene->addItem(tmp);
     }
-
-
-//    QTimer::singleShot(5000, [=]() {
-//        SwitchToUnderWorld();
-//    });
 
 
 }
