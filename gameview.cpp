@@ -44,6 +44,10 @@ GameView::GameView()
 
 void GameView::CreateSinglePlayerOverWorld()
 {
+    switching_to_overworld_ = true;
+    QTimer::singleShot(1000, [=](){
+        switching_to_overworld_ = false;
+    });
     scene->clear();
     QImage *img = new QImage(":/images/grass.png");
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
@@ -58,12 +62,19 @@ void GameView::CreateSinglePlayerOverWorld()
     if (!player_) {
         player *boy = new player(sprite, 20, 1, bound, 0);
         player_ = boy;
+        //Default position
+        player_->setPos(100, 100);
+        scene->addItem(player_);
+    }
+    else {
+        scene->addItem(player_);
+        player_->setPos(player_one_position_[0], player_one_position_[1]);
     }
 
     player_->setBound(bound);
     player_->setPixmap(sprite);
     player_->getInventory()->setPos(-200, -200);
-    scene->addItem(player_);
+//    scene->addItem(player_);
     scene->addItem(player_->getInventory());
     connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
@@ -102,11 +113,15 @@ void GameView::CreateTwoPlayerOverWorld() {
     if (!player2_) {
         SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
         player2_ = boy2;
+        player2_->setPos(400, 400);
+    }
+
+    else if (player2_) {
+        player2_->setPos(player_two_position_[0], player_two_position_[1]);
     }
 
     player2_->setPixmap(sprite2);
     player2_->setBound(bound2);
-    player2_->setPos(100, 100);
     player2_->getInventory()->setPos(500, 500);
 
     scene->addItem(player2_);
@@ -128,6 +143,17 @@ void GameView::CreateAIOverworld()
 
 }
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
+    if (player_) {
+        player_one_position_.push_back(player_->x());
+        player_one_position_.push_back(player_->y());
+    }
+
+    if (player2_) {
+        player_two_position_.push_back(player2_->x());
+        player_two_position_.push_back(player2_->y());
+    }
+
+
     switching_to_underworld_ = true;
     QTimer::singleShot(1000, [=](){
         switching_to_underworld_ = false;

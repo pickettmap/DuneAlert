@@ -51,10 +51,13 @@ signals:
 
 public:
     bool switching_to_underworld_;
+    bool switching_to_overworld_;
 private:
     GameView();
     player * player_;
     SecondPlayer * player2_;
+    std::vector<int> player_one_position_;
+    std::vector<int> player_two_position_;
     Mode mode_;
 };
 
