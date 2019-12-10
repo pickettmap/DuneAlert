@@ -98,5 +98,4 @@ void Inventory::AddItem(Item *item)
     } else {
         equipable_items_.push_back(item);
     }
-    scene()->update();
 }

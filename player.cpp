@@ -134,6 +134,7 @@ void player::onKeyPressed(QKeyEvent *event){
                 item->Use(this);
                 game.scene->removeItem(item);
             }
+            game.scene->update();
         }
     }
 

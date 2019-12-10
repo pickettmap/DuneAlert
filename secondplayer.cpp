@@ -97,29 +97,30 @@ void SecondPlayer::onKeyPressed(QKeyEvent *event){
     }
 
 //    handling interacting with items in overworld
-//    QList <QGraphicsItem *> colliding_items = collidingItems();
-//    for (int i = 0, n = colliding_items.size(); i < n; i++)
-//    {
-//        if (dynamic_cast<Item*>(colliding_items[i])){
-//            Item* item = dynamic_cast<Item *>(colliding_items[i]);
-//            if(item->getItemType()==itemtype::Scenery)
-//            {
-//                game.scene->removeItem(item);
-//            }
-//            else if (item->getItemType()==itemtype::Consumable)
-//            {
-//                inventory_->AddItem(item);
-//                qDebug() << "test";
-//                game.scene->removeItem(item);
-//            }
-//            else if (item->getItemType()==itemtype::Equipable) {
-//                inventory_->AddItem(item);
-//                //Equipable items are used immedietely
-//                item->Use(this);
-//                game.scene->removeItem(item);
-//            }
-//        }
-//    }
+    QList <QGraphicsItem *> colliding_items = collidingItems();
+    for (int i = 0, n = colliding_items.size(); i < n; i++)
+    {
+        if (dynamic_cast<Item*>(colliding_items[i])){
+            Item* item = dynamic_cast<Item *>(colliding_items[i]);
+            if(item->getItemType()==itemtype::Scenery)
+            {
+                game.scene->removeItem(item);
+            }
+            else if (item->getItemType()==itemtype::Consumable)
+            {
+                inventory_->AddItem(item);
+
+                game.scene->removeItem(item);
+
+            }
+            else if (item->getItemType()==itemtype::Equipable) {
+                inventory_->AddItem(item);
+                //Equipable items are used immedietely
+                item->Use(this);
+                game.scene->removeItem(item);
+            }
+        }
+    }
 
 
     xprev_ = pos().x();
