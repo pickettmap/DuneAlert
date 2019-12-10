@@ -38,7 +38,7 @@ public:
 
     Inventory * getInventory(){return inventory_;}
     bool isDead();
-
+    void CheckCollision();
     void changeGold(int change);
     int getGold() { return gold_; }
     void setBound(Bounds b) {bound_ = b; }
@@ -46,6 +46,7 @@ public:
 public slots:
     virtual void onKeyPressed(QKeyEvent *event);
     void onKeyRelease(QKeyEvent * event);
+    virtual void moveCharacter();
 
 
 

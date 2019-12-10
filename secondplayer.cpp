@@ -9,16 +9,14 @@ SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, in
 }
 
 void SecondPlayer::onKeyPressed(QKeyEvent *event){
-    GameView& game = GameView::GetInstance();
-    int STEP_SIZE = 10;
-    qDebug() << event->key();
-    if(event->key() == Qt::Key_Escape)
-    {
+    //Reimplement later
+//    if(event->key() == Qt::Key_Escape)
+//    {
 
-        inventory_->setPos(100,100);
-        inventory_->setVisible(true);
-        game.scene->update();
-    }
+//        inventory_->setPos(100,100);
+//        inventory_->setVisible(true);
+//        game.scene->update();
+//    }
 
     //handling player movement
     if(
@@ -30,11 +28,14 @@ void SecondPlayer::onKeyPressed(QKeyEvent *event){
     {
         keysPressed.insert(event->key());
     }
+}
 
+void SecondPlayer::moveCharacter() {
+    int STEP_SIZE = 15;
     qDebug() << keysPressed.size();
     //if only 1 key is being pressed, simply move in that direction
     if (keysPressed.size() == 1){
-        switch (event->key()){
+        switch (* keysPressed.begin()){
         case Qt::Key_Right:
             qDebug() << "test";
             if (x() + STEP_SIZE > bound_.x2) {
@@ -96,34 +97,6 @@ void SecondPlayer::onKeyPressed(QKeyEvent *event){
         }
     }
 
-//    handling interacting with items in overworld
-    QList <QGraphicsItem *> colliding_items = collidingItems();
-    for (int i = 0, n = colliding_items.size(); i < n; i++)
-    {
-        if (dynamic_cast<Item*>(colliding_items[i])){
-            Item* item = dynamic_cast<Item *>(colliding_items[i]);
-            if(item->getItemType()==itemtype::Scenery)
-            {
-                game.scene->removeItem(item);
-            }
-            else if (item->getItemType()==itemtype::Consumable)
-            {
-                inventory_->AddItem(item);
+    CheckCollision();
 
-                game.scene->removeItem(item);
-
-            }
-            else if (item->getItemType()==itemtype::Equipable) {
-                inventory_->AddItem(item);
-                //Equipable items are used immedietely
-                item->Use(this);
-                game.scene->removeItem(item);
-            }
-        }
-    }
-
-
-    xprev_ = pos().x();
-    yprev_ = pos().y();
-    game.scene->update();
 }

@@ -15,6 +15,9 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     inventory_ = new Inventory();
     inventory_->setVisible(false);
     gold_ = gold;
+    QTimer *timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(moveCharacter()));
+        timer->start(50); //time specified in ms
 }
 
 void player::useItem(int id) {
@@ -28,8 +31,6 @@ void player::useItem(int id) {
 
 void player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
-    int STEP_SIZE = 10;
-
     if(event->key() == Qt::Key_Escape)
     {
 
@@ -49,9 +50,13 @@ void player::onKeyPressed(QKeyEvent *event){
         keysPressed.insert(event->key());
     }
 
-    //if only 1 key is being pressed, simply move in that direction
+    game.scene->update();
+}
+
+void player::moveCharacter() {
+    int STEP_SIZE = 15;
     if (keysPressed.size() == 1){
-        switch (event->key()){
+        switch (*keysPressed.begin()){
         case Qt::Key_D:
             if (x() + STEP_SIZE > bound_.x2) {
                 return;
@@ -111,9 +116,12 @@ void player::onKeyPressed(QKeyEvent *event){
             setPos(x()-STEP_SIZE,y()+STEP_SIZE);
         }
     }
+    CheckCollision();
 
+}
 
-    //handling interacting with items in overworld
+void player::CheckCollision() {
+    GameView& game = GameView::GetInstance();
     QList <QGraphicsItem *> colliding_items = collidingItems();
     for (int i = 0, n = colliding_items.size(); i < n; i++)
     {
@@ -137,10 +145,6 @@ void player::onKeyPressed(QKeyEvent *event){
             game.scene->update();
         }
     }
-
-    xprev_ = pos().x();
-    yprev_ = pos().y();
-    game.scene->update();
 }
 
 void player::changeHealth(int change) {

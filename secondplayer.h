@@ -8,8 +8,10 @@ class SecondPlayer: public player
 {
 public:
     SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
+
 public slots:
-    virtual void onKeyPressed(QKeyEvent *event);
+    void onKeyPressed(QKeyEvent *event);
+    void moveCharacter();
 };
 
 #endif // SECONDPLAYER_H
