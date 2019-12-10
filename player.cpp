@@ -5,6 +5,7 @@
 #include "burger.h"
 #include "toilet.h"
 #include "monsterfactory.h"
+#include "tutu.h"
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -140,19 +141,22 @@ void player::CheckCollision() {
                 Toilet *tmp = (Toilet*)(item);
                 if(!tmp->getFlush())
                 {
-                    if(rand()%100<30)
+                    int random = rand()%100;
+                    if(random<30)
                     {
                         Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
                         game.SwitchToUnderWorld(this, e);
+                        return;
                     }
-                    if(rand()%100<30)
+                    else
                     {
                         Burger *tmp1 = new Burger();
                         inventory_->AddItem(tmp1);
                     }
                     tmp->Flush();
                 }
-                game.scene->removeItem(tmp);
+                setPos(xprev_,yprev_);
+                return;
             }
             else if (item->getItemType()==itemtype::Consumable)
             {
