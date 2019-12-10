@@ -13,6 +13,7 @@ Toilet::Toilet()
     description_ = "The throne. You feel like a king.";
     name_ = "Toilet";
     itemtype_ = itemtype::Scenery;
+    flushed_=false;
 }
 
 int Toilet::Use()

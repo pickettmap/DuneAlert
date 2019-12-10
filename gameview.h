@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include "player.h"
+#include "item.h"
 
 
 class GameView : public QGraphicsView

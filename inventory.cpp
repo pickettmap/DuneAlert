@@ -1,6 +1,7 @@
 #include "inventory.h"
 #include "player.h"
 #include "gameview.h"
+#include "containingbox.h"
 #include <QPainter>
 #include <item.h>
 #include <QDebug>
@@ -91,11 +92,22 @@ void Inventory::RemoveItem(int id) {
 
 void Inventory::AddItem(Item *item)
 {
+    PopupText(item);
     if (item->getItemType() == itemtype::Consumable) {
         consumable_items_.push_back(item);
         QString q = QString::fromStdString(item->getName());
-        qDebug() << q;
+        //qDebug() << q;
     } else {
         equipable_items_.push_back(item);
     }
+}
+
+void Inventory::PopupText(Item *item)
+{
+    GameView &game = GameView::GetInstance();
+    std::string text= "You got a(n)" + item->getName() + ". " + item->getDescription();
+    ContainingBox *box = new ContainingBox(0,game.scene->height(),game.scene->width(),300,Qt::GlobalColor::white, text);
+    game.scene->addItem(box);
+
+
 }

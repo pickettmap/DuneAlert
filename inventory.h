@@ -22,8 +22,18 @@ public:
     int GetConsumableItemsCount() { return int(consumable_items_.size());}
 
     void UseItem();
+    void PopupText(Item*);
 
     void setPos(int x, int y);
+    void setDisplay(){displayed_=!displayed_;}
+    bool getDisplay(){return displayed_;}
+
+public slots:
+    void clearPopup();
+
+signals:
+    void onKeyPressed(QKeyEvent *event);
+
 
 private:
     int width_ = 150;
@@ -31,6 +41,7 @@ private:
     int y_ = 20;
     std::vector<Item*> consumable_items_;
     std::vector<Item*> equipable_items_;
+    bool displayed_ = false;
 
 };
 

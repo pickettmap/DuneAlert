@@ -2,6 +2,8 @@
 #include "gameview.h"
 #include <QDebug>
 #include <inventory.h>
+#include "burger.h"
+#include "toilet.h"
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -33,8 +35,16 @@ void player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     if(event->key() == Qt::Key_Escape)
     {
-        inventory_->setVisible(true);
+        if(inventory_->getDisplay())
+        {
+            inventory_->setVisible(true);
+        }
+        else
+        {
+            inventory_->setVisible(false);
+        }
         game.scene->update();
+        inventory_->setDisplay();
     }
 
     //handling player movement
@@ -116,6 +126,9 @@ void player::moveCharacter() {
     }
     CheckCollision();
 
+    xprev_=pos().x();
+    yprev_=pos().y();
+
 }
 
 void player::CheckCollision() {
@@ -127,7 +140,23 @@ void player::CheckCollision() {
             Item* item = dynamic_cast<Item *>(colliding_items[i]);
             if(item->getItemType()==itemtype::Scenery)
             {
-                game.scene->removeItem(item);
+                Toilet *tmp = (Toilet*)(item);
+                //qDebug() << tmp->getFlush();
+                if(!tmp->getFlush())
+                {
+                    if(rand()%100<30)
+                    {
+                        game.SwitchToUnderWorld();
+                    }
+                    if(rand()%100<90)
+                    {
+                        Burger *tmp = new Burger();
+                        inventory_->AddItem(tmp);
+                    }
+                    tmp->Flush();
+                }
+                setPos(xprev_,yprev_);
+
             }
             else if (item->getItemType()==itemtype::Consumable)
             {

@@ -36,8 +36,6 @@ GameView::GameView()
     CreateOverworld();
 
     connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
-    //timer_->start(2000);
-
 
     setScene(scene);
     setSceneRect(scene->sceneRect());
@@ -51,7 +49,6 @@ void GameView::CreateOverworld()
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
-    //add player  
 
     //Items for testing to be removed
     Burger *b = new Burger();
