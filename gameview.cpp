@@ -163,10 +163,12 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (player_) {
         scene->removeItem(player_);
         scene->removeItem(player_->getInventory());
+        scene->removeItem(player_->getStats());
     }
     if (player2_) {
         scene->removeItem(player2_);
         scene->removeItem(player2_->getInventory());
+        scene->removeItem(player2_->getStats());
     }
 
     scene->clear();
