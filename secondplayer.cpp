@@ -5,7 +5,10 @@
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
     : player(pixmap, health, damage, b, gold)
 {
-
+    xprev_ = 2;
+    yprev_ = 2;
+    inventory_ = new Inventory();
+    inventory_->setVisible(false);
 }
 
 void SecondPlayer::onKeyPressed(QKeyEvent *event){
@@ -58,8 +61,6 @@ void SecondPlayer::moveCharacter() {
             setPos(x(),y()+STEP_SIZE);
             break;
         }
-        xprev_=pos().x();
-        yprev_=pos().y();
     }
 
 //    if two keys are being pressed, move diagonally
@@ -94,7 +95,8 @@ void SecondPlayer::moveCharacter() {
             setPos(x()-STEP_SIZE,y()+STEP_SIZE);
         }
     }
-
     CheckCollision();
 
+    xprev_=pos().x();
+    yprev_=pos().y();
 }
