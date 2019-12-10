@@ -31,6 +31,7 @@ SOURCES += \
     scenery.cpp \
     secondplayer.cpp \
     startmenu.cpp \
+    statsdisplay.cpp \
     toilet.cpp \
     tutu.cpp \
     underworld.cpp
@@ -50,6 +51,7 @@ HEADERS += \
     scenery.h \
     secondplayer.h \
     startmenu.h \
+    statsdisplay.h \
     toilet.h \
     tutu.h \
     underworld.h

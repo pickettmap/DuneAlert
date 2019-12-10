@@ -7,8 +7,8 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
-    this->health_ = health;
-    this->damage_ = damage;
+    health_ = health;
+    damage_ = damage;
     current_health_ = health;
     health_ = health;
     bound_ = b;
@@ -152,6 +152,7 @@ void player::changeHealth(int change) {
     } else {
         current_health_ += change;
     }
+    emit StatsUpdated(health_, current_health_, gold_, damage_);
     emit HealthChanged(change);
     if (isDead()) {
         emit PlayerDied();
@@ -166,11 +167,22 @@ bool player::isDead() {
 }
 
 void player::changeGold(int amount) {
-    gold_ -= amount;
+    gold_ += amount;
+    emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
 
 void player::onKeyRelease(QKeyEvent *event)
 {
     keysPressed.remove(event->key());
+}
+
+void player::setMaxHealth(int change) {
+    health_ += change;
+    emit StatsUpdated(health_, current_health_, gold_, damage_);
+}
+
+void player::setDamage(int change) {
+    damage_ += change;
+    emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
 

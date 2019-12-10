@@ -34,7 +34,6 @@ void SecondPlayer::moveCharacter() {
     if (keysPressed.size() == 1){
         switch (* keysPressed.begin()){
         case Qt::Key_Right:
-            qDebug() << "test";
             if (x() + STEP_SIZE > bound_.x2) {
                 return;
             }

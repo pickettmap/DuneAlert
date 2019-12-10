@@ -24,24 +24,26 @@ class player : public QObject, public QGraphicsPixmapItem
 public:
     player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
     bool checkBounds(int, int);
-    void changeHealth(int);
     void addItem(Item);
     void TakeDamage(int damage);
+    void useItem(int index);
     //Getters
     int getHealth() { return current_health_; }
     int getMaxHealth() { return health_; }
-    void useItem(int index);
     int getDamage() {return damage_;}
-    void setDamage(int change) {damage_ += change; }
-    //should this also increase current health?
-    void setMaxHealth(int change) { health_ += change;}
+    int getGold() { return gold_; }
+    //Setters
+    void setDamage(int change);
+    void setMaxHealth(int change);
+    void changeGold(int change);
+    void changeHealth(int change);
+    void setBound(Bounds b) {bound_ = b; }
 
     Inventory * getInventory(){return inventory_;}
     bool isDead();
     void CheckCollision();
-    void changeGold(int change);
-    int getGold() { return gold_; }
-    void setBound(Bounds b) {bound_ = b; }
+
+
 
 public slots:
     virtual void onKeyPressed(QKeyEvent *event);
@@ -59,6 +61,7 @@ protected:
 
 signals:
     void HealthChanged(int amount);
+    void StatsUpdated(int max_health, int current_health, int gold, int damage);
     void PlayerDied();
 
 private:

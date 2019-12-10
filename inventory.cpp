@@ -68,7 +68,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         }
     }
-
+    painter->setPen(Qt::GlobalColor::blue);
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
     painter->setBrush(b);
 }
@@ -94,7 +94,6 @@ void Inventory::AddItem(Item *item)
     if (item->getItemType() == itemtype::Consumable) {
         consumable_items_.push_back(item);
         QString q = QString::fromStdString(item->getName());
-        qDebug() << q;
     } else {
         equipable_items_.push_back(item);
     }
