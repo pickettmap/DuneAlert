@@ -19,7 +19,6 @@ public:
         : player(pixmap, h, d, b, gold) {
         a_ = a;
         name_ = name;
-        gold_ = gold;
         item_  = item;
     }
     int getFightDuration();

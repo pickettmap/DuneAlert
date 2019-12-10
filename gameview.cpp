@@ -14,6 +14,7 @@
 #include "burger.h"
 #include "monsterfactory.h"
 #include "tutu.h"
+#include "secondplayer.h"
 
 GameView::GameView()
 {
@@ -61,6 +62,13 @@ void GameView::CreateOverworld()
     t->setPos(200, 200);
     scene->addItem(t);
 
+    //Testing for 2p
+    QPixmap sprite2 = QPixmap(":/images/player.png");
+    sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
+    Bounds bound2 = {-20000, -20000, 20000, 20000};
+    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
+    boy2->setPos(100, 100);
+    scene->addItem(boy2);
 
     Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
@@ -77,13 +85,18 @@ void GameView::CreateOverworld()
 
 
     scene->addItem(player_);
-    scene->addItem(player_->inventory_);
+    scene->addItem(player_->getInventory());
 
     player_->setFocus();
 
-    QTimer::singleShot(5000, [=]() {
-        SwitchToUnderWorld();
-    });
+//    QTimer::singleShot(5000, [=]() {
+//        SwitchToUnderWorld();
+//    });
+
+    connect(this, &GameView::onKeyPressed, boy2, &SecondPlayer::onKeyPressed);
+    connect(this, &GameView::onKeyPressed, player_, &player::onKeyPressed);
+    connect(this, &GameView::onKeyRelease, boy2, &SecondPlayer::onKeyRelease);
+    connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
 }
 
 void GameView::SwitchToUnderWorld() {
@@ -94,14 +107,18 @@ void GameView::SwitchToUnderWorld() {
 
     //PLAYER MUST BE REMOVED FROM SCENE BEFORE CLEARED OR IT WILL BE DELETED.
     scene->removeItem(player_);
-    scene->removeItem(player_->inventory_);
+    scene->removeItem(player_->getInventory());
     scene->clear();
     u->DrawUnderworld(e, player_);
 
     connect(this, &GameView::onKeyPressed, u, &Underworld::OnKeyPress);
+
 }
 
 void GameView::keyPressEvent(QKeyEvent * event) {
     emit onKeyPressed(event);
-    QGraphicsView::keyPressEvent(event);
+}
+
+void GameView::keyReleaseEvent(QKeyEvent * event) {
+    emit onKeyRelease(event);
 }

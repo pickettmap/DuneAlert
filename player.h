@@ -23,12 +23,13 @@ class player : public QObject, public QGraphicsPixmapItem
 
 public:
     player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
     bool checkBounds(int, int);
     void changeHealth(int);
     void addItem(Item);
     void TakeDamage(int damage);
+    //Getters
+    int getHealth() { return current_health_; }
+    int getMaxHealth() { return health_; }
     void useItem(int index);
     int getDamage() {return damage_;}
     void setDamage(int change) {damage_ += change; }
@@ -42,24 +43,32 @@ public:
     int getGold() { return gold_; }
     void setBound(Bounds b) {bound_ = b; }
 
-int health_;
-int current_health_;
-int damage_;
-int def_;
-Bounds bound_;
-Inventory * inventory_;
-int gold_;
-int speed_ = 10;
+public slots:
+    virtual void onKeyPressed(QKeyEvent *event);
+    void onKeyRelease(QKeyEvent * event);
+
+
+
+protected:
+    QSet<int> keysPressed;
+    double xprev_;
+    double yprev_;
+    Bounds bound_;
+    Inventory * inventory_;
 
 signals:
     void HealthChanged(int amount);
     void PlayerDied();
 
 private:
-    double xprev_;
-    double yprev_;
+    int health_;
+    int current_health_;
+    int damage_;
+    int def_;
+    int gold_;
+    int speed_ = 10;
 
-    QSet<int> keysPressed;
+
 };
 
 #endif // PLAYER_H

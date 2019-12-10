@@ -25,12 +25,15 @@ public:
     QGraphicsScene * scene;
 
     void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent *event);
+
 
 public slots:
     void SwitchToUnderWorld();
 
 signals:
     void onKeyPressed(QKeyEvent * event);
+    void onKeyRelease(QKeyEvent * event);
 
 private:
     GameView();

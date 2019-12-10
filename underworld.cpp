@@ -62,14 +62,14 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     scene_->addItem(enemy_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, player_->health_, player_->current_health_);
+    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, player_->getMaxHealth(), player_->getHealth());
     scene_->addItem(ph);
     connect(player_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
     connect(player_, &player::PlayerDied, this, &Underworld::OnPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(100, -300, 400, 50, enemy_->health_, enemy_->health_);
+    HealthBar *eh = new HealthBar(100, -300, 400, 50, enemy_->getMaxHealth(), enemy_->getHealth());
     scene_->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
@@ -82,7 +82,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     bribe_box_ = new ContainingBox(cx1 + 150, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    player_->inventory_->setPos(-20, 150);
+    player_->getInventory()->setPos(-20, 150);
     scene_->addItem(player_->getInventory());
 }
 
@@ -165,7 +165,7 @@ void Underworld::SwitchToOverWorld() {
 
 void Underworld::EndBattle(QString s) {
     scene_->removeItem(player_);
-    scene_->removeItem(player_->inventory_);
+    scene_->removeItem(player_->getInventory());
     scene_->clear();
     scene_->update();
 
@@ -215,14 +215,14 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
     }
     else if (event->key() == Qt::Key::Key_1) {
         //I'm not sure if this can be simplified to reduce repeated code
-        if (player_->inventory_->GetConsumableItemsCount() < 1) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 1) {
             return;
         }
         player_->useItem(0);
         InitiateFightSequence();
     }
     else if (event->key() == Qt::Key::Key_2) {
-        if (player_->inventory_->GetConsumableItemsCount() < 2) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 2) {
             return;
         }
         player_->useItem(1);
@@ -230,7 +230,7 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
 
     }
     else if (event->key() == Qt::Key::Key_3) {
-        if (player_->inventory_->GetConsumableItemsCount() < 3) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 3) {
             return;
         }
         player_->useItem(2);

@@ -29,6 +29,7 @@ SOURCES += \
     monsterfactory.cpp \
     player.cpp \
     scenery.cpp \
+    secondplayer.cpp \
     startmenu.cpp \
     toilet.cpp \
     tutu.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     monsterfactory.h \
     player.h \
     scenery.h \
+    secondplayer.h \
     startmenu.h \
     toilet.h \
     tutu.h \

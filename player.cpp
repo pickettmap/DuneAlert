@@ -26,7 +26,7 @@ void player::useItem(int id) {
 
 }
 
-void player::keyPressEvent(QKeyEvent *event){
+void player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     int STEP_SIZE = 10;
 
@@ -166,7 +166,8 @@ void player::changeGold(int amount) {
     gold_ -= amount;
 }
 
-void player::keyReleaseEvent(QKeyEvent *event)
+void player::onKeyRelease(QKeyEvent *event)
 {
     keysPressed.remove(event->key());
 }
+
