@@ -9,14 +9,12 @@ SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, in
 }
 
 void SecondPlayer::onKeyPressed(QKeyEvent *event){
-    //Reimplement later
-//    if(event->key() == Qt::Key_Escape)
-//    {
-
-//        inventory_->setPos(100,100);
-//        inventory_->setVisible(true);
-//        game.scene->update();
-//    }
+    GameView &game = GameView::GetInstance();
+    if(event->key() == Qt::Key_Control)
+    {
+        inventory_->setVisible(true);
+        game.scene->update();
+    }
 
     //handling player movement
     if(
@@ -32,7 +30,6 @@ void SecondPlayer::onKeyPressed(QKeyEvent *event){
 
 void SecondPlayer::moveCharacter() {
     int STEP_SIZE = 15;
-    qDebug() << keysPressed.size();
     //if only 1 key is being pressed, simply move in that direction
     if (keysPressed.size() == 1){
         switch (* keysPressed.begin()){

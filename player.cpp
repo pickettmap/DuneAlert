@@ -33,8 +33,6 @@ void player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     if(event->key() == Qt::Key_Escape)
     {
-
-        inventory_->setPos(100,100);
         inventory_->setVisible(true);
         game.scene->update();
     }

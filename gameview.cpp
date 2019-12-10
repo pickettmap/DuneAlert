@@ -62,19 +62,14 @@ void GameView::CreateOverworld()
     t->setPos(200, 200);
     scene->addItem(t);
 
-    //Testing for 2p
-    QPixmap sprite2 = QPixmap(":/images/player.png");
-    sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
-    Bounds bound2 = {-20000, -20000, 20000, 20000};
-    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
-    boy2->setPos(100, 100);
-    scene->addItem(boy2);
+
 
     Bounds bound = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     player_->setBound(bound);
     player_->setPixmap(sprite);
+    player_->getInventory()->setPos(-200, -200);
 
     for(int i = 0; i < 50; i++)
     {
@@ -92,11 +87,20 @@ void GameView::CreateOverworld()
 //    QTimer::singleShot(5000, [=]() {
 //        SwitchToUnderWorld();
 //    });
-
-    connect(this, &GameView::onPTwoKeyPressed, boy2, &SecondPlayer::onKeyPressed);
     connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
-    connect(this, &GameView::onKeyRelease, boy2, &SecondPlayer::onKeyRelease);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
+
+    //TODO Let the user have a choice on 2p or 1p
+    //Testing for 2p
+    QPixmap sprite2 = QPixmap(":/images/player.png");
+    sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
+    Bounds bound2 = {-20000, -20000, 20000, 20000};
+    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
+    boy2->setPos(100, 100);
+    scene->addItem(boy2);
+    scene->addItem(boy2->getInventory());
+    connect(this, &GameView::onPTwoKeyPressed, boy2, &SecondPlayer::onKeyPressed);
+    connect(this, &GameView::onKeyRelease, boy2, &SecondPlayer::onKeyRelease);
 }
 
 void GameView::SwitchToUnderWorld() {
@@ -108,6 +112,7 @@ void GameView::SwitchToUnderWorld() {
     //PLAYER MUST BE REMOVED FROM SCENE BEFORE CLEARED OR IT WILL BE DELETED.
     scene->removeItem(player_);
     scene->removeItem(player_->getInventory());
+    //Second player needs to be removed here too
     scene->clear();
     u->DrawUnderworld(e, player_);
 
@@ -117,16 +122,19 @@ void GameView::SwitchToUnderWorld() {
 
 void GameView::keyPressEvent(QKeyEvent * event) {
 
-    std::vector<int> first_person_keys = { Qt::Key_W, Qt::Key_S, Qt::Key_D, Qt::Key_A };
-    std::vector<int> second_person_keys = { Qt::Key_Up, Qt::Key_Down, Qt::Key_Left, Qt::Key_Right};
+    std::vector<int> first_person_keys = { Qt::Key_W, Qt::Key_S, Qt::Key_D, Qt::Key_A, Qt::Key_Escape };
+    std::vector<int> second_person_keys = { Qt::Key_Up, Qt::Key_Down, Qt::Key_Left, Qt::Key_Right, Qt::Key_Control};
 
+    //Emit event if it is wasd
     if (std::find(first_person_keys.begin(), first_person_keys.end(), event->key()) != first_person_keys.end()) {
         emit onPOneKeyPressed(event);
     }
-
+    //Emit event if arrow keys
     else if (std::find(second_person_keys.begin(), second_person_keys.end(), event->key()) != second_person_keys.end()) {
         emit onPTwoKeyPressed(event);
     }
+    //Emit other events to underworld.
+    emit onKeyPressed(event);
 
 }
 
