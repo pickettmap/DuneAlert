@@ -5,8 +5,8 @@
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
     : player(pixmap, health, damage, b, gold)
 {
-    xprev_ = 2;
-    yprev_ = 2;
+    xprev_ = pos().x();
+    yprev_ = pos().y();
     inventory_ = new Inventory();
     inventory_->setVisible(false);
 }

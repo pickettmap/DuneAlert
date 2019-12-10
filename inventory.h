@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsRectItem>
+#include <QTimer>
 #include "item.h"
 #include "containingbox.h"
 #include <QGraphicsTextItem>
@@ -32,11 +33,9 @@ public:
 public slots:
     void clearPopup(ContainingBox *box);
 
-signals:
-    void onKeyPressed(QKeyEvent *event);
-
 
 private:
+    QTimer *timer_ = new QTimer(this);
     int width_ = 150;
     int x_ = 20;
     int y_ = 20;

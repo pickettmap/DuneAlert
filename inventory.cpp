@@ -109,12 +109,15 @@ void Inventory::PopupText(Item *item)
     ContainingBox *box = new ContainingBox(0,game.scene->height(),game.scene->width(),300,Qt::GlobalColor::white, text);
     game.scene->addItem(box);
 
+    QTimer::singleShot(1000,[=](){clearPopup(box);});
+    //connect(timer_, SIGNAL(timeout()), this, SLOT(clearPopup(box)));
 
-    clearPopup(box);
+    //timer_->start(100);
 }
 
 void Inventory::clearPopup(ContainingBox *box)
 {
+    //timer_->stop();
     GameView &game = GameView::GetInstance();
     game.scene->removeItem(box);
 }

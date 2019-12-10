@@ -49,7 +49,6 @@ signals:
 
 private:
     GameView();
-    QTimer *timer_ = new QTimer(this);
     player * player_;
     SecondPlayer * player2_;
     Mode mode_;

@@ -35,7 +35,7 @@ GameView::GameView()
 
 //    CreateOverworld();
 
-    connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
+    //connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
 
     setScene(scene);
     setSceneRect(scene->sceneRect());

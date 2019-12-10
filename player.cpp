@@ -152,8 +152,7 @@ void player::CheckCollision() {
                     }
                     tmp->Flush();
                 }
-                setPos(xprev_,yprev_);
-                return;
+                game.scene->removeItem(tmp);
             }
             else if (item->getItemType()==itemtype::Consumable)
             {
