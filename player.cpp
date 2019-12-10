@@ -169,7 +169,6 @@ void player::CheckCollision() {
                 item->Use(this);
                 game.scene->removeItem(item);
             }
-            game.scene->update();
         }
     }
 
@@ -218,3 +217,17 @@ void player::setDamage(int change) {
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
 
+void player::autoPlay()
+{
+    GameView &game = GameView::GetInstance();
+    int STEP_SIZE = 15;
+    for(int i =0; i < game.scene->width(); i++)
+    {
+        setPos(x()+STEP_SIZE,y());
+//        for(int j = 0; j<game.scene->height(); j++)
+//        {
+//            setPos(x(),y()-STEP_SIZE);
+//        }
+    }
+    CheckCollision();
+}

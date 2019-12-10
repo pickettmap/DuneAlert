@@ -43,6 +43,8 @@ public:
     bool isDead();
     void CheckCollision();
 
+    void autoPlay();
+
 
 
 public slots:
@@ -71,7 +73,6 @@ private:
     int def_;
     int gold_;
     int speed_ = 10;
-
 
 };
 

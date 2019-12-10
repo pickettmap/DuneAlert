@@ -28,6 +28,7 @@ public:
 
     void CreateSinglePlayerOverWorld();
     void CreateTwoPlayerOverWorld();
+    void CreateAIOverworld();
 //    void CreateOverworld();
 
     QGraphicsScene * scene;
