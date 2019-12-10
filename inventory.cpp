@@ -110,4 +110,11 @@ void Inventory::PopupText(Item *item)
     game.scene->addItem(box);
 
 
+    clearPopup(box);
+}
+
+void Inventory::clearPopup(ContainingBox *box)
+{
+    GameView &game = GameView::GetInstance();
+    game.scene->removeItem(box);
 }

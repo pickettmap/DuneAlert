@@ -148,7 +148,7 @@ void player::CheckCollision() {
                     {
                         game.SwitchToUnderWorld();
                     }
-                    if(rand()%100<90)
+                    if(rand()%100<30)
                     {
                         Burger *tmp = new Burger();
                         inventory_->AddItem(tmp);

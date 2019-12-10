@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGraphicsRectItem>
 #include "item.h"
+#include "containingbox.h"
 #include <QGraphicsTextItem>
 
 class Inventory : public QObject, public QGraphicsItem
@@ -29,7 +30,7 @@ public:
     bool getDisplay(){return displayed_;}
 
 public slots:
-    void clearPopup();
+    void clearPopup(ContainingBox *box);
 
 signals:
     void onKeyPressed(QKeyEvent *event);

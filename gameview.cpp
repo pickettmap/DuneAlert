@@ -24,11 +24,12 @@ GameView::GameView()
 
     //add background
     scene->setSceneRect(0, 0, width(), height());
-
     //initialize player
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    Bounds bound = {-20000, -20000, 20000, 20000};
+
+    Bounds bound = {0, 0, width(), height()};
+    //Bounds bound = {-20000, -20000, 20000, 20000};
     player *boy = new player(sprite, 20, 1, bound, 0);
     player_ = boy;
     player_->setFlag(QGraphicsItem::ItemIsFocusable,true);
@@ -53,7 +54,7 @@ void GameView::CreateOverworld()
 
     //Items for testing to be removed
     Burger *b = new Burger();
-    b->setPos(100, 100);
+    b->setPos(500, 500);
     scene->addItem(b);
 
     Tutu *t = new Tutu();
@@ -62,7 +63,8 @@ void GameView::CreateOverworld()
 
 
 
-    Bounds bound = {-20000, -20000, 20000, 20000};
+    //Bounds bound = {-20000, -20000, 20000, 20000};
+    Bounds bound = {0, 0, width(), height()};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     player_->setBound(bound);
