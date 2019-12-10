@@ -64,6 +64,10 @@ void player::onKeyPressed(QKeyEvent *event){
 }
 
 void player::moveCharacter() {
+    GameView &game = GameView::GetInstance();
+    if (game.switching_to_underworld_) {
+        return;
+    }
     int STEP_SIZE = 15;
     if (keysPressed.size() == 1){
         switch (*keysPressed.begin()){

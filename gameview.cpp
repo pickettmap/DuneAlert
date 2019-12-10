@@ -129,6 +129,10 @@ void GameView::CreateAIOverworld()
 
 }
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
+    switching_to_underworld_ = true;
+    QTimer::singleShot(1000, [=](){
+        switching_to_underworld_ = false;
+    });
     Underworld * u = new Underworld(scene);
     //Remove player and inventory from scene so memory doesn't break
     if (player_) {
@@ -148,7 +152,9 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
 
 
 void GameView::keyPressEvent(QKeyEvent * event) {
-
+    if (switching_to_underworld_) {
+        return;
+    }
     std::vector<int> first_person_keys = { Qt::Key_W, Qt::Key_S, Qt::Key_D, Qt::Key_A, Qt::Key_Escape };
     std::vector<int> second_person_keys = { Qt::Key_Up, Qt::Key_Down, Qt::Key_Left, Qt::Key_Right, Qt::Key_Control};
 

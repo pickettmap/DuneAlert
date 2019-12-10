@@ -48,6 +48,9 @@ signals:
     void onKeyPressed(QKeyEvent * event);
     void onKeyRelease(QKeyEvent * event);
 
+
+public:
+    bool switching_to_underworld_;
 private:
     GameView();
     player * player_;
