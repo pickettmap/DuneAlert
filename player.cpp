@@ -169,7 +169,6 @@ void player::CheckCollision() {
                 item->Use(this);
                 game.scene->removeItem(item);
             }
-            game.scene->update();
         }
     }
 
