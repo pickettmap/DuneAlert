@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     bullet.cpp \
     burger.cpp \
+    computerplayer.cpp\
     containingbox.cpp \
     enemy.cpp \
     gameview.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 HEADERS += \
     bullet.h \
     burger.h \
+    computerplayer.h\
     containingbox.h \
     enemy.h \
     gameview.h \

@@ -112,7 +112,6 @@ void Inventory::PopupText(Item *item)
     QTimer::singleShot(1000,[=](){
         clearPopup(box);
     });
-
 }
 
 void Inventory::clearPopup(ContainingBox *box)

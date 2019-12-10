@@ -125,7 +125,6 @@ void GameView::CreateAIOverworld()
 
 {
     CreateSinglePlayerOverWorld();
-    player_->autoPlay();
 
 }
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {

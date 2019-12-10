@@ -43,8 +43,6 @@ public:
     bool isDead();
     void CheckCollision();
 
-    void autoPlay();
-
 
 
 public slots:
