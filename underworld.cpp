@@ -158,7 +158,12 @@ void Underworld::InitiateFightSequence() {
 void Underworld::SwitchToOverWorld() {
     scene_->clear();
     GameView &game =  GameView::GetInstance();
-//    game.CreateOverworld();
+    Mode mode = game.get_game_mode();
+    if (mode == SinglePlayer) {
+        game.CreateSinglePlayerOverWorld();
+    } else if (mode == TwoPlayer) {
+        game.CreateTwoPlayerOverWorld();
+    }
     //If you delete the underwold object some memory is gonna leak
     delete this;
 }

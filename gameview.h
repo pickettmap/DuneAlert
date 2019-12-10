@@ -24,6 +24,7 @@ public:
     void operator=(GameView const&) = delete;
 
     player* get_player(){return player_;}
+    Mode get_game_mode(){ return mode_; }
 
     void CreateSinglePlayerOverWorld();
     void CreateTwoPlayerOverWorld();

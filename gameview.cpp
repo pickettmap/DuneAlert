@@ -44,6 +44,12 @@ GameView::GameView()
 
 void GameView::CreateSinglePlayerOverWorld()
 {
+    scene->clear();
+    QImage *img = new QImage(":/images/grass.png");
+    *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
+    QBrush bg_brush(*img);
+    scene ->setBackgroundBrush(bg_brush);
+
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     Bounds bound = {0, 0, width(), height()};
@@ -97,14 +103,18 @@ void GameView::CreateTwoPlayerOverWorld() {
     CreateSinglePlayerOverWorld();
 
     Bounds bound2 = {-20000, -20000, 20000, 20000};
-    if (!player2_) {
     QPixmap sprite2 = QPixmap(":/images/player.png");
     sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
-    SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
-    player2_ = boy2;
+
+    if (!player2_) {
+        SecondPlayer *boy2 = new SecondPlayer(sprite2, 20, 1, bound2, 0);
+        player2_ = boy2;
     }
 
+    player2_->setPixmap(sprite2);
+    player2_->setBound(bound2);
     player2_->setPos(100, 100);
+    player2_->getInventory()->setPos(500, 500);
 
     scene->addItem(player2_);
     scene->addItem(player2_->getInventory());
