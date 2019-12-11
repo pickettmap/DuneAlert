@@ -40,7 +40,6 @@ private:
     QGraphicsScene * scene_;
     Enemy * enemy_;
     player * player_;
-    ContainingBox *continue_;
     bool fighting_ = false;
     bool fight_over_ = false;
     QTimer * ai_timer;
