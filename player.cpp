@@ -6,6 +6,7 @@
 #include "toilet.h"
 #include "monsterfactory.h"
 #include "tutu.h"
+#include "gun.h"
 
 player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
@@ -154,14 +155,33 @@ void player::CheckCollision() {
                     int random = rand()%100;
                     if(random<30)
                     {
-                        Enemy * e = MonsterFactory::GetEnemy(EnemyType::DweebFish);
+                        EnemyType arr[3] = {EnemyType::DweebFish, EnemyType::LesserDog, EnemyType::Canary};
+                        Enemy * e = MonsterFactory::GetEnemy(arr[rand()%3]);
                         game.SwitchToUnderWorld(this, e);
                         return;
                     }
-                    else
+                    else if(random>=30 && random < 50)
                     {
                         Burger *tmp1 = new Burger();
                         inventory_->AddItem(tmp1, false);
+                    }
+                    else if(random >=50 && random < 60)
+                    {
+                        Gun *gun = new Gun();
+                        Tutu *tutu = new Tutu();
+                        Item* arr[2] = {gun, tutu};
+                        int random2 = rand()%2;
+                        inventory_->AddItem(arr[random2],false);
+                        arr[random2]->Use(this);
+                    }
+                    else if(random >= 60 && random < 90)
+                    {
+                        changeGold(5);
+                    }
+                    else
+                    {
+                        int arr[2] = {-1,5};
+                        changeHealth(arr[rand()%2]);
                     }
                     tmp->Flush();
                 }
