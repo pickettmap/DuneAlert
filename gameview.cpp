@@ -37,6 +37,8 @@ GameView::GameView()
     setSceneRect(scene->sceneRect());
     setMinimumSize(width(), height());
 
+    QAbstractScrollArea::setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    QAbstractScrollArea::setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
     timer1->setInterval(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(CheckGame()));
@@ -84,7 +86,7 @@ void GameView::CreateSinglePlayerOverWorld()
 
     player_->setBound(bound);
     player_->setPixmap(sprite);
-    player_->getInventory()->setPos(-200, -200);
+    player_->getInventory()->setPos(200, 400);
     scene->addItem(player_->getInventory());
     connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
@@ -92,6 +94,7 @@ void GameView::CreateSinglePlayerOverWorld()
     //Draw Score Display
     StatsDisplay * d = player_->getStats();
     scene->addItem(d);
+    d->setPos(200,200);
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
 }
@@ -134,7 +137,7 @@ void GameView::CreateTwoPlayerOverWorld() {
 
     player2_->setPixmap(sprite2);
     player2_->setBound(bound2);
-    player2_->getInventory()->setPos(500, 500);
+    player2_->getInventory()->setPos(width()-500, 200);
 
     scene->addItem(player2_);
     scene->addItem(player2_->getInventory());

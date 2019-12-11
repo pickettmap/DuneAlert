@@ -87,7 +87,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     bribe_box_ = new ContainingBox(cx1_ + 150, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    player_->getInventory()->setPos(-20, 150);
+    player_->getInventory()->setPos(200, 200);
     scene_->addItem(player_->getInventory());
 
 }
