@@ -55,7 +55,7 @@ void StartMenu::play_two_player() {
 void StartMenu::play_simulation() {
     close();
     GameView& game = GameView::GetInstance();
-    game.SetMode(Mode::TwoPlayer);
+    game.SetMode(Mode::Simulation);
     game.CreateAIOverworld();
     game.show();
 }

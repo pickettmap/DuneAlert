@@ -8,6 +8,7 @@
 #include "item.h"
 #include "secondplayer.h"
 #include "enemy.h"
+#include "computerplayer.h"
 
 enum Mode {SinglePlayer, TwoPlayer, Simulation};
 
@@ -59,6 +60,7 @@ private:
     SecondPlayer * player2_;
     int player_one_position_ [2];
     int player_two_position_ [2];
+    ComputerPlayer * ai;
     Mode mode_;
 };
 
