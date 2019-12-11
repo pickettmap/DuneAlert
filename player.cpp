@@ -7,7 +7,12 @@
 #include "monsterfactory.h"
 #include "tutu.h"
 #include "gun.h"
-
+/*
+Function: Player Constructor
+Params: pixmap, health damage, bounds, gold
+Desc: Instantiates a player class, starts the timer for player movement
+Returns: none
+*/
 player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
     xprev_ = pos().x();
@@ -24,11 +29,18 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     display_->setVisible(false);
 
     gold_ = gold;
+    //Every 50 ms move in the direction of the currenly pressed keys.
     QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(moveCharacter()));
         timer->start(50); //time specified in ms
 }
 
+/*
+Function: useItem
+Params: int id, item to consume
+Desc: Given an item id, uses an item and removes it from player inventory.
+Returns: none
+*/
 void player::useItem(int id) {
     Item * i = inventory_->GetItem(id);
     if (i) {
@@ -38,6 +50,12 @@ void player::useItem(int id) {
 
 }
 
+/*
+Function: onKeyPressed
+Params: QKeyEvent, key that was pressed
+Desc: When w/a/s/d is pressed, function adds key to currently pressed keys vector.
+Returns: none
+*/
 void player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     if(event->key() == Qt::Key_Escape)
@@ -70,6 +88,12 @@ void player::onKeyPressed(QKeyEvent *event){
     game.scene->update();
 }
 
+/*
+Function: moveCharacter
+Params: none
+Desc: Moves character based on which of its keys are currently pressed
+Returns: none
+*/
 void player::moveCharacter() {
     GameView &game = GameView::GetInstance();
     if (game.switching_to_underworld_ || game.switching_to_overworld_) {
@@ -140,6 +164,12 @@ void player::moveCharacter() {
     CheckCollision();
 }
 
+/*
+Function: CheckCollision
+Params: none
+Desc: Checks around the player to see if any items are colliding, and reacts to appropriate items accordingly.
+Returns: none
+*/
 void player::CheckCollision() {
     GameView& game = GameView::GetInstance();
     QList <QGraphicsItem *> colliding_items = collidingItems();
@@ -206,6 +236,13 @@ void player::CheckCollision() {
     yprev_=pos().y();
 }
 
+/*
+Function: ChangeHealth
+Params: int change, change in health
+Desc: Given an amount to change health by, changes the health and emits events to alert other objects of this change.
+Returns: none
+*/
+
 void player::changeHealth(int change) {
     //If the addition of health goes above threshhold, set health to threshhold
     if (current_health_ + change > health_) {
@@ -220,6 +257,12 @@ void player::changeHealth(int change) {
     }
 }
 
+/*
+Function: isDead
+Params: none
+Desc: Checks if a player's health has gone below 0.
+Returns: Bool if player is dead/not dead
+*/
 bool player::isDead() {
     if (current_health_ <= 0) {
         return true;
@@ -227,21 +270,45 @@ bool player::isDead() {
     return false;
 }
 
+/*
+Function: changeGold
+Params: int amount changed
+Desc: Sets gold to the changed amount and tells the stats to update
+Returns: none
+*/
 void player::changeGold(int amount) {
     gold_ += amount;
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
 
+/*
+Function: onKeyRelease
+Params: QKeyEvent, key released
+Desc: Removes a key from the keyPressed array if a key was pressed
+Returns: none
+*/
 void player::onKeyRelease(QKeyEvent *event)
 {
     keysPressed.remove(event->key());
 }
 
+/*
+Function: setMaxHealth
+Params: int change, amount health changed
+Desc: changes the maximum health value by the number provided, updates stats
+Returns: none
+*/
 void player::setMaxHealth(int change) {
     health_ += change;
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
 
+/*
+Function: setDamage
+Params: int change, amount damage changed
+Desc: changes the damage value by the number provided, updates stats
+Returns: none
+*/
 void player::setDamage(int change) {
     damage_ += change;
     emit StatsUpdated(health_, current_health_, gold_, damage_);

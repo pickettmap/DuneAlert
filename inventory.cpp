@@ -35,7 +35,7 @@ QPainterPath Inventory::shape() const
 Coded By: Mikayla Pickett
 Function: Paint
 Params: QPainter, QStyleOptionGraphicsItem, QWidget
-Desc: allows cell to be drawn
+Desc: Draws the inventory
 Returns: void
 */
 void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -47,6 +47,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(QPoint(this->x_, this->y_), "Inventory");
     int current_y = this->y_;
     int shifted_x = this->x_ + 10;
+    //For each consumable item, write the correct description and add it to the inventory
     if (consumable_items_.size() > 0){
         current_y += distance_between;
         painter->drawText(QPoint(shifted_x, current_y), "Consumables:");
@@ -57,7 +58,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             painter->drawText(QPoint(shifted_x, current_y), name);
         }
     }
-
+    //For each equipable item, write the correct description and add it to the inventory.
     if (equipable_items_.size() > 0) {
     current_y += distance_between;
     painter->drawText(QPoint(shifted_x, current_y), "Equipped:");
@@ -74,11 +75,23 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(b);
 }
 
+/*
+Function: setPos
+Params: int x, int y
+Desc: Given points, set inventory to that point.
+Returns: none
+*/
 void Inventory::setPos(int x, int y) {
     x_ = x;
     y_ = y;
 }
 
+/*
+Function: GetItem
+Params: int id, item id
+Desc: Given an item id, returns a pointer to the correct item
+Returns: pointer to item
+*/
 Item * Inventory::GetItem(int id) {
     if (id < consumable_items_.size() && id >=0) {
     return consumable_items_[id];
@@ -86,10 +99,22 @@ Item * Inventory::GetItem(int id) {
     return nullptr;
 }
 
+/*
+Function: RemoveItem
+Params: int id
+Desc: Given an item id, remove that item from the inventory.
+Returns: none
+*/
 void Inventory::RemoveItem(int id) {
     consumable_items_.erase(consumable_items_.begin() + id);
 }
 
+/*
+Function: AddItem
+Params: Item, bool underworld
+Desc: Adds an item to the players inventory
+Returns: none
+*/
 void Inventory::AddItem(Item *item, bool underworld)
 {
     if (underworld) {
@@ -105,6 +130,12 @@ void Inventory::AddItem(Item *item, bool underworld)
     }
 }
 
+/*
+Function: PopupText
+Params: Item to be described
+Desc: Given an item, creates a popup text that describes the item received
+Returns: none
+*/
 void Inventory::PopupText(Item *item)
 {
     GameView &game = GameView::GetInstance();
@@ -117,6 +148,12 @@ void Inventory::PopupText(Item *item)
     });
 }
 
+/*
+Function: clearPopup
+Params: Containingbox
+Desc: Removes given box from the scene
+Returns: none
+*/
 void Inventory::clearPopup(ContainingBox *box)
 {
     //timer_->stop();

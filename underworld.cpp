@@ -19,6 +19,13 @@ Underworld::Underworld(QGraphicsScene * main_scene)
     scene_ = main_scene;
 }
 
+/*
+Function: DrawUnderworld
+Params: Enemy, Player
+Desc: Given an enemy and a player to work with, creates necessary assets for the underworld.
+Returns: None
+*/
+
 void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     this->enemy_ = enemy;
     this->player_= player;
@@ -42,7 +49,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 
     int player_sprite_size = 25;
 
-
+    //Set Background
     QImage *img = new QImage(":/images/battlebackground.jpg");
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
@@ -87,14 +94,18 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     bribe_box_ = new ContainingBox(cx1_ + 150, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    player_->getInventory()->setPos(200, 200);
+    player_->getInventory()->setPos(-20, 150);
     scene_->addItem(player_->getInventory());
 
 }
 
 
-
-//Function:
+/*
+Function: ProcessAttackPattern
+Params: Vector of Attack Patterns
+Desc: Given an instructional list of bullets to fire, fires those bullets.
+Returns: none
+*/
 void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
     for (size_t i = 0; i < s.size(); i ++) {
         QTimer::singleShot(s[i].delay, [=](){
@@ -105,18 +116,31 @@ void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
     }
 }
 
+/*
+Function: FireBullet
+Params: x starting x, y starting y, direction to travel in
+Desc: Fires a bullet and travels it in that direction until it hits the boundries.
+Returns: none
+*/
 void Underworld::FireBullet(int x, int y, Direction d) {
         Bounds bound = {cx1_ - 10,cy1_ - 10, cx2_ + 10, cx2_ + 10};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
 
+/*
+Function: OnFightClicked
+Params: none
+Desc: Carries out an enemies' attack turn and processes damage
+Returns: none
+*/
 void Underworld::OnFightClicked() {
-    //Send damage to the enemy
+    //Send damage to the enemy and health bars
     emit OnEnemyHit(-1 * player_->getDamage());
     enemy_->changeHealth(-1 * player_->getDamage());
     scene_->update();
 
+    //Check if enemy is dead
     if (enemy_->isDead()) {
         EnemyDeath();
         return;
@@ -125,7 +149,14 @@ void Underworld::OnFightClicked() {
     InitiateFightSequence();
 }
 
+/*
+Function: onItemUsed
+Params: none
+Desc: Uses an item in the player's inventory and applies effects to the fight. Starts enemy attack turn
+Returns: none
+*/
 void Underworld::OnItemUsed() {
+    //Check if item kills enemy
     if (enemy_->isDead()) {
         EnemyDeath();
         return;
@@ -134,6 +165,12 @@ void Underworld::OnItemUsed() {
     InitiateFightSequence();
 }
 
+/*
+Function: InitiateFightSequence
+Params: none
+Desc: Starts the enemy attack pattern, adding the movable player to the screen and removing some functionality.
+Returns:  none
+*/
 void Underworld::InitiateFightSequence() {
     //If the enemy is dead, don't initiate a fight sequence
     scene_->removeItem(fight_box_);
@@ -163,11 +200,17 @@ void Underworld::InitiateFightSequence() {
     });
 }
 
-
+/*
+Function: SwitchToOverWorld
+Params: none
+Desc: Removes necessary objects from the underworld and passes control back to the overworld.
+Returns: none
+*/
 void Underworld::SwitchToOverWorld() {
     scene_->clear();
     GameView &game =  GameView::GetInstance();
     Mode mode = game.get_game_mode();
+    //Different modes depending on how many people are in the game
     if (mode == SinglePlayer) {
         game.CreateSinglePlayerOverWorld();
     } else if (mode == TwoPlayer) {
@@ -177,11 +220,18 @@ void Underworld::SwitchToOverWorld() {
     delete this;
 }
 
+/*
+Function: EndBattle
+Params: QString s, the string to display in the after message box.
+Desc: Displays the after-battle stats and gains, then after a certain time calls switch to overworld.
+Returns:  none
+*/
 void Underworld::EndBattle(QString s) {
     scene_->removeItem(player_->getInventory());
     scene_->clear();
     scene_->update();
 
+    //Draw end game review
     int x = scene_->width()/2 - 200;
     int y = scene_->height()/2 - 200;
     ContainingBox *end = new ContainingBox(x,y, 600, 200, Qt::GlobalColor::white, "");
@@ -197,12 +247,23 @@ void Underworld::EndBattle(QString s) {
 
 }
 
+/*
+Function: Bribe
+Params: none
+Desc: Carries out the bribe action, where the player doesn't fight and instead pays a gold premium.
+Returns: none
+*/
 void Underworld::Bribe() {
     player_->changeGold(-10);
     EndBattle("You ran like a coward and lost 10 gold!");
 
 }
-
+/*
+Function: EnemyDeath
+Params: none
+Desc: When the player successfully kills an enemy, the player receives bountiful rewards.
+Returns: none
+*/
 void Underworld::EnemyDeath() {
     fight_over_ = true;
     player_->changeGold(enemy_->getGold());
@@ -218,7 +279,12 @@ void Underworld::EnemyDeath() {
 
     EndBattle(q);
 }
-
+/*
+Function: OnKeyPress
+Params: QKeyEvent * event, the key the user is pressing
+Desc: Given a key press, determines what action the user will take.
+Returns: none
+*/
 void Underworld::OnKeyPress(QKeyEvent *event) {
     if (fighting_)
         return;
@@ -253,7 +319,12 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
     }
     scene_->update();
 }
-
+/*
+Function: OnPlayerDeath
+Params: none
+Desc: Punishes the player for losing a battle with monitary value.
+Returns: none
+*/
 void Underworld::OnPlayerDeath() {
     fight_over_ = true;
     int lose_amount = -20;
