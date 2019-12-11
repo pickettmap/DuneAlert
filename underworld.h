@@ -27,7 +27,6 @@ public slots:
     void SwitchToOverWorld();
     void OnKeyPress(QKeyEvent *event);
     void OnPlayerDeath();
-    void MakeAIChoice();
 
 public:
 signals:
@@ -42,7 +41,6 @@ private:
     player * player_;
     bool fighting_ = false;
     bool fight_over_ = false;
-    QTimer * ai_timer;
 };
 
 #endif // UNDERWORLD_H

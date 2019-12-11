@@ -213,6 +213,7 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (ai) {
         ai_position_[0] = ai->x();
         ai_position_[1] = ai->y();
+        return;
     }
 
     switching_to_underworld_ = true;
