@@ -85,7 +85,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     scene_->addItem(player_->getInventory());
 
     ai_timer = new QTimer(this);
-    connect(ai_timer, SIGNAL(timeout()), this, SLOT(MakeAiChoice()));
+    connect(ai_timer, SIGNAL(timeout()), this, SLOT(MakeAIChoice()));
     ai_timer->start(enemy_->getFightDuration() + 2500);
 
     if (dynamic_cast<ComputerPlayer*>(player_)) {
