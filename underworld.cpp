@@ -178,7 +178,7 @@ void Underworld::EndBattle(QString s) {
     text->setDefaultTextColor(Qt::GlobalColor::white);
     text->setPos(55, 210);
     //Switches back to overworld in 5 seconds
-    QTimer::singleShot(5000, [=]() {
+    QTimer::singleShot(2000, [=]() {
         SwitchToOverWorld();
     });
     scene_->addItem(text);
