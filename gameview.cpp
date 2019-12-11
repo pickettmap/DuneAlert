@@ -24,24 +24,18 @@ GameView::GameView()
     //add scene
     scene = new QGraphicsScene(this);
 
-
+    resize(1800,1200);
     //add background
     scene->clear();
     QImage *img = new QImage(":/images/grass.png");
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
-
     scene->setSceneRect(0, 0, width(), height());
-    //initialize player
-
-//    CreateOverworld();
-
-    //connect(timer_, SIGNAL(timeout()), this, SLOT(SwitchToUnderWorld()));
 
     setScene(scene);
     setSceneRect(scene->sceneRect());
-    setMinimumSize(1800, 1200);
+    setMinimumSize(width(), height());
 }
 
 void GameView::CreateBackGround() {
@@ -92,16 +86,6 @@ void GameView::CreateSinglePlayerOverWorld()
     scene->addItem(d);
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
-
-    //Items for testing to be removed
-//    Burger *b = new Burger();
-//    b->setPos(500, 500);
-//    scene->addItem(b);
-
-    Tutu *t = new Tutu();
-    t->setPos(200, 200);
-    scene->addItem(t);
-
 }
 
 void GameView::makeToilets(int arr[2])
@@ -126,7 +110,7 @@ void GameView::makeToilets(int arr[2])
 void GameView::CreateTwoPlayerOverWorld() {
     CreateSinglePlayerOverWorld();
 
-    Bounds bound2 = {-20000, -20000, 20000, 20000};
+    Bounds bound2 = {0, 0, width(), height()};
     QPixmap sprite2 = QPixmap(":/images/sans_undertale.png");
     sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
 
@@ -159,7 +143,7 @@ void GameView::CreateTwoPlayerOverWorld() {
 void GameView::CreateAIOverworld()
 {
     CreateBackGround();
-    Bounds bounds = {-20000, -20000, 20000, 20000};
+    Bounds bounds = {0, 0, width(), height()};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     ComputerPlayer * p = new ComputerPlayer(sprite, 20, 5, bounds, 0);
@@ -168,6 +152,8 @@ void GameView::CreateAIOverworld()
         ComputerPlayer *art = new ComputerPlayer(sprite, 20, 1, bounds, 0);
         ai = art;
         ai->setPos(400, 400);
+        ai_position_[0] = 400;
+        ai_position_[1] = 400;
     }
 
     else if (ai) {
