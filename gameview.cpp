@@ -167,7 +167,6 @@ void GameView::CreateAIOverworld()
     ai->setPixmap(sprite);
     ai->setBound(bounds);
 
-
     scene->addItem(ai);
     makeToilets(ai_position_);
 
@@ -248,16 +247,20 @@ void GameView::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void GameView::determineAIFightSequence() {
-
+    int outcome = rand() % 3;
+    if (outcome == 2) {
+        ai->changeGold(10);
+    }
+    else if (outcome == 1) {
+        ai->changeGold(-10);
+    }
+    else if (outcome == 1) {
+        ai->changeGold(-20);
+    }
+    scene->update();
 }
 
 void GameView::EndGame() {
-    if (!in_overworld_) {
-        QTimer::singleShot(5000, [=](){
-            EndGame();
-        });
-        return;
-    }
     StartMenu m;
     m.setMinimumSize(800,800);
     m.show();
@@ -265,9 +268,9 @@ void GameView::EndGame() {
     switching_to_overworld_ = true;
     scene->clear();
     Inventory * n = ai ->getInventory();
+    emit onAIComplete(ai->getGold());
     n = nullptr;
     ai = nullptr;
-
     close();
 }
 
