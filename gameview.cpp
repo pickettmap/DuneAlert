@@ -43,8 +43,7 @@ GameView::GameView()
     setMinimumSize(1800, 1200);
 }
 
-void GameView::CreateSinglePlayerOverWorld()
-{
+void GameView::CreateBackGround() {
     switching_to_overworld_ = true;
     QTimer::singleShot(1000, [=](){
         switching_to_overworld_ = false;
@@ -54,7 +53,10 @@ void GameView::CreateSinglePlayerOverWorld()
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
-
+}
+void GameView::CreateSinglePlayerOverWorld()
+{
+    CreateBackGround();
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     Bounds bound = {0, 0, width(), height()};
@@ -154,15 +156,27 @@ void GameView::CreateTwoPlayerOverWorld() {
 
 void GameView::CreateAIOverworld()
 {
+    CreateBackGround();
     Bounds bounds = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     ComputerPlayer * p = new ComputerPlayer(sprite, 20, 5, bounds, 0);
-    ai = p;
 
-//    scene->addItem(ai);
-    Enemy *e = MonsterFactory::GetEnemy(EnemyType::LesserDog);
-    SwitchToUnderWorld(ai, e);
+    if (!ai) {
+        ComputerPlayer *art = new ComputerPlayer(sprite, 20, 1, bounds, 0);
+        ai = art;
+        ai->setPos(400, 400);
+    }
+
+    else if (ai) {
+        ai->setPos(ai_position_[0], ai_position_[1]);
+    }
+    ai->setPixmap(sprite);
+    ai->setBound(bounds);
+
+
+    scene->addItem(ai);
+    makeToilets(ai_position_);
 
 }
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
@@ -176,6 +190,10 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
         player_two_position_[1]=player2_->y();
     }
 
+    if (ai) {
+        ai_position_[0] = ai->x();
+        ai_position_[1] = ai->y();
+    }
 
     switching_to_underworld_ = true;
     QTimer::singleShot(1000, [=](){
@@ -192,6 +210,10 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
         scene->removeItem(player2_);
         scene->removeItem(player2_->getInventory());
         scene->removeItem(player2_->getStats());
+    }
+
+    if (ai) {
+        scene->removeItem(ai);
     }
 
     scene->clear();

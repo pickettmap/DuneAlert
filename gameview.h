@@ -30,6 +30,7 @@ public:
     void CreateSinglePlayerOverWorld();
     void CreateTwoPlayerOverWorld();
     void CreateAIOverworld();
+    void CreateBackGround();
 
     void makeToilets(int arr[2]);
 
@@ -60,6 +61,7 @@ private:
     SecondPlayer * player2_;
     int player_one_position_ [2];
     int player_two_position_ [2];
+    int ai_position_ [2];
     ComputerPlayer * ai;
     Mode mode_;
 };
