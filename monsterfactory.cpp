@@ -1,11 +1,22 @@
 #include "monsterfactory.h"
 #include "gun.h"
-
+/*
+Function: MonsterFactory Constructor
+Params: none
+Desc:
+Returns: none
+*/
 MonsterFactory::MonsterFactory()
 {
 
 }
 
+/*
+Function: GetEnemy
+Params: EnemyType, which enemy to get
+Desc: Given an enemy type, will return a fully created Enemy class
+Returns: Enemy, enemy requested
+*/
 Enemy * MonsterFactory::GetEnemy(EnemyType e) {
     int x1 = 800;
     int y1 = 500;

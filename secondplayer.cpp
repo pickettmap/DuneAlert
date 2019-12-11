@@ -1,13 +1,25 @@
 #include "secondplayer.h"
 #include "gameview.h"
 #include <QDebug>
-
+/*
+Function: SecondPlayer Constructor
+Params: pixmap, health, damage, bound, gold
+Desc: Instantiates player2.
+Returns: none
+*/
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
     : player(pixmap, health, damage, b, gold)
 {
     display_ = new StatsDisplay(200,200,"Player 2", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
     display_->setVisible(false);
 }
+
+/*
+Function: onKeyPressed
+Params: QKeyEvent * event, key that was just pressed
+Desc: Adds key press event to an array to track movement.
+Returns: none
+*/
 
 void SecondPlayer::onKeyPressed(QKeyEvent *event){
     GameView &game = GameView::GetInstance();
@@ -37,7 +49,12 @@ void SecondPlayer::onKeyPressed(QKeyEvent *event){
         keysPressed.insert(event->key());
     }
 }
-
+/*
+Function: MoveCharacter
+Params: none
+Desc: Moves a character when arrow keys are pressed, overrides player's function.
+Returns: none
+*/
 void SecondPlayer::moveCharacter() {
     int STEP_SIZE = 15;
     //if only 1 key is being pressed, simply move in that direction
