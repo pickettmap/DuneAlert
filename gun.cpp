@@ -3,6 +3,12 @@
 #include <QBrush>
 #include "item.h"
 
+/*
+Function: Gun constructor
+Params: None
+Desc: Initializes Gun picture, name, description, and item type
+Returns: Gun
+*/
 Gun::Gun()
 {
     QPixmap pm(":/images/gun.png");
@@ -15,7 +21,14 @@ Gun::Gun()
     itemtype_ = itemtype::Equipable;
 }
 
-int Gun::Use()
+/*
+Function: Gun use
+Params: Player *p
+Desc: Sets player damage to 5
+Returns: 0
+*/
+int Gun::Use(player *p)
 {
-    return 5;
+    p->setDamage(5);
+    return 0;
 }

@@ -3,7 +3,12 @@
 #include <QDebug>
 #include <random>
 
-
+/*
+Function: Computer player constructor
+Params: QPixmap &pixmap, int health, int damage, Bounds b, int gold
+Desc: Child of Player class. Passes parameters into parent constructor
+Returns: ComputerPlayer
+*/
 ComputerPlayer::ComputerPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
     : player(pixmap, health, damage, b, gold)
 {
@@ -11,6 +16,12 @@ ComputerPlayer::ComputerPlayer(QPixmap &pixmap, int health, int damage, Bounds b
     //timer_.start(1000);
 }
 
+/*
+Function: moveCharacter
+Params: None
+Desc: Moves character in a random direction by 15 px
+Returns: None
+*/
 void ComputerPlayer::moveCharacter() {
     int STEP_SIZE = 15;
     int num = rand() % 8;

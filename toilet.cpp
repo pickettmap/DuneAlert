@@ -3,6 +3,12 @@
 #include <QBrush>
 #include "item.h"
 
+/*
+Function: Toilet constructor
+Params: None
+Desc: Initializes toilet picture, name, description, and item type
+Returns: Toilet
+*/
 Toilet::Toilet()
 {
     QPixmap pm(":/images/toiletchan.png");
@@ -16,6 +22,12 @@ Toilet::Toilet()
     flushed_=false;
 }
 
+/*
+Function: Use
+Params: None
+Desc: Does nothing, never called
+Returns: NULL
+*/
 int Toilet::Use()
 {
     return NULL;

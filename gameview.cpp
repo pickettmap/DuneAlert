@@ -19,6 +19,12 @@
 #include "computerplayer.h"
 #include "startmenu.h"
 
+/*
+Function: GameView constructor
+Params: None
+Desc: Initializes scene and sets background tiles
+Returns: GameView
+*/
 GameView::GameView()
 {
     //add scene
@@ -44,6 +50,13 @@ GameView::GameView()
     connect(timer1, SIGNAL(timeout()), this, SLOT(CheckGame()));
 }
 
+/*
+Function: CreateBackground
+Params: None
+Desc: Used when switching between overworld and underworld
+Initializes overworld grass background
+Returns: None
+*/
 void GameView::CreateBackGround() {
     in_overworld_ = true;
     switching_to_overworld_ = true;
@@ -60,6 +73,14 @@ void GameView::CreateBackGround() {
     QBrush bg_brush(*img);
     scene ->setBackgroundBrush(bg_brush);
 }
+
+/*
+Function: CreateSinglePlayerOverWorld
+Params: None
+Desc: Initializses player character, scenery objects and
+player inventory/stats display
+Returns: None
+*/
 void GameView::CreateSinglePlayerOverWorld()
 {
     CreateBackGround();
@@ -99,6 +120,12 @@ void GameView::CreateSinglePlayerOverWorld()
 
 }
 
+/*
+Function: MakeToilets
+Params: int arr[2] which holds player's x/y coordinates
+Desc: Places toilets in overworld everywhere except where player is
+Returns: None
+*/
 void GameView::makeToilets(int arr[2])
 {
     for(int i = 0; i < 50; i++)
@@ -118,6 +145,13 @@ void GameView::makeToilets(int arr[2])
     }
 }
 
+/*
+Function: CreateTwoPlayerOverWorld
+Params: None
+Desc: Utilizes singleplayeroverworld construction but also
+adds a second player along with second player's inventory/stats
+Returns: None
+*/
 void GameView::CreateTwoPlayerOverWorld() {
     CreateSinglePlayerOverWorld();
 
@@ -151,6 +185,12 @@ void GameView::CreateTwoPlayerOverWorld() {
     connect(player2_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 }
 
+/*
+Function: CreateAIOverworld
+Params: None
+Desc: Creates OverWorld for simulated game, creates ComputerPlayer object
+Returns:
+*/
 void GameView::CreateAIOverworld()
 {
     CreateBackGround();
@@ -178,7 +218,13 @@ void GameView::CreateAIOverworld()
 
 }
 
-
+/*
+Function: RemovePlayer
+Params: None
+Desc: Removes Player and their inventory/stats from overworld
+Prevents memory issues when clearing overworld
+Returns: None
+*/
 void GameView::RemovePlayer() {
     if (player_) {
         scene->removeItem(player_);
@@ -196,6 +242,14 @@ void GameView::RemovePlayer() {
     }
 }
 
+/*
+Function: SwitchToUnderWorld
+Params: Player *p, Enemy *e
+Desc: Stores player's overworld position so it can be reloaded
+Clears overworld scene
+Draws underworld scene with player and enemy
+Returns: None
+*/
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (player_) {
         player_one_position_[0]=player_->x();
@@ -227,7 +281,16 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     connect(this, &GameView::onKeyPressed, u, &Underworld::OnKeyPress);
 }
 
-
+/*
+Function: keyPressEvent
+Params: QKeyEvent *event
+Desc: Checks for key types to handle movement
+Handles different sets of keys for first/second player movement
+First player set: WASD
+Second player set: Arrow Keys
+On corresponding key press, key event is emited as signal
+Returns: none
+*/
 void GameView::keyPressEvent(QKeyEvent * event) {
     if (switching_to_underworld_) {
         return;
@@ -248,10 +311,23 @@ void GameView::keyPressEvent(QKeyEvent * event) {
 
 }
 
+/*
+Function: keyReleaseEvent
+Params: QKeyEvent *event
+Desc: emits keyRelease event as signal
+Returns: None
+*/
 void GameView::keyReleaseEvent(QKeyEvent * event) {
     emit onKeyRelease(event);
 }
 
+/*
+Function: determineAIFightSequence
+Params: None
+Desc: Handles fight logic for result of battle in simulation
+Randomly decides if AI wins, loses, or runs away
+Returns: None
+*/
 void GameView::determineAIFightSequence() {
     int outcome = rand() % 3;
     if (outcome == 2) {
@@ -266,6 +342,13 @@ void GameView::determineAIFightSequence() {
     scene->update();
 }
 
+/*
+Function: EndGame
+Params: None
+Desc: Handles end of game for simulation
+Clears screen and returns to menu
+Returns: None
+*/
 void GameView::EndGame() {
     StartMenu m;
     m.setMinimumSize(800,800);
@@ -280,6 +363,13 @@ void GameView::EndGame() {
     close();
 }
 
+/*
+Function: GameOver
+Params: None
+Desc: Handles end of game logic for Human controlled games
+Clears scene and displays results
+Returns: None
+*/
 void GameView::GameOver()
 {
     timer1->stop();
@@ -310,6 +400,15 @@ void GameView::GameOver()
 
 }
 
+/*
+Function: CheckGame
+Params: None
+Desc: Continually checks if any player has won or lost
+Calls GameOver when conditions are met
+Win if player has over 50 coins
+Lose if player has less than -20
+Returns: None
+*/
 void GameView::CheckGame()
 {
     if(mode_==Mode::TwoPlayer)

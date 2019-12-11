@@ -4,6 +4,12 @@
 #include "item.h"
 #include "player.h"
 
+/*
+Function: Burger constructor
+Params: None
+Desc: Initializes burger picture, name, description, and item type
+Returns: Burger
+*/
 Burger::Burger()
 {
     QPixmap pm(":/images/Glamburger.png");
@@ -16,6 +22,12 @@ Burger::Burger()
     itemtype_ = itemtype::Consumable;
 }
 
+/*
+Function: Use
+Params: Player *p
+Desc: Changes player's health by 5
+Returns: 0
+*/
 int Burger::Use(player * p)
 {
     p->changeHealth(5);

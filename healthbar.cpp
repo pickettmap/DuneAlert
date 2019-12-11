@@ -3,6 +3,13 @@
 #include <QDebug>
 #include <QPainter>
 
+/*
+Function: HealthBar constructor
+Params: int x, int y, int width, int height, int max_health, int current_health
+Desc: Draws healthbar based on starting position, size, and how much
+health there is relative to max health
+Returns: HealthBar
+*/
 HealthBar::HealthBar(int x, int y, int width, int height, int max_health, int current_health)
 {
     current_health_points = current_health;
@@ -15,6 +22,12 @@ HealthBar::HealthBar(int x, int y, int width, int height, int max_health, int cu
     y_ = y;
 }
 
+/*
+Function: ChangeHealth
+Params: int change
+Desc: Updates healthbar to reflect change in health
+Returns: None
+*/
 void HealthBar::ChangeHealth(int change) {
     current_health_points += change;
     double percent = double(current_health_points) / double(max_health_points);
@@ -22,6 +35,12 @@ void HealthBar::ChangeHealth(int change) {
 
 }
 
+/*
+Function: boundingRect
+Params: None
+Desc: Sets boundingrect for healthbar
+Returns: QRect
+*/
 QRectF HealthBar::boundingRect() const
 {
     return QRectF(x_,y_, width_, height_);
