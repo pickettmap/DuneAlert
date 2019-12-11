@@ -166,7 +166,9 @@ void Underworld::InitiateFightSequence() {
             scene_->removeItem(player_);
             fighting_ = false;
             if (dynamic_cast<ComputerPlayer*>(player_)) {
-                MakeAIChoice();
+                QTimer::singleShot(2000, [=] () {
+                    MakeAIChoice();
+                });
             }
         }
     });
@@ -269,6 +271,7 @@ void Underworld::OnPlayerDeath() {
     if(player_->isDead()) {
         scene_->removeItem(player_);
         player_->changeGold(lose_amount);
+        player_->changeHealth(5);
     }
     std::string message = "You lost to " + enemy_->getName() + " and lost " + std::to_string(lose_amount) + " gold!";
     EndBattle(QString::fromStdString(message));
