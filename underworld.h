@@ -19,7 +19,6 @@ public:
     void EnemyDeath();
     void InitiateFightSequence();
     void OnItemUsed();
-    void MakeAIChoice();
 
 //    void DrawInventory();
 public slots:
@@ -28,6 +27,7 @@ public slots:
     void SwitchToOverWorld();
     void OnKeyPress(QKeyEvent *event);
     void OnPlayerDeath();
+    void MakeAIChoice();
 
 public:
 signals:

@@ -94,16 +94,16 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
             std::vector<AttackPattern> a;
             for (int i = 0; i < 24; i ++) {
                 current_delay += 200;
-                AttackPattern p = {current_delay, 120+ i * 10, 420, Direction::N};
-                AttackPattern p2 = {current_delay, 420, 120 + i * 10, Direction::W};
+                AttackPattern p = {current_delay, 120+ i * 10, 410, Direction::N};
+                AttackPattern p2 = {current_delay, 410, 120 + i * 10, Direction::W};
                 a.push_back(p);
                 a.push_back(p2);
             }
 
             for (int i = 0; i < 24; i ++) {
                 current_delay += 200;
-                AttackPattern p = {current_delay, 400 - i * 10, 420, Direction::N};
-                AttackPattern p2 = {current_delay, 420, 400 - i * 10, Direction::W};
+                AttackPattern p = {current_delay, 400 - i * 10, 410, Direction::N};
+                AttackPattern p2 = {current_delay, 410, 400 - i * 10, Direction::W};
                 a.push_back(p);
                 a.push_back(p2);
             }
