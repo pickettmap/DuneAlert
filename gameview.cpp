@@ -115,7 +115,7 @@ void GameView::CreateSinglePlayerOverWorld()
     //Draw Score Display
     StatsDisplay * d = player_->getStats();
     scene->addItem(d);
-    d->setPos(200,200);
+    d->setPos(0,0);
     connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
 }
@@ -171,7 +171,7 @@ void GameView::CreateTwoPlayerOverWorld() {
 
     player2_->setPixmap(sprite2);
     player2_->setBound(bound2);
-    player2_->getInventory()->setPos(width()-500, 200);
+    player2_->getInventory()->setPos(width()-200, 400);
 
     scene->addItem(player2_);
     scene->addItem(player2_->getInventory());
@@ -182,6 +182,7 @@ void GameView::CreateTwoPlayerOverWorld() {
     //Change to be second player stats ty
     StatsDisplay * d = player2_->getStats();
     scene->addItem(d);
+    d->setPos(width()-400,0);
     connect(player2_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 }
 
