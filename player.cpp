@@ -161,7 +161,7 @@ void player::CheckCollision() {
                     else
                     {
                         Burger *tmp1 = new Burger();
-                        inventory_->AddItem(tmp1);
+                        inventory_->AddItem(tmp1, false);
                     }
                     tmp->Flush();
                 }
@@ -170,11 +170,11 @@ void player::CheckCollision() {
             }
             else if (item->getItemType()==itemtype::Consumable)
             {
-                inventory_->AddItem(item);
+                inventory_->AddItem(item, false);
                 game.scene->removeItem(item);
             }
             else if (item->getItemType()==itemtype::Equipable) {
-                inventory_->AddItem(item);
+                inventory_->AddItem(item, false);
                 //Equipable items are used immedietely
                 item->Use(this);
                 game.scene->removeItem(item);

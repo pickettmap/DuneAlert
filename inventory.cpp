@@ -90,8 +90,11 @@ void Inventory::RemoveItem(int id) {
     consumable_items_.erase(consumable_items_.begin() + id);
 }
 
-void Inventory::AddItem(Item *item)
+void Inventory::AddItem(Item *item, bool underworld)
 {
+    if (underworld) {
+        return;
+    }
     PopupText(item);
     if (item->getItemType() == itemtype::Consumable) {
         consumable_items_.push_back(item);

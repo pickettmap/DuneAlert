@@ -142,7 +142,7 @@ void GameView::CreateAIOverworld()
     Bounds bounds = {-20000, -20000, 20000, 20000};
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
-    ComputerPlayer * p = new ComputerPlayer(sprite, 20, 1, bounds, 0);
+    ComputerPlayer * p = new ComputerPlayer(sprite, 20, 5, bounds, 0);
     ai = p;
 
 //    scene->addItem(ai);

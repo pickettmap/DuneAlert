@@ -17,7 +17,7 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    void AddItem(Item *item);
+    void AddItem(Item *item, bool underworld);
 
     Item* GetItem(int index);
     void RemoveItem(int index);

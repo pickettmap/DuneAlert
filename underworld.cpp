@@ -198,7 +198,7 @@ void Underworld::EndBattle(QString s) {
     text->setDefaultTextColor(Qt::GlobalColor::white);
     text->setPos(55, 210);
     //Switches back to overworld in 5 seconds
-    QTimer::singleShot(2000, [=]() {
+    QTimer::singleShot(3000, [=]() {
         SwitchToOverWorld();
     });
     scene_->addItem(text);
@@ -218,7 +218,7 @@ void Underworld::EnemyDeath() {
     std::string message = "You killed " + enemy_->getName() + " and received " + std::to_string(enemy_->getGold()) + " gold. ";
 
     if (enemy_->getItem()){
-        player_->getInventory()->AddItem(enemy_->getItem());
+        player_->getInventory()->AddItem(enemy_->getItem(), true);
         message += "They were also carrying a " + enemy_->getItem()->getName() + "!";
     }
 
