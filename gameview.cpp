@@ -58,23 +58,26 @@ void GameView::CreateSinglePlayerOverWorld()
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
     Bounds bound = {0, 0, width(), height()};
 
-    //Add one player
+    //Add one player and make toilets
     if (!player_) {
         player *boy = new player(sprite, 20, 1, bound, 0);
         player_ = boy;
         //Default position
         player_->setPos(100, 100);
         scene->addItem(player_);
+
+        int arr[2] = {100,100};
+        makeToilets(arr);
     }
     else {
         scene->addItem(player_);
         player_->setPos(player_one_position_[0], player_one_position_[1]);
+        makeToilets(player_one_position_);
     }
 
     player_->setBound(bound);
     player_->setPixmap(sprite);
     player_->getInventory()->setPos(-200, -200);
-//    scene->addItem(player_);
     scene->addItem(player_->getInventory());
     connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
     connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
@@ -86,21 +89,33 @@ void GameView::CreateSinglePlayerOverWorld()
 
 
     //Items for testing to be removed
-    Burger *b = new Burger();
-    b->setPos(500, 500);
-    scene->addItem(b);
+//    Burger *b = new Burger();
+//    b->setPos(500, 500);
+//    scene->addItem(b);
 
     Tutu *t = new Tutu();
     t->setPos(200, 200);
     scene->addItem(t);
 
+}
+
+void GameView::makeToilets(int arr[2])
+{
     for(int i = 0; i < 50; i++)
     {
-        Toilet *tmp = new Toilet();
-        tmp->setPos(600,rand()%2000);
-        scene->addItem(tmp);
-    }
+        int randx = rand()%width();
+        int randy = rand()%height();
 
+        if(randx > (arr[0] + 50) || randx < (arr[0] - 50))
+        {
+            if((randy > (arr[1]) + 50) || randy < (arr[1] - 50))
+            {
+                Toilet *tmp = new Toilet();
+                tmp->setPos(randx,randy);
+                scene->addItem(tmp);
+            }
+        }
+    }
 }
 
 void GameView::CreateTwoPlayerOverWorld() {
@@ -144,13 +159,13 @@ void GameView::CreateAIOverworld()
 }
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (player_) {
-        player_one_position_.push_back(player_->x());
-        player_one_position_.push_back(player_->y());
+        player_one_position_[0]=player_->x();
+        player_one_position_[1]=player_->y();
     }
 
     if (player2_) {
-        player_two_position_.push_back(player2_->x());
-        player_two_position_.push_back(player2_->y());
+        player_two_position_[0]=player2_->x();
+        player_two_position_[1]=player2_->y();
     }
 
 

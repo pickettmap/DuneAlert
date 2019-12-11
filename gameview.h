@@ -29,7 +29,8 @@ public:
     void CreateSinglePlayerOverWorld();
     void CreateTwoPlayerOverWorld();
     void CreateAIOverworld();
-//    void CreateOverworld();
+
+    void makeToilets(int arr[2]);
 
     QGraphicsScene * scene;
 
@@ -56,8 +57,8 @@ private:
     GameView();
     player * player_;
     SecondPlayer * player2_;
-    std::vector<int> player_one_position_;
-    std::vector<int> player_two_position_;
+    int player_one_position_ [2];
+    int player_two_position_ [2];
     Mode mode_;
 };
 
