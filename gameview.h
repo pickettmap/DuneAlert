@@ -59,6 +59,7 @@ signals:
 public:
     bool switching_to_underworld_;
     bool switching_to_overworld_;
+    bool in_overworld_;
 private:
     GameView();
     player * player_;

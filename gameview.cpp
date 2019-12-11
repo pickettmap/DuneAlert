@@ -45,6 +45,7 @@ GameView::GameView()
 }
 
 void GameView::CreateBackGround() {
+    in_overworld_ = true;
     switching_to_overworld_ = true;
     QTimer::singleShot(1000, [=](){
         switching_to_overworld_ = false;
@@ -218,10 +219,9 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     QTimer::singleShot(1000, [=](){
         switching_to_underworld_ = false;
     });
+    in_overworld_ = false;
     Underworld * u = new Underworld(scene);
     RemovePlayer();
-
-
     scene->clear();
     u->DrawUnderworld(e, p);
 
@@ -254,12 +254,21 @@ void GameView::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void GameView::EndGame() {
+    if (!in_overworld_) {
+        QTimer::singleShot(5000, [=](){
+            EndGame();
+        });
+        return;
+    }
     StartMenu m;
     m.setMinimumSize(800,800);
     m.show();
     RemovePlayer();
     switching_to_overworld_ = true;
     scene->clear();
+    Inventory * n = ai ->getInventory();
+    n = nullptr;
     ai = nullptr;
+
     close();
 }

@@ -54,7 +54,7 @@ void StartMenu::play_two_player() {
 
 void StartMenu::play_simulation() {
     GameView& game = GameView::GetInstance();
-    QTimer::singleShot(5000, [=](){
+    QTimer::singleShot(30000, [=](){
         GameView& game = GameView::GetInstance();
         game.EndGame();
     });
