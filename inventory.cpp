@@ -108,7 +108,7 @@ void Inventory::AddItem(Item *item, bool underworld)
 void Inventory::PopupText(Item *item)
 {
     GameView &game = GameView::GetInstance();
-    std::string text= "You got a(n)" + item->getName() + ". " + item->getDescription();
+    std::string text= "You got a(n) " + item->getName() + ". " + item->getDescription();
     ContainingBox *box = new ContainingBox(0,game.scene->height(),game.scene->width(),300,Qt::GlobalColor::white, text);
     game.scene->addItem(box);
 

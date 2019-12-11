@@ -126,7 +126,7 @@ void GameView::CreateTwoPlayerOverWorld() {
     CreateSinglePlayerOverWorld();
 
     Bounds bound2 = {-20000, -20000, 20000, 20000};
-    QPixmap sprite2 = QPixmap(":/images/player.png");
+    QPixmap sprite2 = QPixmap(":/images/sans_undertale.png");
     sprite2 = sprite2.scaled(100,100,Qt::KeepAspectRatio);
 
     if (!player2_) {
