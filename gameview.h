@@ -46,10 +46,11 @@ public:
     void SetMode(Mode mode) { mode_ = mode; }
 
     void determineAIFightSequence();
-
+    void GameOver();
 
 public slots:
     void SwitchToUnderWorld(player *p, Enemy *e);
+    void CheckGame();
 
 signals:
     void onPOneKeyPressed(QKeyEvent * event);
@@ -71,6 +72,7 @@ private:
     int ai_position_ [2];
     ComputerPlayer * ai;
     Mode mode_;
+    bool win;
 };
 
 #endif // GAMEVIEW_H

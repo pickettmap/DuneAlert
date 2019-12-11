@@ -36,6 +36,11 @@ GameView::GameView()
     setScene(scene);
     setSceneRect(scene->sceneRect());
     setMinimumSize(width(), height());
+
+    QTimer *timer1 = new QTimer();
+    timer1->setInterval(100);
+    connect(timer1, SIGNAL(timeout()), this, SLOT(CheckGame()));
+    timer1->start();
 }
 
 void GameView::CreateBackGround() {
@@ -185,6 +190,7 @@ void GameView::RemovePlayer() {
         scene->removeItem(ai);
     }
 }
+
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (player_) {
         player_one_position_[0]=player_->x();
@@ -263,4 +269,83 @@ void GameView::EndGame() {
     ai = nullptr;
 
     close();
+}
+
+void GameView::GameOver()
+{
+    scene->clear();
+    std::string text;
+    if(mode_==Mode::TwoPlayer)
+    {
+        text = "Player one finished with " + std::to_string(player_->getGold()) + " gold!";
+        text += "\n Player two finished with "+ std::to_string(player_->getGold()) + " gold!";
+    }
+    else
+    {
+        if(win)
+        {
+            if(mode_==Mode::SinglePlayer)
+            {
+                text = "Congratulations!";
+                text += "\n You won with " + std::to_string(player_->getGold()) + " gold!";
+            }
+            else if(mode_==Mode::Simulation)
+            {
+                text = "Congratulations!";
+                text += "\n You won with " + std::to_string(ai->getGold()) + " gold!";
+            }
+        }
+        else
+        {
+            text = "Geeeeeeeet Dunked On!!!!";
+        }
+    }
+    ContainingBox *box = new ContainingBox(0,0, width(),height(),Qt::GlobalColor::white,text);
+    scene->addItem(box);
+
+}
+
+void GameView::CheckGame()
+{
+    if(mode_==Mode::TwoPlayer)
+    {
+        int p1gold = player_->getGold();
+        int p2gold = player2_->getGold();
+
+        if(p1gold >= 50 || p2gold >= 50)
+        {
+            GameOver();
+        }
+
+        else if(p1gold <= -20 || p2gold <= -20)
+        {
+            GameOver();
+        }
+    }
+    else if(mode_==Mode::SinglePlayer)
+    {
+        if(player_->getGold()>=50)
+        {
+            win = true;
+            GameOver();
+        }
+        else if(player_->getGold()<=-20)
+        {
+            win = false;
+            GameOver();
+        }
+    }
+    else
+    {
+        if(ai->getGold()>=50)
+        {
+            win = true;
+            GameOver();
+        }
+        else if(ai->getGold()<=-20)
+        {
+            win = false;
+            GameOver();
+        }
+    }
 }
