@@ -19,6 +19,7 @@ public:
     void EnemyDeath();
     void InitiateFightSequence();
     void OnItemUsed();
+    void MakeAIChoice();
 
 //    void DrawInventory();
 public slots:
@@ -42,6 +43,7 @@ private:
     ContainingBox *continue_;
     bool fighting_ = false;
     bool fight_over_ = false;
+    QTimer * ai_timer;
 };
 
 #endif // UNDERWORLD_H

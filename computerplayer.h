@@ -2,6 +2,7 @@
 #define COMPUTERPLAYER_H
 
 #include <QTimer>
+#include <random>
 #include "player.h"
 
 class ComputerPlayer : public player

@@ -8,6 +8,7 @@
 #include "item.h"
 #include "secondplayer.h"
 #include "enemy.h"
+#include "computerplayer.h"
 
 enum Mode {SinglePlayer, TwoPlayer, Simulation};
 
@@ -56,6 +57,7 @@ private:
     GameView();
     player * player_;
     SecondPlayer * player2_;
+    ComputerPlayer * ai;
     std::vector<int> player_one_position_;
     std::vector<int> player_two_position_;
     Mode mode_;
