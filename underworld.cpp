@@ -84,6 +84,10 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     player_->getInventory()->setPos(-20, 150);
     scene_->addItem(player_->getInventory());
 
+    ai_timer = new QTimer(this);
+    connect(ai_timer, SIGNAL(timeout()), this, SLOT(MakeAiChoice()));
+    ai_timer->start(enemy_->getFightDuration() + 2500);
+
     if (dynamic_cast<ComputerPlayer*>(player_)) {
         QTimer::singleShot(1000, [=](){
              MakeAIChoice();
@@ -165,11 +169,6 @@ void Underworld::InitiateFightSequence() {
             scene_->addItem(bribe_box_);
             scene_->removeItem(player_);
             fighting_ = false;
-            if (dynamic_cast<ComputerPlayer*>(player_)) {
-                    if (!fight_over_){
-                    MakeAIChoice();
-            }
-          }
         }
     });
 }
@@ -187,6 +186,8 @@ void Underworld::SwitchToOverWorld() {
         game.CreateAIOverworld();
     }
     //If you delete the underwold object some memory is gonna leak
+    delete fight_box_;
+    delete bribe_box_;
     delete this;
 }
 
@@ -267,6 +268,7 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
 
 void Underworld::OnPlayerDeath() {
     fight_over_ = true;
+    ai_timer->stop();
     int lose_amount = -20;
     if(player_->isDead()) {
         scene_->removeItem(player_);
