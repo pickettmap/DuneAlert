@@ -168,8 +168,6 @@ void Underworld::SwitchToOverWorld() {
         game.CreateTwoPlayerOverWorld();
     }
     //If you delete the underwold object some memory is gonna leak
-    delete fight_box_;
-    delete bribe_box_;
     delete this;
 }
 

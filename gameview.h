@@ -45,6 +45,8 @@ public:
 
     void SetMode(Mode mode) { mode_ = mode; }
 
+    void determineAIFightSequence();
+
 
 public slots:
     void SwitchToUnderWorld(player *p, Enemy *e);

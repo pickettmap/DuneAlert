@@ -213,6 +213,7 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (ai) {
         ai_position_[0] = ai->x();
         ai_position_[1] = ai->y();
+        determineAIFightSequence();
         return;
     }
 
@@ -252,6 +253,10 @@ void GameView::keyPressEvent(QKeyEvent * event) {
 
 void GameView::keyReleaseEvent(QKeyEvent * event) {
     emit onKeyRelease(event);
+}
+
+void GameView::determineAIFightSequence() {
+
 }
 
 void GameView::EndGame() {
