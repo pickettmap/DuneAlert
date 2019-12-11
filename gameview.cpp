@@ -37,10 +37,9 @@ GameView::GameView()
     setSceneRect(scene->sceneRect());
     setMinimumSize(width(), height());
 
-    QTimer *timer1 = new QTimer();
+
     timer1->setInterval(100);
     connect(timer1, SIGNAL(timeout()), this, SLOT(CheckGame()));
-    timer1->start();
 }
 
 void GameView::CreateBackGround() {
@@ -49,6 +48,10 @@ void GameView::CreateBackGround() {
     QTimer::singleShot(1000, [=](){
         switching_to_overworld_ = false;
     });
+    if(mode_!=Mode::Simulation)
+    {
+        timer1->start();
+    }
     scene->clear();
     QImage *img = new QImage(":/images/grass.png");
     *img = img->scaled(100,100,Qt::KeepAspectRatioByExpanding);
@@ -276,6 +279,7 @@ void GameView::EndGame() {
 
 void GameView::GameOver()
 {
+    timer1->stop();
     scene->clear();
     std::string text;
     if(mode_==Mode::TwoPlayer)
@@ -283,7 +287,7 @@ void GameView::GameOver()
         text = "Player one finished with " + std::to_string(player_->getGold()) + " gold!";
         text += "\n Player two finished with "+ std::to_string(player_->getGold()) + " gold!";
     }
-    else
+    else if(mode_==Mode::SinglePlayer)
     {
         if(win)
         {
@@ -291,11 +295,6 @@ void GameView::GameOver()
             {
                 text = "Congratulations!";
                 text += "\n You won with " + std::to_string(player_->getGold()) + " gold!";
-            }
-            else if(mode_==Mode::Simulation)
-            {
-                text = "Congratulations!";
-                text += "\n You won with " + std::to_string(ai->getGold()) + " gold!";
             }
         }
         else
@@ -333,19 +332,6 @@ void GameView::CheckGame()
             GameOver();
         }
         else if(player_->getGold()<=-20)
-        {
-            win = false;
-            GameOver();
-        }
-    }
-    else
-    {
-        if(ai->getGold()>=50)
-        {
-            win = true;
-            GameOver();
-        }
-        else if(ai->getGold()<=-20)
         {
             win = false;
             GameOver();

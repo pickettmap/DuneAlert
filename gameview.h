@@ -75,6 +75,7 @@ private:
     ComputerPlayer * ai;
     Mode mode_;
     bool win;
+    QTimer *timer1 = new QTimer();
 };
 
 #endif // GAMEVIEW_H
