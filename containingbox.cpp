@@ -10,7 +10,6 @@ ContainingBox::ContainingBox(int x, int y, int width, int height, QColor color, 
     height_ = height;
     color_ = color;
     text_ = text;
-
 }
 
 QRectF ContainingBox::boundingRect() const
@@ -42,6 +41,7 @@ Returns: void
 void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRect rec = QRect(this->x_, this->y_, this-> width_, this-> height_);
+
     QBrush b = painter->brush();
     QFont q = painter->font();
     q.setPointSize(q.pointSize() * 2);
@@ -51,6 +51,7 @@ void ContainingBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawText(rec, Qt::AlignCenter, s);
     painter->drawRect(rec);
     painter->setBrush(b);
+
 }
 
 void ContainingBox::mousePressEvent(QGraphicsSceneMouseEvent *event)

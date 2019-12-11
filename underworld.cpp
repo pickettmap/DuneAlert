@@ -27,10 +27,16 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
 
     //Containing box coordinates (temp)
 
+    //containing box width and height
     int cwidth = 300;
     int cheight = 275;
-    int cx1 = 140;
-    int cy1 = 150;
+
+    //starting point for containing box
+    int cx1 = scene_->width()/2;
+    int cy1 = scene_->height()/2;
+
+
+    //other corner
     int cx2 = cx1 + cwidth;
     int cy2 = cy1 + cheight;
 
@@ -47,7 +53,6 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
     Bounds bound = {cx1, cy1 , cx2 - player_sprite_size, cy2 - player_sprite_size};
 
-
     player_->setPixmap(sprite);
     player_->setBound(bound);
 
@@ -57,7 +62,8 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     //DRAW THE ENEMY
-    enemy_->setPos(150, -170);
+
+    enemy_->setPos(cx1,cy1-enemy_->pixmap().height()-100);
     scene_->addItem(enemy_);
 
     //Player 1 Health Bar
@@ -68,7 +74,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     //Health Bar Temporary text
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(100, -300, 400, 50, enemy_->getMaxHealth(), enemy_->getHealth());
+    HealthBar *eh = new HealthBar(cx1, cy1-100, cwidth, 50, enemy_->getMaxHealth(), enemy_->getHealth());
     scene_->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
@@ -100,7 +106,7 @@ void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
 }
 
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {90, 90, 420, 420};
+        Bounds bound = {90,90, 420, 420};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
@@ -135,7 +141,7 @@ void Underworld::InitiateFightSequence() {
     fighting_ = true;
 
     //Add the player to the scene, do health calculations
-    player_->setPos(220, 250);
+    player_->setPos(scene_->width()/2+150,scene_->height()/2+130);
     scene_->addItem(player_);
     player_->setFocus();
 
@@ -176,10 +182,12 @@ void Underworld::EndBattle(QString s) {
     scene_->clear();
     scene_->update();
 
-    ContainingBox *end = new ContainingBox(50, 200, 600, 200, Qt::GlobalColor::white, "");
+    int x = scene_->width()/2;
+    int y = scene_->height()/2;
+    ContainingBox *end = new ContainingBox(x,y, 600, 200, Qt::GlobalColor::white, "");
     QGraphicsTextItem *text = new QGraphicsTextItem(s);
     text->setDefaultTextColor(Qt::GlobalColor::white);
-    text->setPos(55, 210);
+    text->setPos(x+20, y+20);
     //Switches back to overworld in 5 seconds
     QTimer::singleShot(3000, [=]() {
         SwitchToOverWorld();
