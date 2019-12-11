@@ -57,6 +57,8 @@ signals:
     void onKeyPressed(QKeyEvent * event);
     void onKeyRelease(QKeyEvent * event);
 
+    void onAIComplete(int);
+
 
 public:
     bool switching_to_underworld_;

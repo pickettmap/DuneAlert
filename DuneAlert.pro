@@ -21,6 +21,7 @@ SOURCES += \
     computerplayer.cpp\
     containingbox.cpp \
     enemy.cpp \
+    finalgraph.cpp \
     gameview.cpp \
     gun.cpp \
     healthbar.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     computerplayer.h\
     containingbox.h \
     enemy.h \
+    finalgraph.h \
     gameview.h \
     gun.h \
     healthbar.h \
