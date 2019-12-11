@@ -7,7 +7,7 @@
 class Gun : public Item{
 public:
     Gun();
-    int Use(player *p);
+    int Use(Player *p);
 };
 
 #endif // GUN_H

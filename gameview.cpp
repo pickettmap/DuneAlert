@@ -90,7 +90,7 @@ void GameView::CreateSinglePlayerOverWorld()
 
     //Add one player and make toilets
     if (!player_) {
-        player *boy = new player(sprite, 20, 1, bound, 0);
+        Player *boy = new Player(sprite, 20, 1, bound, 0);
         player_ = boy;
         //Default position
         player_->setPos(100, 100);
@@ -109,14 +109,14 @@ void GameView::CreateSinglePlayerOverWorld()
     player_->setPixmap(sprite);
     player_->getInventory()->setPos(200, 400);
     scene->addItem(player_->getInventory());
-    connect(this, &GameView::onPOneKeyPressed, player_, &player::onKeyPressed);
-    connect(this, &GameView::onKeyRelease, player_, &player::onKeyRelease);
+    connect(this, &GameView::onPOneKeyPressed, player_, &Player::onKeyPressed);
+    connect(this, &GameView::onKeyRelease, player_, &Player::onKeyRelease);
 
     //Draw Score Display
     StatsDisplay * d = player_->getStats();
     scene->addItem(d);
     d->setPos(200,200);
-    connect(player_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
+    connect(player_, &Player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
 }
 
@@ -182,7 +182,7 @@ void GameView::CreateTwoPlayerOverWorld() {
     //Change to be second player stats ty
     StatsDisplay * d = player2_->getStats();
     scene->addItem(d);
-    connect(player2_, &player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
+    connect(player2_, &Player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 }
 
 /*
@@ -250,7 +250,7 @@ Clears overworld scene
 Draws underworld scene with player and enemy
 Returns: None
 */
-void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
+void GameView::SwitchToUnderWorld(Player *p, Enemy *e) {
     if (player_) {
         player_one_position_[0]=player_->x();
         player_one_position_[1]=player_->y();

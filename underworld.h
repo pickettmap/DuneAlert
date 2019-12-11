@@ -7,12 +7,17 @@
 #include "enemy.h"
 #include "containingbox.h"
 
+/*
+Class: Underworld
+Description: The main controller for combat in the game. Contains all necessary combat logic.
+*/
+
 class Underworld: public QObject
 {
    Q_OBJECT
 public:
     Underworld(QGraphicsScene * scene);
-    void DrawUnderworld(Enemy * e, player *p);
+    void DrawUnderworld(Enemy * e, Player *p);
     void ProcessAttackPattern(std::vector<AttackPattern> a);
     void EndBattle(QString s);
     void Bribe();
@@ -38,7 +43,7 @@ private:
     ContainingBox * bribe_box_;
     QGraphicsScene * scene_;
     Enemy * enemy_;
-    player * player_;
+    Player * player_;
     bool fighting_ = false;
     bool fight_over_ = false;
     int cx1_;

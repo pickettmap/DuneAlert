@@ -7,7 +7,7 @@ class Burger : public Item
 {
 public:
     Burger();
-    int Use(player * p);
+    int Use(Player * p);
 };
 
 #endif // BURGER_H

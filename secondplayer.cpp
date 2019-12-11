@@ -8,7 +8,7 @@ Desc: Instantiates player2.
 Returns: none
 */
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
-    : player(pixmap, health, damage, b, gold)
+    : Player(pixmap, health, damage, b, gold)
 {
     display_ = new StatsDisplay(200,200,"Player 2", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
     display_->setVisible(false);
@@ -55,7 +55,7 @@ Params: none
 Desc: Moves a character when arrow keys are pressed, overrides player's function.
 Returns: none
 */
-void SecondPlayer::moveCharacter() {
+void SecondPlayer::MoveCharacter() {
     int STEP_SIZE = 15;
     //if only 1 key is being pressed, simply move in that direction
     if (keysPressed.size() == 1){

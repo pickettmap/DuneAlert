@@ -12,11 +12,11 @@ struct AttackPattern {
     Direction dir;
 };
 
-class Enemy : public player
+class Enemy : public Player
 {
 public:
     Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<AttackPattern> a, std::string name, int gold, Item *item)
-        : player(pixmap, h, d, b, gold) {
+        : Player(pixmap, h, d, b, gold) {
         a_ = a;
         name_ = name;
         item_  = item;

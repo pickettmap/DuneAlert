@@ -37,7 +37,7 @@ QPainterPath StatsDisplay::shape() const
 Coded By: Mikayla Pickett
 Function: Paint
 Params: QPainter, QStyleOptionGraphicsItem, QWidget
-Desc: allows cell to be drawn
+Desc: allows cell to be drawn, also adds stats to the view incrementally.
 Returns: void
 */
 void StatsDisplay::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

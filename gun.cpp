@@ -16,7 +16,7 @@ Gun::Gun()
     setPixmap(pm);
 
     pm_ = pm;
-    description_ = "An old gun. A relic of the ancient CattleMen of old.";
+    description_ = "+1 Damage";
     name_ = "Gun";
     itemtype_ = itemtype::Equipable;
 }
@@ -27,8 +27,8 @@ Params: Player *p
 Desc: Sets player damage to 5
 Returns: 0
 */
-int Gun::Use(player *p)
+int Gun::Use(Player *p)
 {
-    p->setDamage(5);
+    p->setDamage(1);
     return 0;
 }

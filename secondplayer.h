@@ -4,14 +4,14 @@
 #include "player.h"
 
 
-class SecondPlayer: public player
+class SecondPlayer: public Player
 {
 public:
     SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
 
 public slots:
     void onKeyPressed(QKeyEvent *event);
-    void moveCharacter();
+    void MoveCharacter();
 };
 
 #endif // SECONDPLAYER_H

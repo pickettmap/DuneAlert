@@ -18,16 +18,16 @@ struct Bounds {
     int y2;
 };
 
-class player : public QObject, public QGraphicsPixmapItem
+class Player : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
 public:
-    player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
-    bool checkBounds(int, int);
-    void addItem(Item);
+    Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
+    bool CheckBounds(int, int);
+    void AddItem(Item);
     void TakeDamage(int damage);
-    void useItem(int index);
+    void UseItem(int index);
     //Getters
     int getHealth() { return current_health_; }
     int getMaxHealth() { return health_; }
@@ -42,7 +42,7 @@ public:
 
     Inventory * getInventory(){return inventory_;}
     StatsDisplay * getStats(){return display_;}
-    bool isDead();
+    bool IsDead();
     void CheckCollision();
 
 
@@ -50,7 +50,7 @@ public:
 public slots:
     virtual void onKeyPressed(QKeyEvent *event);
     void onKeyRelease(QKeyEvent * event);
-    virtual void moveCharacter();
+    virtual void MoveCharacter();
 
 protected:
     QSet<int> keysPressed;

@@ -13,7 +13,7 @@ Params: pixmap, health damage, bounds, gold
 Desc: Instantiates a player class, starts the timer for player movement
 Returns: none
 */
-player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
+Player::Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
@@ -31,7 +31,7 @@ player::player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     gold_ = gold;
     //Every 50 ms move in the direction of the currenly pressed keys.
     QTimer *timer = new QTimer(this);
-        connect(timer, SIGNAL(timeout()), this, SLOT(moveCharacter()));
+        connect(timer, SIGNAL(timeout()), this, SLOT(MoveCharacter()));
         timer->start(50); //time specified in ms
 }
 
@@ -41,7 +41,7 @@ Params: int id, item to consume
 Desc: Given an item id, uses an item and removes it from player inventory.
 Returns: none
 */
-void player::useItem(int id) {
+void Player::UseItem(int id) {
     Item * i = inventory_->GetItem(id);
     if (i) {
         i->Use(this);
@@ -56,7 +56,7 @@ Params: QKeyEvent, key that was pressed
 Desc: When w/a/s/d is pressed, function adds key to currently pressed keys vector.
 Returns: none
 */
-void player::onKeyPressed(QKeyEvent *event){
+void Player::onKeyPressed(QKeyEvent *event){
     GameView& game = GameView::GetInstance();
     if(event->key() == Qt::Key_Escape)
     {
@@ -89,12 +89,12 @@ void player::onKeyPressed(QKeyEvent *event){
 }
 
 /*
-Function: moveCharacter
+Function: cter
 Params: none
 Desc: Moves character based on which of its keys are currently pressed
 Returns: none
 */
-void player::moveCharacter() {
+void Player::MoveCharacter() {
     GameView &game = GameView::GetInstance();
     if (game.switching_to_underworld_ || game.switching_to_overworld_) {
         return;
@@ -170,7 +170,7 @@ Params: none
 Desc: Checks around the player to see if any items are colliding, and reacts to appropriate items accordingly.
 Returns: none
 */
-void player::CheckCollision() {
+void Player::CheckCollision() {
     GameView& game = GameView::GetInstance();
     QList <QGraphicsItem *> colliding_items = collidingItems();
     for (int i = 0, n = colliding_items.size(); i < n; i++)
@@ -243,7 +243,7 @@ Desc: Given an amount to change health by, changes the health and emits events t
 Returns: none
 */
 
-void player::changeHealth(int change) {
+void Player::changeHealth(int change) {
     //If the addition of health goes above threshhold, set health to threshhold
     if (current_health_ + change > health_) {
         current_health_ = health_;
@@ -252,7 +252,7 @@ void player::changeHealth(int change) {
     }
     emit StatsUpdated(health_, current_health_, gold_, damage_);
     emit HealthChanged(change);
-    if (isDead()) {
+    if (IsDead()) {
         emit PlayerDied();
     }
 }
@@ -263,7 +263,7 @@ Params: none
 Desc: Checks if a player's health has gone below 0.
 Returns: Bool if player is dead/not dead
 */
-bool player::isDead() {
+bool Player::IsDead() {
     if (current_health_ <= 0) {
         return true;
     }
@@ -276,7 +276,7 @@ Params: int amount changed
 Desc: Sets gold to the changed amount and tells the stats to update
 Returns: none
 */
-void player::changeGold(int amount) {
+void Player::changeGold(int amount) {
     gold_ += amount;
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
@@ -287,7 +287,7 @@ Params: QKeyEvent, key released
 Desc: Removes a key from the keyPressed array if a key was pressed
 Returns: none
 */
-void player::onKeyRelease(QKeyEvent *event)
+void Player::onKeyRelease(QKeyEvent *event)
 {
     keysPressed.remove(event->key());
 }
@@ -298,7 +298,7 @@ Params: int change, amount health changed
 Desc: changes the maximum health value by the number provided, updates stats
 Returns: none
 */
-void player::setMaxHealth(int change) {
+void Player::setMaxHealth(int change) {
     health_ += change;
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }
@@ -309,7 +309,7 @@ Params: int change, amount damage changed
 Desc: changes the damage value by the number provided, updates stats
 Returns: none
 */
-void player::setDamage(int change) {
+void Player::setDamage(int change) {
     damage_ += change;
     emit StatsUpdated(health_, current_health_, gold_, damage_);
 }

@@ -25,7 +25,7 @@ Params: Player *p
 Desc: Sets player maxhealth to 5
 Returns: 0
 */
-int Tutu::Use(player * p)
+int Tutu::Use(Player * p)
 {
     p->setMaxHealth(3);
     return 0;

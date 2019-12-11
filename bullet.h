@@ -14,7 +14,7 @@ class Bullet: public QObject, public QGraphicsPixmapItem {
 public:
     Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound);
 public slots:
-    void travel();
+    void Travel();
 
 private:
     Direction dir_;

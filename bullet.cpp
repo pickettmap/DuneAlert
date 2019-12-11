@@ -21,7 +21,7 @@ Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound
     setPixmap(qp);
     //Start the timer for bullet movement
     QTimer * timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(travel()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(Travel()));
     timer->start(30);
     setPos(x, y);
     bound_ = bound;
@@ -34,7 +34,7 @@ Desc: Travels in a given direction every tick
 Returns: none
 */
 
-void Bullet::travel() {
+void Bullet::Travel() {
     if (x() < bound_.x1 || x() > bound_.x2 || y() < bound_.y1 || y() > bound_.y2) {
         scene->removeItem(this);
         delete this;
@@ -79,9 +79,9 @@ void Bullet::travel() {
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for (size_t i = 0,n = colliding_items.size(); i < n; ++i){
         // if the arrow collides with a wall, delete it
-        if (dynamic_cast<player *>(colliding_items[i]) && !dynamic_cast<Enemy *>(colliding_items[i])){
+        if (dynamic_cast<Player *>(colliding_items[i]) && !dynamic_cast<Enemy *>(colliding_items[i])){
             this->scene->removeItem(this);
-            player * p = static_cast<player *>(colliding_items[i]);
+            Player * p = static_cast<Player *>(colliding_items[i]);
             p->changeHealth(-1);
             this->scene->update();
             delete this;

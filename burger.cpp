@@ -28,7 +28,7 @@ Params: Player *p
 Desc: Changes player's health by 5
 Returns: 0
 */
-int Burger::Use(player * p)
+int Burger::Use(Player * p)
 {
     p->changeHealth(5);
     return 0;

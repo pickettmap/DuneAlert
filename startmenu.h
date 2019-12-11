@@ -12,9 +12,9 @@ public:
     StartMenu(QWidget *parent = 0);
 
 public slots:
-    void play_single_player();
-    void play_two_player();
-    void play_simulation();
+    void PlaySinglePlayer();
+    void PlayTwoPlayer();
+    void PlaySimulation();
     void UpdateGraph(int);
 
 private:

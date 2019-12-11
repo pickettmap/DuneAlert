@@ -24,7 +24,7 @@ public:
     GameView(GameView const&) = delete;
     void operator=(GameView const&) = delete;
 
-    player* get_player(){return player_;}
+    Player* get_player(){return player_;}
     Mode get_game_mode(){ return mode_; }
 
     void CreateSinglePlayerOverWorld();
@@ -49,7 +49,7 @@ public:
     void GameOver();
 
 public slots:
-    void SwitchToUnderWorld(player *p, Enemy *e);
+    void SwitchToUnderWorld(Player *p, Enemy *e);
     void CheckGame();
 
 signals:
@@ -67,7 +67,7 @@ public:
     bool in_overworld_;
 private:
     GameView();
-    player * player_;
+    Player * player_;
     SecondPlayer * player2_;
     int player_one_position_ [2];
     int player_two_position_ [2];

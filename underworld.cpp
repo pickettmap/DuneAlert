@@ -26,7 +26,7 @@ Desc: Given an enemy and a player to work with, creates necessary assets for the
 Returns: None
 */
 
-void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
+void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     this->enemy_ = enemy;
     this->player_= player;
 
@@ -76,8 +76,8 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     //Player 1 Health Bar
     HealthBar *ph = new HealthBar(cx1_, cy2_ + 10, cwidth, 20, player_->getMaxHealth(), player_->getHealth());
     scene_->addItem(ph);
-    connect(player_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
-    connect(player_, &player::PlayerDied, this, &Underworld::OnPlayerDeath);
+    connect(player_, &Player::HealthChanged, ph, &HealthBar::ChangeHealth);
+    connect(player_, &Player::PlayerDied, this, &Underworld::OnPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
@@ -141,7 +141,7 @@ void Underworld::OnFightClicked() {
     scene_->update();
 
     //Check if enemy is dead
-    if (enemy_->isDead()) {
+    if (enemy_->IsDead()) {
         EnemyDeath();
         return;
     }
@@ -157,7 +157,7 @@ Returns: none
 */
 void Underworld::OnItemUsed() {
     //Check if item kills enemy
-    if (enemy_->isDead()) {
+    if (enemy_->IsDead()) {
         EnemyDeath();
         return;
     }
@@ -299,14 +299,14 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
         if (player_->getInventory()->GetConsumableItemsCount() < 1) {
             return;
         }
-        player_->useItem(0);
+        player_->UseItem(0);
         InitiateFightSequence();
     }
     else if (event->key() == Qt::Key::Key_2) {
         if (player_->getInventory()->GetConsumableItemsCount() < 2) {
             return;
         }
-        player_->useItem(1);
+        player_->UseItem(1);
         InitiateFightSequence();
 
     }
@@ -314,7 +314,7 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
         if (player_->getInventory()->GetConsumableItemsCount() < 3) {
             return;
         }
-        player_->useItem(2);
+        player_->UseItem(2);
         InitiateFightSequence();
     }
     scene_->update();
@@ -328,7 +328,7 @@ Returns: none
 void Underworld::OnPlayerDeath() {
     fight_over_ = true;
     int lose_amount = -20;
-    if(player_->isDead()) {
+    if(player_->IsDead()) {
         scene_->removeItem(player_);
         player_->changeGold(lose_amount);
         player_->changeHealth(5);

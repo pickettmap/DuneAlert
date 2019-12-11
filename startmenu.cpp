@@ -7,7 +7,12 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QDebug>
-
+/*
+Function: StartMenu Constructor
+Params: parent
+Desc: Instantiates the start menu with necessary parts
+Returns: none
+*/
 StartMenu::StartMenu(QWidget *parent)
 {
     GameView& game = GameView::GetInstance();
@@ -44,16 +49,21 @@ StartMenu::StartMenu(QWidget *parent)
     scene->addItem(loses_);
     view->show();
 
-    connect(two_play_btn, SIGNAL(clicked()), this, SLOT(play_two_player()));
-    connect(play_btn,SIGNAL(clicked()),this,SLOT(play_single_player()));
-    connect(ai,SIGNAL(clicked()),this,SLOT(play_simulation()));
+    connect(two_play_btn, SIGNAL(clicked()), this, SLOT(PlayTwoPlayer()));
+    connect(play_btn,SIGNAL(clicked()),this,SLOT(PlaySinglePlayer()));
+    connect(ai,SIGNAL(clicked()),this,SLOT(PlaySimulation()));
 
     setLayout(layout);
 
 }
+/*
+Function: play_single_player
+Params: none
+Desc: Calls the game view to create a new game in single player mode.
+Returns: none
+*/
 
-
-void StartMenu::play_single_player() {
+void StartMenu::PlaySinglePlayer() {
     close();
     GameView& game = GameView::GetInstance();
     game.SetMode(Mode::SinglePlayer);
@@ -61,8 +71,13 @@ void StartMenu::play_single_player() {
     game.show();
 
 }
-
-void StartMenu::play_two_player() {
+/*
+Function: play_two_player
+Params: none
+Desc: Calls the game view to create a new game in two player mode.
+Returns: none
+*/
+void StartMenu::PlayTwoPlayer() {
     close();
     GameView& game = GameView::GetInstance();
     game.SetMode(Mode::TwoPlayer);
@@ -70,10 +85,17 @@ void StartMenu::play_two_player() {
     game.show();
 }
 
-void StartMenu::play_simulation() {
+/*
+Function: play_simulation
+Params: none
+Desc: Plays one round of the simulation
+Returns: none
+*/
+void StartMenu::PlaySimulation() {
     //Each ai encounter lasts 30 seconds
     int ai_duration = 30000;
     GameView& game = GameView::GetInstance();
+    //After the ai_duration is over, the game ends and the score is tallied.
     QTimer::singleShot(ai_duration, [=](){
         GameView& game = GameView::GetInstance();
         game.EndGame();
@@ -83,6 +105,12 @@ void StartMenu::play_simulation() {
     game.show();
 }
 
+/*
+Function: UpdateGraph
+Params: gold, final gold value in a game
+Desc: Given the final gold value of a simulated game, calculates whether or not the ai could be considered winning, then updates the graph.
+Returns: none
+*/
 void StartMenu::UpdateGraph(int gold) {
     //If the simulated player ends with more than 0 gold count it as a win!
     if (gold >= 0) {
