@@ -41,6 +41,10 @@ private:
     player * player_;
     bool fighting_ = false;
     bool fight_over_ = false;
+    int cx1_;
+    int cy1_;
+    int cx2_;
+    int cy2_;
 };
 
 #endif // UNDERWORLD_H

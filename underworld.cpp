@@ -32,13 +32,13 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     int cheight = 275;
 
     //starting point for containing box
-    int cx1 = scene_->width()/2;
-    int cy1 = scene_->height()/2;
+    cx1_ = scene_->width()/2 - 100;
+    cy1_ = scene_->height()/2 - 100;
 
 
     //other corner
-    int cx2 = cx1 + cwidth;
-    int cy2 = cy1 + cheight;
+    cx2_ = cx1_ + cwidth;
+    cy2_ = cy1_ + cheight;
 
     int player_sprite_size = 25;
 
@@ -51,40 +51,40 @@ void Underworld::DrawUnderworld(Enemy *enemy, player *player) {
     //DRAW AND POSITION THE PLAYER
     QPixmap sprite = QPixmap(":/images/heart.png");
     sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
-    Bounds bound = {cx1, cy1 , cx2 - player_sprite_size, cy2 - player_sprite_size};
+    Bounds bound = {cx1_, cy1_ , cx2_ - player_sprite_size, cy2_ - player_sprite_size};
 
     player_->setPixmap(sprite);
     player_->setBound(bound);
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
-    ContainingBox *b = new ContainingBox(cx1, cy1, cwidth, cheight, Qt::GlobalColor::white, "");
+    ContainingBox *b = new ContainingBox(cx1_, cy1_, cwidth, cheight, Qt::GlobalColor::white, "");
     scene_->addItem(b);
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     //DRAW THE ENEMY
 
-    enemy_->setPos(cx1,cy1-enemy_->pixmap().height()-100);
+    enemy_->setPos(cx1_,cy1_-enemy_->pixmap().height()-100);
     scene_->addItem(enemy_);
 
     //Player 1 Health Bar
-    HealthBar *ph = new HealthBar(cx1, cy2 + 10, cwidth, 20, player_->getMaxHealth(), player_->getHealth());
+    HealthBar *ph = new HealthBar(cx1_, cy2_ + 10, cwidth, 20, player_->getMaxHealth(), player_->getHealth());
     scene_->addItem(ph);
     connect(player_, &player::HealthChanged, ph, &HealthBar::ChangeHealth);
     connect(player_, &player::PlayerDied, this, &Underworld::OnPlayerDeath);
     //Health Bar Temporary text
 
     //Enemy health bar
-    HealthBar *eh = new HealthBar(cx1, cy1-100, cwidth, 50, enemy_->getMaxHealth(), enemy_->getHealth());
+    HealthBar *eh = new HealthBar(cx1_, cy1_-100, cwidth, 50, enemy_->getMaxHealth(), enemy_->getHealth());
     scene_->addItem(eh);
     connect(this, &Underworld::OnEnemyHit, eh, &HealthBar::ChangeHealth);
 
 
     //Draw boxes for options
-    fight_box_ = new ContainingBox(cx1, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Fight [F]");
+    fight_box_ = new ContainingBox(cx1_, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Fight [F]");
     scene_->addItem(fight_box_);
 
 
-    bribe_box_ = new ContainingBox(cx1 + 150, cy2 + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
+    bribe_box_ = new ContainingBox(cx1_ + 150, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
     player_->getInventory()->setPos(-20, 150);
@@ -106,7 +106,7 @@ void Underworld::ProcessAttackPattern(std::vector<AttackPattern> s) {
 }
 
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {90,90, 420, 420};
+        Bounds bound = {cx1_ - 10,cy1_ - 10, cx2_ + 10, cx2_ + 10};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
@@ -182,8 +182,8 @@ void Underworld::EndBattle(QString s) {
     scene_->clear();
     scene_->update();
 
-    int x = scene_->width()/2;
-    int y = scene_->height()/2;
+    int x = scene_->width()/2 - 200;
+    int y = scene_->height()/2 - 200;
     ContainingBox *end = new ContainingBox(x,y, 600, 200, Qt::GlobalColor::white, "");
     QGraphicsTextItem *text = new QGraphicsTextItem(s);
     text->setDefaultTextColor(Qt::GlobalColor::white);
