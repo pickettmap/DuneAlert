@@ -32,6 +32,10 @@ public:
     void CreateAIOverworld();
     void CreateBackGround();
 
+    void RemovePlayer();
+
+    void EndGame();
+
     void makeToilets(int arr[2]);
 
     QGraphicsScene * scene;

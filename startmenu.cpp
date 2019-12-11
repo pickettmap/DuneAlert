@@ -53,8 +53,11 @@ void StartMenu::play_two_player() {
 }
 
 void StartMenu::play_simulation() {
-    close();
     GameView& game = GameView::GetInstance();
+    QTimer::singleShot(5000, [=](){
+        GameView& game = GameView::GetInstance();
+        game.EndGame();
+    });
     game.SetMode(Mode::Simulation);
     game.CreateAIOverworld();
     game.show();

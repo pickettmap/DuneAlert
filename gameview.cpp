@@ -17,6 +17,7 @@
 #include "secondplayer.h"
 #include "statsdisplay.h"
 #include "computerplayer.h"
+#include "startmenu.h"
 
 GameView::GameView()
 {
@@ -179,6 +180,24 @@ void GameView::CreateAIOverworld()
     makeToilets(ai_position_);
 
 }
+
+
+void GameView::RemovePlayer() {
+    if (player_) {
+        scene->removeItem(player_);
+        scene->removeItem(player_->getInventory());
+        scene->removeItem(player_->getStats());
+    }
+    if (player2_) {
+        scene->removeItem(player2_);
+        scene->removeItem(player2_->getInventory());
+        scene->removeItem(player2_->getStats());
+    }
+
+    if (ai) {
+        scene->removeItem(ai);
+    }
+}
 void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
     if (player_) {
         player_one_position_[0]=player_->x();
@@ -200,21 +219,8 @@ void GameView::SwitchToUnderWorld(player *p, Enemy *e) {
         switching_to_underworld_ = false;
     });
     Underworld * u = new Underworld(scene);
-    //Remove player and inventory from scene so memory doesn't break
-    if (player_) {
-        scene->removeItem(player_);
-        scene->removeItem(player_->getInventory());
-        scene->removeItem(player_->getStats());
-    }
-    if (player2_) {
-        scene->removeItem(player2_);
-        scene->removeItem(player2_->getInventory());
-        scene->removeItem(player2_->getStats());
-    }
+    RemovePlayer();
 
-    if (ai) {
-        scene->removeItem(ai);
-    }
 
     scene->clear();
     u->DrawUnderworld(e, p);
@@ -245,4 +251,15 @@ void GameView::keyPressEvent(QKeyEvent * event) {
 
 void GameView::keyReleaseEvent(QKeyEvent * event) {
     emit onKeyRelease(event);
+}
+
+void GameView::EndGame() {
+    StartMenu m;
+    m.setMinimumSize(800,800);
+    m.show();
+    RemovePlayer();
+    switching_to_overworld_ = true;
+    scene->clear();
+    ai = nullptr;
+    close();
 }
