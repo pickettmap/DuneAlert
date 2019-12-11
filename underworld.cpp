@@ -166,12 +166,10 @@ void Underworld::InitiateFightSequence() {
             scene_->removeItem(player_);
             fighting_ = false;
             if (dynamic_cast<ComputerPlayer*>(player_)) {
-                QTimer::singleShot(4000, [=] () {
                     if (!fight_over_){
                     MakeAIChoice();
-                    }
-                });
             }
+          }
         }
     });
 }
