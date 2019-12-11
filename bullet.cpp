@@ -6,6 +6,12 @@
 #include "enemy.h"
 #include <QGraphicsScene>
 
+/*
+Function: Bullet Constructor
+Params: int x, int y, Direction, scene, bound
+Desc: Instantiates bullet class given certain perams
+Returns: none
+*/
 Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound)
 {
     this->scene = scene;
@@ -13,6 +19,7 @@ Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound
     QPixmap qp(":/images/bullet.png");
     qp = qp.scaled(30, 30);
     setPixmap(qp);
+    //Start the timer for bullet movement
     QTimer * timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(travel()));
     timer->start(30);
@@ -20,6 +27,12 @@ Bullet::Bullet(int x, int y, Direction dir, QGraphicsScene * scene, Bounds bound
     bound_ = bound;
 }
 
+/*
+Function: travel
+Params: none
+Desc: Travels in a given direction every tick
+Returns: none
+*/
 
 void Bullet::travel() {
     if (x() < bound_.x1 || x() > bound_.x2 || y() < bound_.y1 || y() > bound_.y2) {
@@ -31,7 +44,7 @@ void Bullet::travel() {
         delay_timer --;
         return;
     }
-
+    //Move in the correct direction given
     switch (dir_) {
         case(Direction::S):
             setY(y() + 10);
@@ -62,7 +75,7 @@ void Bullet::travel() {
             setY(y() + 10);
             setX(x() - 10);
     }
-
+    //If the bullet collides with a player, the player should lose health!
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for (size_t i = 0,n = colliding_items.size(); i < n; ++i){
         // if the arrow collides with a wall, delete it
