@@ -22,7 +22,7 @@ Params: None
 Desc: Moves character in a random direction by 15 px
 Returns: None
 */
-void ComputerPlayer::moveCharacter() {
+void ComputerPlayer::MoveCharacter() {
     int STEP_SIZE = 15;
     int num = rand() % 8;
     //if only 1 key is being pressed, simply move in that direction

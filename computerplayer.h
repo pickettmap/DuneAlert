@@ -10,7 +10,7 @@ class ComputerPlayer : public Player
 public:
     ComputerPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
 public slots:
-    void moveCharacter();
+    void MoveCharacter();
 
 private:
     QTimer timer_;
