@@ -14,8 +14,15 @@
         <file>toiletchan.png</file>
         <file>Canary.png</file>
         <file>sans_undertale.png</file>
+        <file>helix.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>hit.wav</file>
+        <file>glame.mp3</file>
+        <file>thunder.mp3</file>
+        <file>can.mp3</file>
     </qresource>
 </RCC>

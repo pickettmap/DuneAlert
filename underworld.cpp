@@ -12,6 +12,7 @@
 #include <QGraphicsRectItem>
 #include "gameview.h"
 #include "inventory.h"
+#include <QMediaPlayer>
 
 
 Underworld::Underworld(QGraphicsScene * main_scene)
@@ -29,6 +30,10 @@ Returns: None
 void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     this->enemy_ = enemy;
     this->player_= player;
+
+    music = new QMediaPlayer();
+    music->setMedia(QUrl(enemy_->getMusic()));
+    music->play();
 
     //EventHandler
 
@@ -122,7 +127,7 @@ Desc: Fires a bullet and travels it in that direction until it hits the boundrie
 Returns: none
 */
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {cx1_ - 30,cy1_ - 30, cx2_ + 10, cx2_ + 10};
+        Bounds bound = {cx1_ - 30,cy1_ - 30, cx2_ + 10, cy2_ + 10};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
@@ -192,7 +197,7 @@ void Underworld::InitiateFightSequence() {
     });
 
     //After all bullets have been fired plus a few seconds, remove the player from the battle.
-    QTimer::singleShot(fight_duration + 2500, [=] () {
+    QTimer::singleShot(fight_duration + 3000, [=] () {
         if(!fight_over_) {
             scene_->addItem(fight_box_);
             scene_->addItem(bribe_box_);
@@ -232,6 +237,7 @@ void Underworld::EndBattle(QString s) {
     scene_->removeItem(player_->getInventory());
     scene_->clear();
     scene_->update();
+    music->stop();
 
     //Draw end game review
     int x = scene_->width()/2 - 200;

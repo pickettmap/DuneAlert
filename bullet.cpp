@@ -5,6 +5,7 @@
 #include "player.h"
 #include "enemy.h"
 #include <QGraphicsScene>
+#include <QMediaPlayer>
 
 /*
 Function: Bullet Constructor
@@ -78,12 +79,14 @@ void Bullet::Travel() {
     //If the bullet collides with a player, the player should lose health!
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for (size_t i = 0,n = colliding_items.size(); i < n; ++i){
-        // if the arrow collides with a wall, delete it
         if (dynamic_cast<Player *>(colliding_items[i]) && !dynamic_cast<Enemy *>(colliding_items[i])){
             this->scene->removeItem(this);
             Player * p = static_cast<Player *>(colliding_items[i]);
             p->changeHealth(-1);
             this->scene->update();
+            QMediaPlayer * sound = new QMediaPlayer();
+            sound->setMedia(QUrl(":/sounds/hit.wav"));
+            sound->play();
             delete this;
             return;
         }

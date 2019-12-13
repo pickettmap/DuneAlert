@@ -6,6 +6,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "containingbox.h"
+#include <QMediaPlayer>
 
 /*
 Class: Underworld
@@ -39,6 +40,7 @@ signals:
     void OnEnemyHit(int amount);
 
 private:
+    QMediaPlayer * music;
     ContainingBox * fight_box_;
     ContainingBox * bribe_box_;
     QGraphicsScene * scene_;
