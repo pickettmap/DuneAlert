@@ -12,6 +12,18 @@ MonsterFactory::MonsterFactory()
 }
 
 /*
+Function: GetRandomEnemy
+Params: none
+Desc: Returns an enemy at random
+Returns: a random Enemy
+*/
+Enemy * MonsterFactory::GetRandomEnemy() {
+    EnemyType arr[4] = {EnemyType::LesserDog, EnemyType::Helix, EnemyType::Canary, EnemyType::DweebFish};
+    int random = rand() % 4;
+    return GetEnemy(arr[random]);
+}
+
+/*
 Function: GetEnemy
 Params: EnemyType, which enemy to get
 Desc: Given an enemy type, will return a fully created Enemy class
@@ -273,7 +285,7 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
         }
 
 
-//        patterns.push_back(pattern_1);
+        patterns.push_back(pattern_1);
 
         std::vector<AttackPattern> pattern_2;
         current_delay = 0;
@@ -291,7 +303,7 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
 
         Gun * g = new Gun();
-        return new Enemy(enemy_sprite, 5, 2, bound, patterns, "Helix Muzny", 10, g, "qrc:/sounds/glame.mp3");
+        return new Enemy(enemy_sprite, 5, 2, bound, patterns, "Helix Muzny", 10, g, "qrc:/sounds/badtime.mp3");
     }
 
 

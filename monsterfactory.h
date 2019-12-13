@@ -14,6 +14,7 @@ public:
     }
 
     static Enemy * GetEnemy(EnemyType e);
+    static Enemy * GetRandomEnemy();
 
 
     MonsterFactory(MonsterFactory const&) = delete;

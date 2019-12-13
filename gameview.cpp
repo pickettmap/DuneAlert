@@ -377,6 +377,12 @@ Returns: None
 */
 void GameView::GameOver()
 {
+    scene->removeItem(player_);
+    scene->removeItem(player_->getInventory());
+    scene->removeItem(player_->getStats());
+    if (player2_) {
+        scene->removeItem(player2_);
+    }
     timer1->stop();
     scene->clear();
     std::string text;

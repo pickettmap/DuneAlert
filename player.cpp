@@ -185,9 +185,7 @@ void Player::CheckCollision() {
                     int random = rand()%100;
                     if(random<30)
                     {
-                        EnemyType arr[4] = {EnemyType::DweebFish, EnemyType::LesserDog, EnemyType::Canary, EnemyType::Helix};
-//                        Enemy * e = MonsterFactory::GetEnemy(arr[rand()%4]);
-                        Enemy * e = MonsterFactory::GetEnemy(EnemyType::Helix);
+                        Enemy * e = MonsterFactory::GetRandomEnemy();
                         game.SwitchToUnderWorld(this, e);
                         return;
                     }

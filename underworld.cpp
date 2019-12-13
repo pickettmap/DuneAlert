@@ -76,6 +76,9 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     //DRAW THE ENEMY
     enemy_->setPos(cx1_,cy1_-enemy_->pixmap().height()-100);
     scene_->addItem(enemy_);
+    StatsDisplay * s = player_->getStats();
+    s->setPos(cx2_ - 150, cy2_- 500);
+    scene_->addItem(s);
 
     //Player 1 Health Bar
     HealthBar *ph = new HealthBar(cx1_, cy2_ + 10, cwidth, 20, player_->getMaxHealth(), player_->getHealth());
@@ -235,6 +238,7 @@ Returns:  none
 */
 void Underworld::EndBattle(QString s) {
     scene_->removeItem(player_->getInventory());
+    scene_->removeItem(player_->getStats());
     scene_->clear();
     scene_->update();
     music->stop();
