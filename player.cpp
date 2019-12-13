@@ -185,8 +185,9 @@ void Player::CheckCollision() {
                     int random = rand()%100;
                     if(random<30)
                     {
-                        EnemyType arr[3] = {EnemyType::DweebFish, EnemyType::LesserDog, EnemyType::Canary};
-                        Enemy * e = MonsterFactory::GetEnemy(arr[rand()%3]);
+//                        EnemyType arr[3] = {EnemyType::DweebFish, EnemyType::LesserDog, EnemyType::Canary};
+//                        Enemy * e = MonsterFactory::GetEnemy(arr[rand()%3]);
+                        Enemy * e = MonsterFactory::GetEnemy(EnemyType::Canary);
                         game.SwitchToUnderWorld(this, e);
                         return;
                     }
@@ -246,6 +247,7 @@ Returns: none
 void Player::changeHealth(int change) {
     //If the addition of health goes above threshhold, set health to threshhold
     if (current_health_ + change > health_) {
+        change = health_ - current_health_;
         current_health_ = health_;
     } else {
         current_health_ += change;

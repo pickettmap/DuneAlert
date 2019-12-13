@@ -15,7 +15,7 @@ struct AttackPattern {
 class Enemy : public Player
 {
 public:
-    Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<AttackPattern> a, std::string name, int gold, Item *item)
+    Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<std::vector<AttackPattern>> a, std::string name, int gold, Item *item)
         : Player(pixmap, h, d, b, gold) {
         a_ = a;
         name_ = name;
@@ -29,7 +29,7 @@ public:
 
 
 private:
-    std::vector<AttackPattern> a_;
+    std::vector<std::vector<AttackPattern>> a_;
     std::string name_;
     Item * item_;
 

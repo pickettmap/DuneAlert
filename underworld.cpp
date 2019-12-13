@@ -36,11 +36,11 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
 
     //containing box width and height
     int cwidth = 300;
-    int cheight = 275;
+    int cheight = 300;
 
     //starting point for containing box
-    cx1_ = scene_->width()/2 - 100;
-    cy1_ = scene_->height()/2 - 100;
+    cx1_ = scene_->width()/2 - 200;
+    cy1_ = scene_->height()/2 - 200;
 
 
     //other corner
@@ -69,7 +69,6 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     connect(this, &Underworld::OnBulletFired, this, &Underworld::FireBullet);
 
     //DRAW THE ENEMY
-
     enemy_->setPos(cx1_,cy1_-enemy_->pixmap().height()-100);
     scene_->addItem(enemy_);
 
@@ -94,7 +93,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     bribe_box_ = new ContainingBox(cx1_ + 150, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    player_->getInventory()->setPos(-20, 150);
+    player_->getInventory()->setPos(cx1_ - 200, cy1_);
     scene_->addItem(player_->getInventory());
 
 }
@@ -123,7 +122,7 @@ Desc: Fires a bullet and travels it in that direction until it hits the boundrie
 Returns: none
 */
 void Underworld::FireBullet(int x, int y, Direction d) {
-        Bounds bound = {cx1_ - 10,cy1_ - 10, cx2_ + 10, cx2_ + 10};
+        Bounds bound = {cx1_ - 30,cy1_ - 30, cx2_ + 10, cx2_ + 10};
         Bullet *b = new Bullet(x, y, d, scene_, bound);
         scene_->addItem(b);
 }
@@ -178,19 +177,22 @@ void Underworld::InitiateFightSequence() {
     fighting_ = true;
 
     //Add the player to the scene, do health calculations
-    player_->setPos(scene_->width()/2+150,scene_->height()/2+130);
+    player_->setPos(cx1_ + 150, cy1_ + 150);
     scene_->addItem(player_);
-    player_->setFocus();
+
+
+    std::vector<AttackPattern> random_pattern = enemy_->GetFightPattern();
+    int fight_duration = random_pattern.back().delay;
 
 
 
     //After a 1 second delay, initiate the bullets
     QTimer::singleShot(1000, [=]() {
-        ProcessAttackPattern(enemy_->GetFightPattern());
+        ProcessAttackPattern(random_pattern);
     });
 
     //After all bullets have been fired plus a few seconds, remove the player from the battle.
-    QTimer::singleShot(enemy_->getFightDuration() + 2500, [=] () {
+    QTimer::singleShot(fight_duration + 2500, [=] () {
         if(!fight_over_) {
             scene_->addItem(fight_box_);
             scene_->addItem(bribe_box_);
