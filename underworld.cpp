@@ -244,7 +244,7 @@ void Underworld::EndBattle(QString s) {
     music->stop();
 
     //Draw end game review
-    int x = scene_->width()/2 - 200;
+    int x = scene_->width()/2 - 350;
     int y = scene_->height()/2 - 200;
     ContainingBox *end = new ContainingBox(x,y, 600, 200, Qt::GlobalColor::white, "");
     QGraphicsTextItem *text = new QGraphicsTextItem(s);
@@ -266,6 +266,7 @@ Desc: Carries out the bribe action, where the player doesn't fight and instead p
 Returns: none
 */
 void Underworld::Bribe() {
+    fight_over_ = true;
     player_->changeGold(-10);
     EndBattle("You ran like a coward and lost 10 gold!");
 

@@ -23,10 +23,10 @@ Player::Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     health_ = health;
     bound_ = b;
     inventory_ = new Inventory();
-    inventory_->setVisible(false);
+//    inventory_->setVisible(false);
 
     display_ = new StatsDisplay(200,200,"Player 1", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
-    display_->setVisible(false);
+//    display_->setVisible(false);
 
     gold_ = gold;
     //Every 50 ms move in the direction of the currenly pressed keys.
