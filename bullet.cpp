@@ -85,7 +85,7 @@ void Bullet::Travel() {
             p->changeHealth(-1);
             this->scene->update();
             QMediaPlayer * sound = new QMediaPlayer();
-            sound->setMedia(QUrl(":/sounds/hit.wav"));
+            sound->setMedia(QUrl("qrc:/sounds/hit.wav"));
             sound->play();
             delete this;
             return;

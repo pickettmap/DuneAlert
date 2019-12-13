@@ -294,7 +294,7 @@ Desc: Given a key press, determines what action the user will take.
 Returns: none
 */
 void Underworld::OnKeyPress(QKeyEvent *event) {
-    if (fighting_)
+    if (fighting_ || fight_over_)
         return;
     if (event->key() == Qt::Key::Key_F) {
         OnFightClicked();

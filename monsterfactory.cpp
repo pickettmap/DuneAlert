@@ -261,6 +261,33 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
         int current_delay = 0;
         Bounds bound = {0, 0, 10000, 10000};
 
+        std::vector<AttackPattern> pattern_1;
+        for (int i = 0; i < 5; i ++) {
+            for (int i = 0; i < 10; i ++) {
+                current_delay += 100;
+                pattern_1.push_back({current_delay, x_center - 100 + (i * 20), y2_start, Direction::N});
+                pattern_1.push_back({current_delay, x_center + 100 - (i * 20), y2_start, Direction::N});
+            }
+            pattern_1.push_back({current_delay, x1_start + 20, y1_start, Direction::S});
+            pattern_1.push_back({current_delay, x2_start - 20, y1_start, Direction::S});
+        }
+
+
+//        patterns.push_back(pattern_1);
+
+        std::vector<AttackPattern> pattern_2;
+        current_delay = 0;
+        for (int i = 0; i < 5; i ++) {
+            for (int i = 0; i < 10; i ++) {
+                current_delay += 150;
+                pattern_2.push_back({current_delay, x1_start, y_center + 125 - (i * 8), Direction::E});
+                pattern_2.push_back({current_delay, x1_start, y_center - 100 - (i * 8), Direction::E});
+                pattern_2.push_back({current_delay, x1_start, y_center - (i * 8), Direction::E});
+
+            }
+        }
+        patterns.push_back(pattern_2);
+
 
 
         Gun * g = new Gun();
