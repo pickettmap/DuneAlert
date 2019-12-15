@@ -1,5 +1,5 @@
 #include "monsterfactory.h"
-#include "gun.h"
+#include "item.h"
 /*
 Function: MonsterFactory Constructor
 Params: none
@@ -125,7 +125,7 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
 
 
-        Gun * g = new Gun();
+        Dog * g = new Dog();
         return new Enemy(enemy_sprite, 5, 2, bound, patterns, "Lesser Dog", 10, g, "qrc:/sounds/glame.mp3");
     }
 
@@ -170,7 +170,7 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
         current_delay = 0;
         for (int i = 0; i < 50; i ++) {
-            if (rand() % 2 == 0) {
+            if (rand() % 4 == 0) {
                 current_delay += 100;
                 int pos = rand() % 300;
                 pattern_2.push_back({current_delay, x1_start + pos, y1_start, Direction::S});
@@ -179,25 +179,25 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
         current_delay = 0;
         for (int i = 0; i < 50; i ++) {
-            if (rand() % 2 == 0) {
+            if (rand() % 4 == 0) {
                 current_delay += 100;
                 int pos = rand() % 275;
-                pattern_2.push_back({current_delay, x1_start, y1_start + pos, Direction::W});
+                pattern_2.push_back({current_delay, x1_start, y1_start + pos, Direction::E});
             }
         }
 
         current_delay = 0;
         for (int i = 0; i < 50; i ++) {
-            if (rand() % 2 == 0) {
+            if (rand() % 4 == 0) {
                 current_delay += 100;
                 int pos = rand() % 275;
-                pattern_2.push_back({current_delay, x2_start , y1_start + pos, Direction::E});
+                pattern_2.push_back({current_delay, x2_start , y1_start + pos, Direction::W});
             }
         }
 
         current_delay = 0;
         for (int i = 0; i < 50; i ++) {
-            if (rand() % 2 == 0) {
+            if (rand() % 4 == 0) {
                 current_delay += 100;
                 int pos = rand() % 300;
                 pattern_2.push_back({current_delay, x1_start + pos, y2_start, Direction::N});
@@ -206,8 +206,8 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
         a.push_back(pattern_2);
 
-
-        return new Enemy(enemy_sprite, 5, 1, bound, a, "Dweeb Fish", 10, nullptr, "qrc:/sounds/thunder.mp3");
+        Tuna *t = new Tuna();
+        return new Enemy(enemy_sprite, 5, 1, bound, a, "Dweeb Fish", 10, t, "qrc:/sounds/thunder.mp3");
     }
 
     else if (e == Canary) {
@@ -262,8 +262,8 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
 
 
 
-            Gun * g = new Gun();
-            return new Enemy(enemy_sprite, 5, 1, bound, patterns, "Can-ary", 10, g, "qrc:/sounds/can.mp3");
+            Whoopass * p = new Whoopass();
+            return new Enemy(enemy_sprite, 5, 1, bound, patterns, "Can-ary", 10, p, "qrc:/sounds/cool.mp3");
     }
 
     if (e == Helix) {
@@ -300,10 +300,8 @@ Enemy * MonsterFactory::GetEnemy(EnemyType e) {
         }
         patterns.push_back(pattern_2);
 
-
-
-        Gun * g = new Gun();
-        return new Enemy(enemy_sprite, 5, 2, bound, patterns, "Helix Muzny", 10, g, "qrc:/sounds/badtime.mp3");
+        FinalPaper * p = new FinalPaper();
+        return new Enemy(enemy_sprite, 5, 2, bound, patterns, "Helix Muzny", 10, p, "qrc:/sounds/badtime.mp3");
     }
 
 

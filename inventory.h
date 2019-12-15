@@ -35,7 +35,7 @@ public slots:
 
 private:
     QColor color_;
-    int width_ = 150;
+    int width_ = 200;
     int x_ = 20;
     int y_ = 20;
     std::vector<Item*> consumable_items_;

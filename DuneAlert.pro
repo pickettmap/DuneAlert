@@ -18,13 +18,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bullet.cpp \
-    burger.cpp \
     computerplayer.cpp\
     containingbox.cpp \
     enemy.cpp \
     finalgraph.cpp \
     gameview.cpp \
-    gun.cpp \
     healthbar.cpp \
     inventory.cpp \
     item.cpp \
@@ -35,18 +33,15 @@ SOURCES += \
     secondplayer.cpp \
     startmenu.cpp \
     statsdisplay.cpp \
-    tutu.cpp \
     underworld.cpp
 
 HEADERS += \
     bullet.h \
-    burger.h \
     computerplayer.h\
     containingbox.h \
     enemy.h \
     finalgraph.h \
     gameview.h \
-    gun.h \
     healthbar.h \
     inventory.h \
     item.h \
@@ -56,7 +51,6 @@ HEADERS += \
     secondplayer.h \
     startmenu.h \
     statsdisplay.h \
-    tutu.h \
     underworld.h
 
 FORMS +=

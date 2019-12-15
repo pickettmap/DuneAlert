@@ -108,7 +108,7 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     bribe_box_ = new ContainingBox(cx1_ + 150, cy2_ + 50, 150, 50, Qt::GlobalColor::green, "Bribe [B]");
     scene_->addItem(bribe_box_);
 
-    player_->getInventory()->setPos(cx1_ - 200, cy1_);
+    player_->getInventory()->setPos(cx1_ - 250, cy1_);
     scene_->addItem(player_->getInventory());
 
 }
@@ -292,6 +292,9 @@ void Underworld::EnemyDeath() {
     if (enemy_->getItem()){
         player_->getInventory()->AddItem(enemy_->getItem(), false);
         message += "They were also carrying a " + enemy_->getItem()->getName() + "!";
+        if (enemy_->getItem()->getItemType() == itemtype::Equipable){
+            enemy_->getItem()->Use(player_);
+        }
         scene_->update();
     }
 
@@ -336,6 +339,27 @@ void Underworld::OnKeyPress(QKeyEvent *event) {
             return;
         }
         player_->UseItem(2);
+        InitiateFightSequence();
+    }
+    else if (event->key() == Qt::Key::Key_4) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 3) {
+            return;
+        }
+        player_->UseItem(3);
+        InitiateFightSequence();
+    }
+    else if (event->key() == Qt::Key::Key_5) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 3) {
+            return;
+        }
+        player_->UseItem(4);
+        InitiateFightSequence();
+    }
+    else if (event->key() == Qt::Key::Key_6) {
+        if (player_->getInventory()->GetConsumableItemsCount() < 3) {
+            return;
+        }
+        player_->UseItem(5);
         InitiateFightSequence();
     }
     scene_->update();

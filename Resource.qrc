@@ -31,5 +31,8 @@
         <file>thunder.mp3</file>
         <file>can.mp3</file>
         <file>badtime.mp3</file>
+        <file>gameend.mp3</file>
+        <file>overworld.mp3</file>
+        <file>cool.mp3</file>
     </qresource>
 </RCC>

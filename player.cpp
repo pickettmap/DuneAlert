@@ -2,11 +2,10 @@
 #include "gameview.h"
 #include <QDebug>
 #include <inventory.h>
-#include "burger.h"
+#include "item.h"
 #include "scenery.h"
 #include "monsterfactory.h"
-#include "tutu.h"
-#include "gun.h"
+
 /*
 Function: Player Constructor
 Params: pixmap, health damage, bounds, gold
@@ -192,21 +191,18 @@ void Player::CheckCollision() {
                     }
                     else if(random>=30 && random < 50)
                     {
-                        Burger *tmp1 = new Burger();
-                        inventory_->AddItem(tmp1, false);
+                        Item * i = ItemFactory::GetRandomItem();
+                        inventory_->AddItem(i, false);
+                        if (i->getItemType() == itemtype::Equipable) {
+                            i->Use(this);
+                        }
                     }
-                    else if(random >=50 && random < 60)
-                    {
-                        Gun *gun = new Gun();
-                        Tutu *tutu = new Tutu();
-                        Item* arr[2] = {gun, tutu};
-                        int random2 = rand()%2;
-                        inventory_->AddItem(arr[random2],false);
-                        arr[random2]->Use(this);
-                    }
-                    else if(random >= 60 && random < 90)
+                    else if(random >= 50 && random < 80)
                     {
                         changeGold(5);
+                    }
+                    else if (random >= 80 && random < 90) {
+                        changeGold(1);
                     }
                     else
                     {

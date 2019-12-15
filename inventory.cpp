@@ -55,7 +55,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         for(size_t i = 0; i < consumable_items_.size(); i ++) {
             current_y += distance_between;
             QString desc = QString::fromStdString(consumable_items_[i]->getDescription());
-            QString name = QString::fromStdString("[" + std::to_string(i + 1) + "] " + consumable_items_[i]->getName()) + " - " + desc;
+            QString name = QString::fromStdString("[" + std::to_string(i + 1) + "] " + consumable_items_[i]->getName()) + ": " + desc;
             painter->drawText(QPoint(shifted_x, current_y), name);
         }
     }
@@ -66,7 +66,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         for(size_t i = 0; i < equipable_items_.size(); i ++) {
             current_y += distance_between;
             QString desc = QString::fromStdString(equipable_items_[i]->getDescription());
-            QString name = QString::fromStdString(equipable_items_[i]->getName()) + " - " + desc;
+            QString name = QString::fromStdString(equipable_items_[i]->getName()) + ": " + desc;
             painter->drawText(QPoint(shifted_x, current_y), name);
 
         }

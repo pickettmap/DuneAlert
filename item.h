@@ -37,5 +37,110 @@ protected:
     std::string description_;
 };
 
+class PiggyBank : public Item
+{
+public:
+    PiggyBank::PiggyBank()
+        : Item("Piggy Bank", "+5 Gold", itemtype::Consumable) {}
+    int Use(Player * p);
+};
+
+
+class FinalPaper : public Item
+{
+public:
+    FinalPaper::FinalPaper()
+        : Item("Final Paper", "+10 G -10 HP", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+class Rock : public Item
+{
+public:
+    Rock::Rock()
+        : Item("Rock", "Does Nothing", itemtype::Equipable) {}
+
+    int Use(Player * p);
+};
+
+class Tutu : public Item
+{
+public:
+    Tutu()
+        : Item("Tutu", "+1 Max Health", itemtype::Equipable) {}
+
+    int Use(Player * p);
+};
+
+class Burger : public Item
+{
+public:
+    Burger()
+        : Item("GlamBurger", "+5 Health", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+class Gun : public Item
+{
+public:
+    Gun()
+        : Item("A Gun", "+1 Damage", itemtype::Equipable) {}
+
+    int Use(Player * p);
+};
+
+class Sword : public Item
+{
+public:
+    Sword()
+        : Item("Blood Knife", "-1 DPS +10 G", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+class Tuna : public Item
+{
+public:
+    Tuna()
+        : Item("Fish Hat", "+3 Max Health", itemtype::Equipable) {}
+
+    int Use(Player * p);
+};
+
+class Whoopass : public Item
+{
+public:
+    Whoopass()
+        : Item("Can-o-Whoopass", "+1 DPS, -10 G", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+class Fruit : public Item
+{
+public:
+    Fruit()
+        : Item("Rotten Fruit", "-15 Health, +1 DPS", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+class Dog : public Item
+{
+public:
+    Dog()
+        : Item("A Small Dog", "+3 DPS, - 30 G", itemtype::Consumable) {}
+
+    int Use(Player * p);
+};
+
+
+class ItemFactory {
+public:
+    static Item * GetRandomItem();
+};
+
 
 #endif // ITEM_H

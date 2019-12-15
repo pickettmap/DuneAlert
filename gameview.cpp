@@ -9,15 +9,13 @@
 #include <QPixmap>
 #include <QDebug>
 #include <QTimer>
-#include "gun.h"
-#include "burger.h"
 #include "monsterfactory.h"
-#include "tutu.h"
 #include "secondplayer.h"
 #include "statsdisplay.h"
 #include "computerplayer.h"
 #include "startmenu.h"
 #include "scenery.h"
+#include "item.h"
 /*
 Function: GameView constructor
 Params: None
@@ -45,7 +43,7 @@ GameView::GameView()
     QAbstractScrollArea::setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     QAbstractScrollArea::setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
-    timer1->setInterval(100);
+    timer1->setInterval(1000);
     connect(timer1, SIGNAL(timeout()), this, SLOT(CheckGame()));
 }
 
@@ -82,6 +80,10 @@ Returns: None
 */
 void GameView::CreateSinglePlayerOverWorld()
 {
+
+    music = new QMediaPlayer();
+    music->setMedia(QUrl("qrc:/sounds/overworld.mp3"));
+    music->play();
     CreateBackGround();
     QPixmap sprite = QPixmap(":/images/player.png");
     sprite = sprite.scaled(100,100,Qt::KeepAspectRatio);
@@ -186,7 +188,7 @@ void GameView::CreateTwoPlayerOverWorld() {
 
     player2_->setPixmap(sprite2);
     player2_->setBound(bound2);
-    player2_->getInventory()->setPos(width()-200, 400);
+    player2_->getInventory()->setPos(width()-250, 400);
 
     scene->addItem(player2_);
     scene->addItem(player2_->getInventory());
@@ -198,7 +200,7 @@ void GameView::CreateTwoPlayerOverWorld() {
     StatsDisplay * d = player2_->getStats();
     scene->addItem(d);
 
-    d->setPos(width()-400,0);
+    d->setPos(width()-450,0);
     connect(player2_, &Player::StatsUpdated, d, &StatsDisplay::StatsUpdated);
 
 }
@@ -269,6 +271,7 @@ Draws underworld scene with player and enemy
 Returns: None
 */
 void GameView::SwitchToUnderWorld(Player *p, Enemy *e) {
+    music->stop();
     if (player_) {
         player_one_position_[0]=player_->x();
         player_one_position_[1]=player_->y();
@@ -390,6 +393,9 @@ Returns: None
 */
 void GameView::GameOver()
 {
+    timer1->stop();
+    music->setMedia(QUrl("qrc:/sounds/gameend.mp3"));
+    music->play();
     scene->removeItem(player_);
     scene->removeItem(player_->getInventory());
     scene->removeItem(player_->getStats());
@@ -402,7 +408,7 @@ void GameView::GameOver()
     if(mode_==Mode::TwoPlayer)
     {
         text = "Player one finished with " + std::to_string(player_->getGold()) + " gold!";
-        text += "\n Player two finished with "+ std::to_string(player_->getGold()) + " gold!";
+        text += "\n Player two finished with "+ std::to_string(player2_->getGold()) + " gold!";
     }
     else if(mode_==Mode::SinglePlayer)
     {
@@ -416,7 +422,7 @@ void GameView::GameOver()
         }
         else
         {
-            text = "Geeeeeeeet Dunked On!!!!";
+            text = "You Lost! Geeeeeeeet Dunked On!!!!";
         }
     }
     ContainingBox *box = new ContainingBox(0,0, width(),height(),Qt::GlobalColor::white,text);

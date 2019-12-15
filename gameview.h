@@ -9,6 +9,7 @@
 #include "secondplayer.h"
 #include "enemy.h"
 #include "computerplayer.h"
+#include <QMediaPlayer>
 
 enum Mode {SinglePlayer, TwoPlayer, Simulation};
 
@@ -76,6 +77,7 @@ private:
     Mode mode_;
     bool win;
     QTimer *timer1 = new QTimer();
+    QMediaPlayer * music;
 };
 
 #endif // GAMEVIEW_H
