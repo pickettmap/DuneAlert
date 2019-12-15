@@ -6,8 +6,9 @@
 #include <item.h>
 #include <QDebug>
 
-Inventory::Inventory()
+Inventory::Inventory(QColor color)
 {
+    color_ = color;
 }
 
 QRectF Inventory::boundingRect() const
@@ -70,7 +71,7 @@ void Inventory::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         }
     }
-    painter->setPen(Qt::GlobalColor::blue);
+    painter->setPen(color_);
     painter->drawRect(QRect(this->x_, this->y_, this-> width_, height));
     painter->setBrush(b);
 }
@@ -117,10 +118,7 @@ Returns: none
 */
 void Inventory::AddItem(Item *item, bool underworld)
 {
-    if (underworld) {
-        return;
-    }
-    PopupText(item);
+//    PopupText(item, underworld);
     if (item->getItemType() == itemtype::Consumable) {
         consumable_items_.push_back(item);
         QString q = QString::fromStdString(item->getName());
@@ -136,8 +134,11 @@ Params: Item to be described
 Desc: Given an item, creates a popup text that describes the item received
 Returns: none
 */
-void Inventory::PopupText(Item *item)
+void Inventory::PopupText(Item *item, bool underworld)
 {
+    if (underworld) {
+        return;
+    }
     GameView &game = GameView::GetInstance();
     std::string text= "You got a(n) " + item->getName() + ". " + item->getDescription();
     ContainingBox *box = new ContainingBox(0,game.scene->height(),game.scene->width(),300,Qt::GlobalColor::white, text);

@@ -8,10 +8,9 @@ Desc: Instantiates player2.
 Returns: none
 */
 SecondPlayer::SecondPlayer(QPixmap &pixmap, int health, int damage, Bounds b, int gold)
-    : Player(pixmap, health, damage, b, gold)
+    : Player(pixmap, health, damage, b, gold, Qt::GlobalColor::red)
 {
-    display_ = new StatsDisplay(200,200,"Player 2", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
-    display_->setVisible(false);
+    display_ = new StatsDisplay(200,200,"Player 2", getMaxHealth(),health, gold,damage, Qt::GlobalColor::red);
 }
 
 /*

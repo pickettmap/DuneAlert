@@ -12,6 +12,7 @@ public:
 public slots:
     void onKeyPressed(QKeyEvent *event);
     void MoveCharacter();
+    void CreateInventory();
 };
 
 #endif // SECONDPLAYER_H

@@ -15,6 +15,12 @@
         <file>Canary.png</file>
         <file>sans_undertale.png</file>
         <file>helix.png</file>
+        <file>chest_close.png</file>
+        <file>chest_open.png</file>
+        <file>darktoiletchan.png</file>
+        <file>box.png</file>
+        <file>used_box.png</file>
+        <file>p2.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>DTM-Mono.otf</file>

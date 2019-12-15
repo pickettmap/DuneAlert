@@ -23,7 +23,7 @@ class Player : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
 public:
-    Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold);
+    Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold, QColor theme);
     bool CheckBounds(int, int);
     void AddItem(Item);
     void TakeDamage(int damage);

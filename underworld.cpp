@@ -61,11 +61,18 @@ void Underworld::DrawUnderworld(Enemy *enemy, Player *player) {
     scene_ ->setBackgroundBrush(bg_brush);
 
     //DRAW AND POSITION THE PLAYER
-    QPixmap sprite = QPixmap(":/images/heart.png");
-    sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
+    if (dynamic_cast<SecondPlayer*>(player)){
+        QPixmap sprite = QPixmap(":/images/heart.png");
+        sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
+        player_->setPixmap(sprite);
+    } else {
+        QPixmap sprite = QPixmap(":/images/p2.png");
+        sprite = sprite.scaled(player_sprite_size, player_sprite_size,Qt::KeepAspectRatio);
+        player_->setPixmap(sprite);
+    }
+
     Bounds bound = {cx1_, cy1_ , cx2_ - player_sprite_size, cy2_ - player_sprite_size};
 
-    player_->setPixmap(sprite);
     player_->setBound(bound);
 
     //DRAW THE BOX THE PLAYER MAY MOVE AROUND IN
@@ -283,8 +290,9 @@ void Underworld::EnemyDeath() {
     std::string message = "You killed " + enemy_->getName() + " and received " + std::to_string(enemy_->getGold()) + " gold. ";
 
     if (enemy_->getItem()){
-        player_->getInventory()->AddItem(enemy_->getItem(), true);
+        player_->getInventory()->AddItem(enemy_->getItem(), false);
         message += "They were also carrying a " + enemy_->getItem()->getName() + "!";
+        scene_->update();
     }
 
     QString q = QString::fromStdString(message);

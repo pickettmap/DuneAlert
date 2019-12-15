@@ -27,3 +27,4 @@ int Item::Use(Player * p)
     //handled in derived classes
     return -1;
 }
+

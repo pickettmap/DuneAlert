@@ -10,7 +10,6 @@
 #include <QDebug>
 #include <QTimer>
 #include "gun.h"
-#include "toilet.h"
 #include "burger.h"
 #include "monsterfactory.h"
 #include "tutu.h"
@@ -18,7 +17,7 @@
 #include "statsdisplay.h"
 #include "computerplayer.h"
 #include "startmenu.h"
-
+#include "scenery.h"
 /*
 Function: GameView constructor
 Params: None
@@ -90,7 +89,7 @@ void GameView::CreateSinglePlayerOverWorld()
 
     //Add one player and make toilets
     if (!player_) {
-        Player *boy = new Player(sprite, 20, 1, bound, 0);
+        Player *boy = new Player(sprite, 20, 1, bound, 0, Qt::GlobalColor::blue);
         player_ = boy;
         //Default position
         player_->setPos(100, 100);
@@ -139,9 +138,23 @@ void GameView::makeToilets(int arr[2])
         {
             if((randy > (arr[1]) + 50) || randy < (arr[1] - 50))
             {
-                Toilet *tmp = new Toilet();
-                tmp->setPos(randx,randy);
-                scene->addItem(tmp);
+                int rand_env = rand() % 3;
+                if (rand_env == 0){
+                    Toilet *tmp = new Toilet();
+                    tmp->setPos(randx,randy);
+                    scene->addItem(tmp);
+                }
+                else if (rand_env == 1) {
+                    Chest *tmp = new Chest();
+                    tmp->setPos(randx, randy);
+                    scene->addItem(tmp);
+
+                }
+               else {
+                    Crate *tmp = new Crate();
+                    tmp->setPos(randx, randy);
+                    scene->addItem(tmp);
+                }
             }
         }
     }

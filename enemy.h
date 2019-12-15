@@ -16,7 +16,7 @@ class Enemy : public Player
 {
 public:
     Enemy(QPixmap &pixmap, int h, int d, Bounds b, std::vector<std::vector<AttackPattern>> a, std::string name, int gold, Item *item, std::string music)
-        : Player(pixmap, h, d, b, gold) {
+        : Player(pixmap, h, d, b, gold, Qt::GlobalColor::cyan) {
         a_ = a;
         name_ = name;
         item_  = item;

@@ -11,7 +11,7 @@
 class Inventory : public QObject, public QGraphicsItem
 {
 public:
-    Inventory();
+    Inventory(QColor color_);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
@@ -24,7 +24,7 @@ public:
     int GetConsumableItemsCount() { return int(consumable_items_.size());}
 
     void UseItem();
-    void PopupText(Item*);
+    void PopupText(Item*, bool underworld);
 
     void setPos(int x, int y);
     void setDisplay(){displayed_=!displayed_;}
@@ -34,6 +34,7 @@ public slots:
     void clearPopup(ContainingBox *box);
 
 private:
+    QColor color_;
     int width_ = 150;
     int x_ = 20;
     int y_ = 20;

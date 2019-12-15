@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <inventory.h>
 #include "burger.h"
-#include "toilet.h"
+#include "scenery.h"
 #include "monsterfactory.h"
 #include "tutu.h"
 #include "gun.h"
@@ -13,7 +13,7 @@ Params: pixmap, health damage, bounds, gold
 Desc: Instantiates a player class, starts the timer for player movement
 Returns: none
 */
-Player::Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QObject(), QGraphicsPixmapItem(pixmap)
+Player::Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold, QColor theme): QObject(), QGraphicsPixmapItem(pixmap)
 {
     xprev_ = pos().x();
     yprev_ = pos().y();
@@ -22,7 +22,8 @@ Player::Player(QPixmap &pixmap, int health, int damage, Bounds b, int gold): QOb
     current_health_ = health;
     health_ = health;
     bound_ = b;
-    inventory_ = new Inventory();
+    inventory_ = new Inventory(theme);
+
 //    inventory_->setVisible(false);
 
     display_ = new StatsDisplay(200,200,"Player 1", getMaxHealth(),health, gold,damage, Qt::GlobalColor::blue);
@@ -179,8 +180,8 @@ void Player::CheckCollision() {
             Item* item = dynamic_cast<Item *>(colliding_items[i]);
             if(item->getItemType()==itemtype::Scenery)
             {
-                Toilet *tmp = (Toilet*)(item);
-                if(!tmp->getFlush())
+                Scenery *tmp = (Scenery*)(item);
+                if(!tmp->getTouched())
                 {
                     int random = rand()%100;
                     if(random<30)
@@ -212,7 +213,7 @@ void Player::CheckCollision() {
                         int arr[2] = {-1,5};
                         changeHealth(arr[rand()%2]);
                     }
-                    tmp->Flush();
+                    tmp->Touched();
                 }
                 setPos(xprev_,yprev_);
                 return;
